@@ -56,7 +56,7 @@ site:
       svg: "material-symbols:supervisor-account-outline-rounded"
       target: _self
     - id: contact
-      text: Contact
+      text: 邮箱
       href: "mailto:contact.fan_zhuo@outlook.com"
       target: _blank # 在新标签页打开
       svg: "material-symbols:attach-email-outline-rounded"
