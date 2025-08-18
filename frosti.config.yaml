@@ -2,7 +2,7 @@
 site:
   tab: Fanzhuo's blog # 浏览器标签栏上显示的文本
   title: Fanzhuo's blog # 网站的标题
-  description: 大概就是Fanzhuo的一个博客吧 # 网站的描述，用于SEO等
+  description: Fanzhuo的博客 # 网站的描述，用于SEO等
   language: zh # 网站的语言，例如 "en" 是英文
   favicon: /favicon.ico # 网站的图标，用于浏览器标签栏和其他地方显示
   theme: # 更多主题 https://daisyui.com/docs/themes/
@@ -63,7 +63,7 @@ site:
 
 # 用户的个人信息
 user:
-  name: EveSunMaple # 用户名
+  name: Fanzhuo # 用户名
   site: "https://blog.fanzhuo.xyz" # 用户的网站链接
   avatar: /profile.png # 用户头像路径
   sidebar: # 侧边栏配置
