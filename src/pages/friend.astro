@@ -14,9 +14,9 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
 <BaseLayout title="Friends">
   <CardGroup cols="1">
     <MainCard
-      title="Friends & Resources"
-      description="A collection of links to friends, technologies, and contributors to the Frosti project."
-      textOverlay="FRIENDS"
+      title="友链"
+      description="我的朋友、其他项目的链接集合"
+      textOverlay="Friends"
       infoIcon="lucide:link"
     >
       <div class="space-y-10">
@@ -24,29 +24,22 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
             <Icon name="lucide:users" class="w-6 h-6 text-primary" />
-            <span>Friends</span>
+            <span>朋友</span>
           </h2>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <FriendCard
-              name="Lyme Blurred"
-              avatar="https://github.com/lymeblurred.png"
-              description="Building, breaking, and learning daily | A copy of EveSunMaple"
-              url="https://github.com/lymeblurred"
+              name="EveSunMaple"
+              avatar="https://github.com/EveSunMaple.png"
+              description="这个主题的作者"
+              url="https://www.saroprock.com/"
               type="friend"
             />
             <FriendCard
-              name="梦凌汐"
-              avatar="https://github.com/MeowLynxSea.png"
-              description="来自星辰边缘的猫猫~爱好是睡觉awa"
-              url="https://github.com/MeowLynxSea"
-              type="friend"
-            />
-            <FriendCard
-              name="颜涂楷睿"
-              avatar="https://github.com/SnowFoxqwq.png"
-              description="你好，我是雪狐~"
-              url="https://github.com/SnowFoxqwq"
+              name="Purinliang"
+              avatar="https://avatars.githubusercontent.com/u/68161856?v=4"
+              description="ICPC Gold Medalist - from the 2020 ICPC Asia Kunming Regional Contest"
+              url="https://github.com/purinliang"
               type="friend"
             />
           </div>
@@ -56,71 +49,36 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
             <Icon name="lucide:git-pull-request" class="w-6 h-6 text-primary" />
-            <span>Contributors</span>
+            <span>其他项目</span>
           </h2>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <FriendCard
-              name="EveSunMaple"
-              avatar="https://github.com/EveSunMaple.png"
-              description="Coding is my hobby, not my career."
-              url="https://github.com/EveSunMaple"
+              name="我的旧版博客"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMmaKLG3HIXnDabb0_1QIY8zrjkS5oAAuLIMRtRWRhVhfFnFjfrdGsBAAMCAAN5AAM2BA.png"
+              description="ˋ( ° ▽、° ) "
+              url="https://fanzhuo.xyz/"
               type="contributor"
             />
             <FriendCard
-              name="Loping151"
-              avatar="https://github.com/Loping151.png"
-              description="Loping151"
-              url="https://github.com/Loping151"
+              name="我的图床"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMoaKLH3Pbn0veaTF6leFHMbQdL3jAAAgrJMRtRWRhVzL8nb3s1ngcBAAMCAANtAAM2BA.png"
+              description="基于 Telegraph 的图片上传工具，本站大多数图片都是用这个图床上传的喔"
+              url="https://image.fanzhuo.xyz/"
               type="contributor"
             />
             <FriendCard
-              name="Tianxiang Roxiyater"
-              avatar="https://github.com/TNXG.png"
-              description="明日尚未到来，希望凝于心上"
-              url="https://github.com/TNXG"
+              name="我的Minecraft服务器的介绍网站"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMqaKLIXWHx6PLW0W1tGPwO3kn61_gAAhHJMRtRWRhV426aOPyKcngBAAMCAAN4AAM2BA.png"
+              description="awa"
+              url="https://sever.fanzhuo.xyz/"
               type="contributor"
             />
             <FriendCard
-              name="Yaoqx"
-              avatar="https://github.com/YaoqxCN.png"
-              description="A lazy junior high school student who likes coding!"
-              url="https://github.com/YaoqxCN"
-              type="contributor"
-            />
-            <FriendCard
-              name="Yao Tutu"
-              avatar="https://github.com/yaotutu.png"
-              description="Graduated student of SHMTU, CS major."
-              url="https://github.com/yaotutu"
-              type="contributor"
-            />
-            <FriendCard
-              name="WRXinYue"
-              avatar="https://github.com/WRXinYue.png"
-              description="Technology is not just a tool; it is a joy and an art."
-              url="https://github.com/WRXinYue"
-              type="contributor"
-            />
-            <FriendCard
-              name="龙一"
-              avatar="https://github.com/linglilongyi.png"
-              description="linglilongyi"
-              url="https://github.com/linglilongyi"
-              type="contributor"
-            />
-            <FriendCard
-              name="Youngestar"
-              avatar="https://github.com/youngestar.png"
-              description="Just go ahead!"
-              url="https://github.com/youngestar"
-              type="contributor"
-            />
-            <FriendCard
-              name="Liks"
-              avatar="https://github.com/Liksone.png"
-              description="Liks"
-              url="https://github.com/Liksone"
+              name="飞屋工作室官网"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMraKLI-yOETmWda-aOZGfci6CRFlYAAhXJMRtRWRhVQ4v61qfQOS0BAAMCAAN5AAM2BA.png"
+              description="我为飞屋工作室搭建的官网"
+              url="https://shg.fanzhuo.xyz/"
               type="contributor"
             />
           </div>
@@ -130,7 +88,7 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
             <Icon name="lucide:bookmark" class="w-6 h-6 text-primary" />
-            <span>Useful Resources</span>
+            <span>实用工具</span>
           </h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
