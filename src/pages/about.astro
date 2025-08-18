@@ -85,61 +85,61 @@ import GitHubStats from "@/components/mdx/GitHubStats.astro";
         </div>
       </section>
             <!-- Open Source Contributions -->
-    <section class="py-4">
-      <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-        <Icon name="lucide:git-pull-request" class="w-6 h-6 text-primary" />
-        <span>网站技术</span>
-      </h2>
+      <section class="py-4">
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <Icon name="lucide:git-pull-request" class="w-6 h-6 text-primary" />
+          <span>网站技术</span>
+        </h2>
 
-      <div class="card bg-base-200 p-6">
-        <ul class="space-y-6">
-          {
-            [
-              {
-                project: "Astro",
-                description: "前端框架",
-                url: "https://astro.build/",
-              },
-              {
-                project: "Frosti",
-                description: "主题",
-                url: "https://github.com/EveSunMaple/Frosti",
-              },
-              {
-                project: "Github",
-                description: "代码托管",
-                url: "https://github.com/",
-              },
-              {
-                project: "Vercel",
-                description: "部署平台",
-                url: "https://vercel.com/",
-              },
-            ].map((contrib) => (
-              <li class="flex items-start gap-4">
-                <div class="flex-shrink-0 bg-base-300 p-2 rounded-full">
-                  <Icon name="lucide:git-commit" class="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 class="text-lg font-bold">
-                    <a
-                      href={contrib.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="hover:text-primary transition-colors flex items-center gap-1"
-                    >
-                      {contrib.project}
-                      <Icon name="lucide:external-link" class="w-4 h-4" />
-                    </a>
-                  </h3>
-                  <p class="text-base-content/80">{contrib.description}</p>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </section>
+        <div class="card bg-base-200 p-6">
+          <ul class="space-y-6">
+            {
+              [
+                {
+                  project: "Astro",
+                  description: "前端框架",
+                  url: "https://astro.build/",
+                },
+                {
+                  project: "Frosti",
+                  description: "主题",
+                  url: "https://github.com/EveSunMaple/Frosti",
+                },
+                {
+                  project: "Github",
+                  description: "代码托管",
+                  url: "https://github.com/",
+                },
+                {
+                  project: "Vercel",
+                  description: "部署平台",
+                  url: "https://vercel.com/",
+                },
+              ].map((contrib) => (
+                <li class="flex items-start gap-4">
+                  <div class="flex-shrink-0 bg-base-300 p-2 rounded-full">
+                    <Icon name="lucide:git-commit" class="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-bold">
+                      <a
+                        href={contrib.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-primary transition-colors flex items-center gap-1"
+                      >
+                        {contrib.project}
+                        <Icon name="lucide:external-link" class="w-4 h-4" />
+                      </a>
+                    </h3>
+                    <p class="text-base-content/80">{contrib.description}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
     </div>
   </MainCard>
 </BaseLayout>
