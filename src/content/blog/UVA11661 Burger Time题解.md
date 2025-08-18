@@ -2,7 +2,7 @@
 title: "UVA11661 Burger Time?题解"
 description: "简单的字符串问题"
 pubDate: Dec 15 2024
-image: https://image.fanzh.us.kg/file/AgACAgUAAyEGAASKws10AAMKZ6iXO9GXEPZMaG43nifMLR9MXLUAAhTFMRsLI0FV9bshQjIRU70BAAMCAAN5AAM2BA.jpg
+image: https://pic.52112.com/2019/09/05/JPG-190906_320/gorDA81zm9_small.jpg
 categories:
   - Algorithm
 tags:
