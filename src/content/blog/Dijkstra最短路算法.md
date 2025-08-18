@@ -2,7 +2,7 @@
 title: "Dijkstra最短路算法讲解"
 description: "zzz"
 pubDate: "MAY 31 2025"
-image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMRaDGtWDlGRm3DhFTiKH5KOrQXwFgAAuLJMRvLa4hVrAdTrPA_CCEBAAMCAANtAAM2BA.png
+image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMUaDrp4vK69On9IzL2uPaXoFU-B9sAAkTKMRupmthV8ILEvcQlrd4BAAMCAAN4AAM2BA.png
 categories:
   - Algorithm
 tags:
@@ -11,7 +11,7 @@ badge: Algorithm
 ---
 
 # Dijkstra最短路算法讲解
-你说得对，但是迪克斯特拉算法(Dijkstra)是由荷兰计算机科学家狄克斯特拉于1959年提出的，因此又叫狄克斯特拉算法。是从一个顶点到其余各顶点的最短路径算法，解决的是有权图中最短路径问题。迪杰斯特拉算法主要特点是从起始点开始，采用贪心算法的策略，每次遍历到始点距离最近且未访问过的顶点的邻接节点，直到扩展到终点为止。
+你说得对，但是迪克斯特拉算法(Dijkstra)是由荷兰计算机科学家狄克斯特拉于1959年提出的算法，因此又叫狄克斯特拉算法。是从一个顶点到其余各顶点的最短路径算法，解决的是有权图中最短路径问题。迪杰斯特拉算法主要特点是从起始点开始，采用贪心算法的策略，每次遍历到始点距离最近且未访问过的顶点的邻接节点，直到扩展到终点为止。
 
 很简单就能理解，举个例子，我们就以下图的多节点、多路径图来讲解一下Dijkstra算法寻找最短路径的过程。（这个图可能有点看不清， B-E 的距离是 6 ， C-D 的距离是 15 ，这个图这俩数……qwq）
 
