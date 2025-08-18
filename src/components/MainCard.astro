@@ -23,7 +23,7 @@ const {
   infoIcon = "lucide:help-circle",
   helpText = t("label.learnMore"),
   textOverlay,
-  showTextBackground = true,
+  showTextBackground = false,
   headerClass = "",
   extraClasses = "",
 } = Astro.props as MainCardProps;
@@ -84,7 +84,7 @@ const accessibleHelpText = `${helpText}: ${title}`;
           )}
         </div>
       </div>
-    ) : backgroundImage ? ( // 新增背景图片分支
+    ) : backgroundImage ? ( 
       // Background image mode
       <div class="relative">
         <div class={`aspect-video w-full overflow-hidden ${headerClass}`}>
