@@ -37,13 +37,13 @@ site:
         - id: algorithm
           text: 算法
           href: /blog/category/Algorithm
-          svg: "material-symbols:unknown-document-outline-rounded"
-          target: _self
-        - id: examples
-          text: 例子
-          href: /blog/category/Examples
           svg: "material-symbols:deployed-code-outline"
           target: _self
+        # - id: examples
+        #   text: 例子
+        #   href: /blog/category/Examples
+        #   svg: "material-symbols:unknown-document-outline-rounded"
+        #   target: _self
         # 子菜单项配置
     - id: project
       text: 作品
