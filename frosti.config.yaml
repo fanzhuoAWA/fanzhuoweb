@@ -30,13 +30,13 @@ site:
       target: _self
       subItems:
         - id: all
-          text: 所有文章
+          text: 全部内容
           href: /blog
           svg: "material-symbols:ink-pen-outline-rounded"
           target: _self
-        - id: documentation
-          text: 文档
-          href: /blog/category/Documentation
+        - id: algorithm
+          text: 算法
+          href: /blog/category/Algorithm
           svg: "material-symbols:unknown-document-outline-rounded"
           target: _self
         - id: examples
