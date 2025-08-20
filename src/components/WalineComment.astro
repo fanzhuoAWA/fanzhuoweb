@@ -6,36 +6,52 @@ interface Props {
 const { path } = Astro.props;
 ---
 
-<div id="waline-comment" class="mt-12"></div>
+<div id="waline-comment" class="mt-12" data-path={path}></div>
 
 <script>
   // 只在客户端执行
   if (typeof window !== 'undefined') {
+    // 添加加载状态和错误处理
+    console.log('Loading Waline comments for path:', '<%= path %>');
+    
     // 使用动态导入避免 TypeScript 检查
     const loadWaline = async () => {
-      // @ts-ignore 忽略类型检查
-      const { init } = await import('https://unpkg.com/@waline/client@v2/dist/waline.js');
-      
-      init({
-        serverURL: 'https://coo.fanzhuo.xyz/',
-        el: '#waline-comment',
-        path: '<%= path %>',
-        // 可选配置
-        dark: 'html[data-theme="dark"]',
-        emoji: [
-          'https://unpkg.com/@waline/emojis@1.1.0/weibo',
-          'https://unpkg.com/@waline/emojis@1.1.0/alus',
-          'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
-        ],
-        locale: {
-          placeholder: '欢迎留言交流~ (支持 Markdown 语法)'
-        },
-        reaction: true, // 启用表情反应
-        search: false,  // 禁用搜索
-      });
+      try {
+        // @ts-ignore 忽略类型检查
+        const { init } = await import('https://unpkg.com/@waline/client@v2/dist/waline.js');
+        
+        init({
+          serverURL: 'https://coo.fanzhuo.xyz/',
+          el: '#waline-comment',
+          path: '<%= path %>',
+          // 可选配置
+          dark: 'html[data-theme="dark"]',
+          emoji: [
+            'https://unpkg.com/@waline/emojis@1.1.0/weibo',
+            'https://unpkg.com/@waline/emojis@1.1.0/alus',
+            'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
+          ],
+          locale: {
+            placeholder: '欢迎留言交流~ (支持 Markdown 语法)'
+          },
+          reaction: true, // 启用表情反应
+          search: false,  // 禁用搜索
+        });
+        
+        console.log('Waline initialized successfully');
+      } catch (error) {
+        console.error('Failed to load Waline:', error);
+        document.getElementById('waline-comment').innerHTML = 
+          '<p class="text-center text-gray-500">评论加载失败，请刷新页面重试</p>';
+      }
     };
     
-    loadWaline();
+    // 延迟加载以确保 DOM 完全渲染
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadWaline);
+    } else {
+      loadWaline();
+    }
   }
 </script>
 
