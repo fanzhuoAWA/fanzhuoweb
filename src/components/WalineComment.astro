@@ -41,8 +41,11 @@ const { path } = Astro.props;
         console.log('Waline initialized successfully');
       } catch (error) {
         console.error('Failed to load Waline:', error);
-        document.getElementById('waline-comment').innerHTML = 
-          '<p class="text-center text-gray-500">评论加载失败，请刷新页面重试</p>';
+        const commentElement = document.getElementById('waline-comment');
+        if (commentElement) {
+          commentElement.innerHTML = 
+            '<p class="text-center text-gray-500">评论加载失败，请刷新页面重试</p>';
+        }
       }
     };
     
