@@ -17,12 +17,20 @@ const { path } = Astro.props;
     
     // 检查元素是否存在
     const commentElement = document.getElementById('waline-comment');
+    const statusElement = document.getElementById('waline-status');
+    
     if (!commentElement) {
       console.error('Waline comment element not found!');
       return;
     }
     
-    // 使用 HTTPS 加载 Waline 客户端
+    if (!statusElement) {
+      console.error('Waline status element not found!');
+      return;
+    }
+    
+    // 动态加载 Waline
+    // @ts-ignore 忽略类型检查
     import('https://unpkg.com/@waline/client@v2/dist/waline.js')
       .then(({ init }) => {
         console.log('Waline client loaded successfully');
@@ -45,12 +53,11 @@ const { path } = Astro.props;
         });
         
         console.log('Waline initialized successfully');
-        document.getElementById('waline-status').style.display = 'none';
+        statusElement.style.display = 'none';
       })
       .catch(error => {
         console.error('Failed to load Waline:', error);
-        document.getElementById('waline-status').textContent = 
-          '评论系统加载失败: ' + error.message;
+        statusElement.textContent = '评论系统加载失败: ' + error.message;
       });
   }
 </script>
