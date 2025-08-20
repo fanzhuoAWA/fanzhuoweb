@@ -9,7 +9,6 @@ const { path } = Astro.props;
 <div id="waline-comment" class="mt-12"></div>
 
 <script>
-  // 只在客户端执行
   if (typeof window !== 'undefined') {
     // 动态加载 Waline
     import('https://unpkg.com/@waline/client@v2/dist/waline.js').then(({ init }) => {
@@ -46,4 +45,5 @@ const { path } = Astro.props;
     --waline-text-color: #e5e7eb;
     --waline-border-color: #374151;
   }
+
 </style>
