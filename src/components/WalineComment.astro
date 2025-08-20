@@ -6,54 +6,36 @@ interface Props {
 const { path } = Astro.props;
 ---
 
-<div id="waline-comment" class="mt-12" data-path={path}>
-  <p id="waline-status">正在加载评论系统...</p>
-</div>
+<div id="waline-comment" class="mt-12"></div>
 
 <script>
+  // 只在客户端执行
   if (typeof window !== 'undefined') {
-    console.log('WalineComment component mounted');
-    console.log('Path:', '<%= path %>');
-    
-    // 检查元素是否存在
-    const commentElement = document.getElementById('waline-comment');
-    const statusElement = document.getElementById('waline-status');
-    
-    if (!commentElement || !statusElement) {
-      console.error('Waline elements not found!');
-      return;
-    }
-    
-    // 动态加载 Waline
-    // @ts-ignore 忽略类型检查
-    import('https://unpkg.com/@waline/client@v2/dist/waline.js')
-      .then(({ init }) => {
-        console.log('Waline client loaded successfully');
-        
-        init({
-          serverURL: 'https://coo.fanzhuo.xyz/',
-          el: '#waline-comment',
-          path: '<%= path %>',
-          dark: 'html[data-theme="dark"]',
-          emoji: [
-            'https://unpkg.com/@waline/emojis@1.1.0/weibo',
-            'https://unpkg.com/@waline/emojis@1.1.0/alus',
-            'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
-          ],
-          locale: {
-            placeholder: '欢迎留言交流~ (支持 Markdown 语法)'
-          },
-          reaction: true,
-          search: false,
-        });
-        
-        console.log('Waline initialized successfully');
-        statusElement.style.display = 'none';
-      })
-      .catch(error => {
-        console.error('Failed to load Waline:', error);
-        statusElement.textContent = '评论系统加载失败: ' + error.message;
+    // 使用动态导入避免 TypeScript 检查
+    const loadWaline = async () => {
+      // @ts-ignore 忽略类型检查
+      const { init } = await import('https://unpkg.com/@waline/client@v2/dist/waline.js');
+      
+      init({
+        serverURL: 'https://coo.fanzhuo.xyz/',
+        el: '#waline-comment',
+        path: '<%= path %>',
+        // 可选配置
+        dark: 'html[data-theme="dark"]',
+        emoji: [
+          'https://unpkg.com/@waline/emojis@1.1.0/weibo',
+          'https://unpkg.com/@waline/emojis@1.1.0/alus',
+          'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
+        ],
+        locale: {
+          placeholder: '欢迎留言交流~ (支持 Markdown 语法)'
+        },
+        reaction: true, // 启用表情反应
+        search: false,  // 禁用搜索
       });
+    };
+    
+    loadWaline();
   }
 </script>
 
@@ -63,15 +45,10 @@ const { path } = Astro.props;
     --waline-active-color: #1d4ed8;
   }
   
+  /* 暗色模式适配 */
   [data-theme="dark"] #waline-comment {
     --waline-bgcolor: #1f2937;
     --waline-text-color: #e5e7eb;
     --waline-border-color: #374151;
-  }
-  
-  #waline-status {
-    text-align: center;
-    color: #6b7280;
-    font-style: italic;
   }
 </style>
