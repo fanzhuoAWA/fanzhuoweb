@@ -9,9 +9,13 @@ const { path } = Astro.props;
 <div id="waline-comment" class="mt-12"></div>
 
 <script>
+  // 只在客户端执行
   if (typeof window !== 'undefined') {
-    // 动态加载 Waline
-    import('https://unpkg.com/@waline/client@v2/dist/waline.js').then(({ init }) => {
+    // 使用动态导入避免 TypeScript 检查
+    const loadWaline = async () => {
+      // @ts-ignore 忽略类型检查
+      const { init } = await import('https://unpkg.com/@waline/client@v2/dist/waline.js');
+      
       init({
         serverURL: 'https://coo.fanzhuo.xyz/',
         el: '#waline-comment',
@@ -29,7 +33,9 @@ const { path } = Astro.props;
         reaction: true, // 启用表情反应
         search: false,  // 禁用搜索
       });
-    });
+    };
+    
+    loadWaline();
   }
 </script>
 
@@ -45,5 +51,4 @@ const { path } = Astro.props;
     --waline-text-color: #e5e7eb;
     --waline-border-color: #374151;
   }
-
 </style>
