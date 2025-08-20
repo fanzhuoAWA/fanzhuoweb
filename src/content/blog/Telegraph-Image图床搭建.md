@@ -2,7 +2,7 @@
 title: "搭建免费、无限空间的图床"
 description: "搭建基于 Telegraph 的图片上传工具"
 pubDate: "AUG 20 2025"
-image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMSaDGu__uKwFRpuBqE1JK6c0PXTiMAAuXJMRvLa4hVGXYdQrPWg50BAAMCAANtAAM2BA.png
+image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMwaKW9QKA6wsGvVbeAeYPgx5AFB2MAAiLJMRu1RjFVhnonKaqFNVwBAAMCAAN5AAM2BA.png
 categories:
   - DevOps
 tags:
