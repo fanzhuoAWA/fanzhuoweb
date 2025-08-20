@@ -19,13 +19,8 @@ const { path } = Astro.props;
     const commentElement = document.getElementById('waline-comment');
     const statusElement = document.getElementById('waline-status');
     
-    if (!commentElement) {
-      console.error('Waline comment element not found!');
-      return;
-    }
-    
-    if (!statusElement) {
-      console.error('Waline status element not found!');
+    if (!commentElement || !statusElement) {
+      console.error('Waline elements not found!');
       return;
     }
     
