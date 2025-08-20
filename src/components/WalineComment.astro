@@ -1,0 +1,49 @@
+---
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+---
+
+<div id="waline-comment" class="mt-12"></div>
+
+<script>
+  // 只在客户端执行
+  if (typeof window !== 'undefined') {
+    // 动态加载 Waline
+    import('https://unpkg.com/@waline/client@v2/dist/waline.js').then(({ init }) => {
+      init({
+        serverURL: 'https://coo.fanzhuo.xyz/',
+        el: '#waline-comment',
+        path: '<%= path %>',
+        // 可选配置
+        dark: 'html[data-theme="dark"]',
+        emoji: [
+          'https://unpkg.com/@waline/emojis@1.1.0/weibo',
+          'https://unpkg.com/@waline/emojis@1.1.0/alus',
+          'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
+        ],
+        locale: {
+          placeholder: '欢迎留言交流~ (支持 Markdown 语法)'
+        },
+        reaction: true, // 启用表情反应
+        search: false,  // 禁用搜索
+      });
+    });
+  }
+</script>
+
+<style>
+  #waline-comment {
+    --waline-theme-color: #3b82f6;
+    --waline-active-color: #1d4ed8;
+  }
+  
+  /* 暗色模式适配 */
+  [data-theme="dark"] #waline-comment {
+    --waline-bgcolor: #1f2937;
+    --waline-text-color: #e5e7eb;
+    --waline-border-color: #374151;
+  }
+</style>
