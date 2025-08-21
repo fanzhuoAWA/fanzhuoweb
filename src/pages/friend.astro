@@ -7,6 +7,7 @@ import FriendCard from "@/components/mdx/FriendCard.astro";
 import Card from "@/components/temple/Card.astro";
 import CardGroup from "@/components/temple/CardGroup.astro";
 import Showcase from "@/components/mdx/Showcase.astro";
+import Waline from "../../components/Waline.astro";
 
 const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
 ---
@@ -117,16 +118,20 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
             <code class="link-info">站点介绍：记录生活，题目、算法讲解……</code><br>
             <code class="link-info">rss（选填）：https://blog.fanzhuo.xyz/rss.xml</code>
           </p>
-          <a
+          <!--<a
             href="https://coo.fanzhuo.xyz/"
             target="_blank"
             rel="noopener noreferrer"
             class="btn btn-primary gap-2"
           >
             <span>进入留言板申请</span>
-          </a>
+          </a>-->
         </div>
       </div>
+      <section class="comments">
+        <h2>在这里发送申请</h2>
+        <Waline serverURL="https://coo.fanzhuo.xyz/" />
+      </section>
       </MainCard>
   </CardGroup>
 </BaseLayout>
