@@ -4,12 +4,13 @@ import { Icon } from "astro-icon/components";
 import MainCard from "@/components/MainCard.astro";
 import GitHubStats from "@/components/mdx/GitHubStats.astro";
 import RepositoryCard from "@/components/mdx/RepositoryCard.astro";
+import TimeLine from "@/components/mdx/TimeLine.astro";
 ---
 
 <BaseLayout title="About">
   <MainCard
-    title="关于我"
-    description="╰(￣ω￣ｏ)"
+    title="关于"
+    description="(～￣▽￣)～"
     textOverlay="ABOUT"
     infoIcon="lucide:user"
   >
@@ -142,6 +143,13 @@ import RepositoryCard from "@/components/mdx/RepositoryCard.astro";
           </ul>
         </div>
       </section>
+      <TimeLine
+        items={[
+          { year: "2025.8.15", event: "本站建立" },
+          { year: "2025.8.18", event: "正式更新" },
+          { year: "2025.8.21", event: "搭建评论系统" },
+        ]}
+      />
     </div>
   </MainCard>
 </BaseLayout>
