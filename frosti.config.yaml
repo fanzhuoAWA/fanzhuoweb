@@ -42,7 +42,7 @@ site:
         - id: devops
           text: 开发
           href: /blog/category/DevOps
-          svg: "material-symbols:code-blocks-outline"
+          svg: "material-symbols:code-rounded"
           target: _self
         # - id: examples
         #   text: 例子
@@ -65,6 +65,12 @@ site:
       href: "mailto:contact.fan_zhuo@outlook.com"
       target: _blank # 在新标签页打开
       svg: "material-symbols:attach-email-outline-rounded"
+    # - id: travelling
+    #   text: 开往
+    #   href: "https://www.travellings.cn/go.html"
+    #   target: _blank # 在新标签页打开
+    #   svg: "material-symbols:subway-outline"
+    
 
 # 用户的个人信息
 user:
