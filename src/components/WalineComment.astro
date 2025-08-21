@@ -1,54 +1,78 @@
 ---
-interface Props {
-  path: string;
-}
-
-const { path } = Astro.props;
+import '@waline/client/style'
+const { class: className } = Astro.props
 ---
 
-<div id="waline-comment" class="mt-12"></div>
+<comment-component>
+  <div id='waline' class={`not-prose ${className}`}>
+    Comment seems to stuck. Try to refresh?✨
+  </div>
+</comment-component>
 
 <script>
-  // 只在客户端执行
-  if (typeof window !== 'undefined') {
-    // 使用动态导入避免 TypeScript 检查
-    const loadWaline = async () => {
-      // @ts-ignore 忽略类型检查
-      const { init } = await import('https://unpkg.com/@waline/client@v2/dist/waline.js');
-      
-      init({
-        serverURL: 'https://coo.fanzhuo.xyz/',
-        el: '#waline-comment',
-        path: '<%= path %>',
-        // 可选配置
-        dark: 'html[data-theme="dark"]',
-        emoji: [
-          'https://unpkg.com/@waline/emojis@1.1.0/weibo',
-          'https://unpkg.com/@waline/emojis@1.1.0/alus',
-          'https://unpkg.com/@waline/emojis@1.1.0/bilibili',
-        ],
-        locale: {
-          placeholder: '欢迎留言交流~ (支持 Markdown 语法)'
-        },
-        reaction: true, // 启用表情反应
-        search: false,  // 禁用搜索
-      });
-    };
-    
-    loadWaline();
+  import { init as walineInit } from '@waline/client'
+  const walineConfig = {
+    server: 'https://coo.fanzhuo.xyz/',
+    emoji: [
+      'weibo',
+      'alus',
+      'bilibili',
+      'qq'
+    ],
+    additionalConfigs: {
+      locale: {
+        placeholder: '欢迎留言~(支持Markdown语法)'
+      }
+    }
   }
+
+  class Comment extends HTMLElement {
+    constructor() {
+      super()
+    }
+
+    connectedCallback() {
+      const walineInstance = walineInit({
+        el: '#waline',
+        serverURL: walineConfig.server,
+        reaction: [],
+        dark: 'html.dark',
+        pageview: true,
+        comment: true,
+        ...walineConfig.additionalConfigs
+      })
+      walineInstance?.update()
+    }
+  }
+
+  customElements.define('comment-component', Comment)
 </script>
 
 <style>
-  #waline-comment {
-    --waline-theme-color: #3b82f6;
-    --waline-active-color: #1d4ed8;
+  :global(.dark) #waline {
+    --waline-bg-color: var(--card-bg);
+    --waline-bg-color-light: var(--btn-plain-bg-hover);
   }
-  
-  /* 暗色模式适配 */
-  [data-theme="dark"] #waline-comment {
-    --waline-bgcolor: #1f2937;
-    --waline-text-color: #e5e7eb;
-    --waline-border-color: #374151;
+
+  :global(.wl-count) {
+    color: var(--waline-dark-grey);
+  }
+
+  :global(.wl-editor) {
+    padding: 0.35em 0.5em;
+    width: calc(100% - 2em);
+  }
+
+  :global(.wl-edit) {
+    color: var(--waline-dark-grey);
+  }
+
+  :global(#wl-edit)::placeholder {
+    color: var(--waline-dark-grey);
+  }
+
+  :global(.wl-panel) {
+    margin: .5em 0;
+    border: none;
   }
 </style>
