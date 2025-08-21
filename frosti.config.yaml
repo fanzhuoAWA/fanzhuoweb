@@ -39,6 +39,11 @@ site:
           href: /blog/category/Algorithm
           svg: "material-symbols:deployed-code-outline"
           target: _self
+        - id: devops
+          text: 运维开发
+          href: /blog/category/DevOps
+          svg: "material-symbols:developer_mode_tv"
+          target: _self
         # - id: examples
         #   text: 例子
         #   href: /blog/category/Examples
