@@ -8,19 +8,8 @@ import Sidebar from "@components/Sidebar.astro";
 import Footer from "@components/Footer.astro";
 import Navbar from "@components/Navbar.astro";
 import MobileTOC from "@components/widgets/MobileTOC.astro";
-import WalineComment from "@components/WalineComment.astro";
 
-const { 
-  title, 
-  image, 
-  headings = [], 
-  showTOC = false, 
-  isIndexed = true,
-  showComments = false // 新增参数，默认不显示评论
-} = Astro.props;
-
-// 判断是否为博客文章页面
-const isBlogPost = Astro.url.pathname.startsWith('/blog/');
+const { title, image, headings = [], showTOC = false, isIndexed = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -70,9 +59,6 @@ const isBlogPost = Astro.url.pathname.startsWith('/blog/');
         >
           <div class="flex-grow flex flex-col gap-4">
             <slot />
-            
-            {/* 添加评论区域 - 只在博客文章页面显示 */}
-            {(showComments || isBlogPost) && <WalineComment path={Astro.url.pathname} />}
           </div>
           <Footer />
         </main>
