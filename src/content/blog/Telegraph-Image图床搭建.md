@@ -15,7 +15,7 @@ badge: DevOps
 Telegraph-Image 是一款开源的图床系统，通过 Telegraph-Image ，我们可以更轻松地上传、管理和引用图片。
 # 搭建
 ### 账号注册
-首先我们需要一个 [Github](https://github.com/){target="_blank"} 账号、一个 [Clougflare](https://dash.cloudflare.com/) 账号和一个 [Telegram](http://telegram.org/) 账号。
+首先我们需要一个 [Github](https://github.com/){:target="_blank"} 账号、一个 [Clougflare](https://dash.cloudflare.com/) 账号和一个 [Telegram](http://telegram.org/) 账号。
 ### 在 Github 上 Fork Telegraph-Image 项目。
 打开 [Telegraph-Image 项目仓库](https://github.com/cf-pages/Telegraph-Image) 点击右上角的 Fork ，创建新分支到你的仓库。
 ![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMxaKXEM2jMmqbNENnh7FbC3ZZ5HAoAAjXJMRu1RjFVg0IuzT-wB7QBAAMCAAN5AAM2BA.png)
