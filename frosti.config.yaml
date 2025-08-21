@@ -42,7 +42,7 @@ site:
         - id: devops
           text: 开发
           href: /blog/category/DevOps
-          svg: "fluent:window-dev-tools-24-regular"
+          svg: "material-symbols:code-blocks-outline"
           target: _self
         # - id: examples
         #   text: 例子
