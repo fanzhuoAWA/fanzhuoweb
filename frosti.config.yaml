@@ -79,9 +79,9 @@ user:
   avatar: /profile.png # 用户头像路径
   sidebar: # 侧边栏配置
     social:
-      - href: "https://blog.fanzhuo.xyz" # 链接
+      - href: "https://afdian.com/a/fanzhuo" # 链接
         ariaLabel: Support my work # 图标的可访问性标签
-        title: Support my work # 图标的悬浮标题
+        title: 支持我 # 图标的悬浮标题
         svg: "ri:cup-line"
       - href: "https://github.com/fanzhuoAWA"
         ariaLabel: Github
@@ -97,9 +97,9 @@ user:
         svg: "ri:twitter-line"
   footer:
     social:
-      - href: "https://blog.fanzhuo.xyz" # 链接
+      - href: "https://afdian.com/a/fanzhuo" # 链接
         ariaLabel: Support my work # 图标的可访问性标签
-        title: Support my work # 图标的悬浮标题
+        title: 支持我 # 图标的悬浮标题
         svg: "ri:cup-line"
       - href: "https://github.com/fanzhuoAWA"
         ariaLabel: Github
