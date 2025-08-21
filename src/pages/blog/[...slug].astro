@@ -7,7 +7,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import dayjs from "@utils/dayjs";
 import { DATE_FORMAT } from "@config";
 import MainCard from "@/components/MainCard.astro";
-import Waline from "../../components/comments/Waline.astro";
+import Waline from "../../components/Waline.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
