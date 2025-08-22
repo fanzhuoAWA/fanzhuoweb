@@ -39,9 +39,9 @@ site:
           href: /blog/category/Algorithm
           svg: "material-symbols:deployed-code-outline"
           target: _self
-        - id: devops
+        - id: development
           text: 开发
-          href: /blog/category/DevOps
+          href: /blog/category/Development
           svg: "material-symbols:code-rounded"
           target: _self
         # - id: examples
