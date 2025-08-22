@@ -1,15 +1,15 @@
 ---
-title: Using mdx in Frosti 
-description: Using MDX in Frosti to enrich article content with more components
-pubDate: 07 12 2024
+title: 在 Frosti 中使用 mdx
+description: 在 Frosti 中使用 MDX 来丰富文章内容。
+pubDate: AUG 22 2025
 image: /image/image2.jpg
 categories:
-  - Documentation
-  - Examples
+  - Development
 tags:
-  - Frosti
-  - Blog
-  - Project
+  - 文章
+  - mdx
+  - astro
+badge: Development
 ---
 
 import Collapse from "../../components/mdx/Collapse.astro";
@@ -22,19 +22,19 @@ import Warning from "../../components/mdx/Warning.astro";
 import TimeLine from "../../components/mdx/TimeLine.astro";
 import LinkCard from "../../components/mdx/LinkCard.astro";
 
-## Preface
+# 前言
 
-This article describes how to use the components provided by Frosti in `mdx` to realize the functions that can't be realized by normal `md`.
+Frosti 中有很多内置的 `mdx` 组件，今天就来讲一下如何使用这些组件。
 
-## Main text
+# 正文
 
-### Getting started
+### 准备
 
-First you need to create an `mdx` file, which is as simple as changing the extension to `.mdx`.
+首先需要在存放文章的 `\src\content\blog` 文件夹里面创建一个 `mdx` 后缀的文件。
 
-### Introducing
+### 引用
 
-The components provided by Frosti are placed in the `/mdx` folders. Write something under the document properties (frontmatter):
+Frosti 提供的组件放置在 `/mdx` 文件夹中。在文件属性中写下：
 
 ```astro
 import Collapse from "../../components/mdx/Collapse.astro";
@@ -48,21 +48,21 @@ import TimeLine from "../../components/mdx/TimeLine.astro";
 import LinkCard from "../../components/mdx/LinkCard.astro";
 ```
 
-### Example
+### 使用例
 
-#### Collapse
+折叠文字
 
-<Collapse title="This is an example text.">
-  This is the hidden content!
+<Collapse title="(。・ω・。)你好呀！">
+  （；´д｀）我被隐藏了……
 </Collapse>
 
 ```astro
-<Collapse title="This is an example text.">
-  This is the hidden content!
+<Collapse title="(。・ω・。)你好呀！">
+  （；´д｀）我被隐藏了……
 </Collapse>
 ```
 
-#### Diff
+#### 对比图
 
 <Diff l="/image/l.png" r="/image/r.png" />
 
@@ -70,51 +70,51 @@ import LinkCard from "../../components/mdx/LinkCard.astro";
 <Diff l="/image/l.png" r="/image/r.png" />
 ```
 
-#### Error
+#### 错误
 
-<Error>Maybe something went wrong?</Error>
-
-```astro
-<Error>Maybe something went wrong? </Error>
-```
-
-#### Warning
-
-<Warning>Hey! Watch out for potholes! </Warning>
+<Error>(っ °Д °;)っ加载失败，请检查你的网络状态！</Error>
 
 ```astro
-<Warning>Hey! Watch out for potholes! </Warning>
+<Error>(っ °Д °;)っ加载失败，请检查你的网络状态！</Error>
 ```
 
-#### Message
+#### 警告
 
-<Info>It's just a message. </Info>
+<Warning>如果下方没有评论区请刷新页面</Warning>
 
 ```astro
-<Info>It's just a message. </Info>
+<Warning>如果下方没有评论区请刷新页面</Warning>
 ```
 
-#### Success
+#### 信息
 
-<Success>Congratulations on your successful deployment! </Success>
+<Info>这只是一条信息</Info>
 
 ```astro
-<Success>Congratulations on your successful deployment! </Success>
+<Info>这只是一条信息</Info>
 ```
 
-#### Kbd
+#### 成功
 
-<Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> to copy the text.
+<Success>大功告成！</Success>
 
 ```astro
-<Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> to copy the text.
+<Success>大功告成！</Success>
 ```
 
-#### TimeLine
+#### 按键
+
+用 <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> 来复制文本.
+
+```astro
+用 <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> 来复制文本.
+```
+
+#### 时间线
 
 <TimeLine
   items={[
-    { year: "1984", event: "First Macintosh computer" },
+    { year: "1984", event: "第一台 Macintosh 计算机" },
     { year: "1998", event: "iMac" },
     { year: "2001", event: "iPod" },
     { year: "2007", event: "iPhone" },
@@ -125,7 +125,7 @@ import LinkCard from "../../components/mdx/LinkCard.astro";
 ```astro
 <TimeLine
   items={[
-    { year: "1984", event: "First Macintosh computer" },
+    { year: "1984", event: "第一台 Macintosh 计算机" },
     { year: "1998", event: "iMac" },
     { year: "2001", event: "iPod" },
     { year: "2007", event: "iPhone" },
@@ -134,20 +134,21 @@ import LinkCard from "../../components/mdx/LinkCard.astro";
 />
 ```
 
-#### LinkCard
+#### 链接卡
 
 <LinkCard
-  title="Frosti"
-  desc="My blog project!"
-  url="https://github.com/EveSunMaple/Frosti"
+  title="Fanzhuo's blog"
+  desc="我的博客链接"
+  url="https://blog.fanzhuo.xyz/"
   img="/logo.png"
 />
 
 ```astro
 <LinkCard
-  title="Frosti"
-  desc="My blog project!"
-  url="https://github.com/EveSunMaple/Frosti"
+  title="Fanzhuo's blog"
+  desc="我的博客链接"
+  url="https://blog.fanzhuo.xyz/"
   img="/logo.png"
 />
 ```
+官方文档：[Using mdx in Frosti](https://frosti.saroprock.com/blog/frosti-mdx)
