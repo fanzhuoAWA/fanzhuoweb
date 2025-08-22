@@ -1,145 +1,69 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { Icon } from "astro-icon/components";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import License from "@components/widgets/License.astro";
+import PostInfo from "@components/widgets/PostInfo.astro";
+import PostFilter from "@components/widgets/PostFilter.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import dayjs from "@utils/dayjs";
+import { DATE_FORMAT } from "@config";
 import MainCard from "@/components/MainCard.astro";
-import LinkCard from "@/components/mdx/LinkCard.astro";
-import FriendCard from "@/components/mdx/FriendCard.astro";
-import Card from "@/components/temple/Card.astro";
-import CardGroup from "@/components/temple/CardGroup.astro";
-import Showcase from "@/components/mdx/Showcase.astro";
-import Waline from "@/components/Waline.astro";
+import Waline from "../../components/Waline.astro";
 import Warning from "@/components/mdx/Warning.astro";
 
-const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((blog: { slug: any }) => ({
+    params: { slug: blog.slug },
+    props: { blog },
+  }));
+}
+interface Props {
+  blog: CollectionEntry<"blog">;
+}
+
+const { blog } = Astro.props;
+const { Content, remarkPluginFrontmatter, headings } = await blog.render();
+const displayDate = blog.data.pubDate ? dayjs(blog.data.pubDate).format(DATE_FORMAT) : "";
+const url = new URL(`/${blog.slug}`, Astro.url.origin);
 ---
 
-<BaseLayout title="Friends">
-  <CardGroup cols="1">
-    <MainCard
-      title="友链"
-      description="我的朋友、友情链接的链接集合"
-      textOverlay="Friends"
-      infoIcon="lucide:link"
-    >
-      <div class="space-y-10">
-        <!-- Friends Section -->
-        <section>
-          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Icon name="lucide:users" class="w-6 h-6 text-primary" />
-            <span>朋友</span>
-          </h2>
+<BaseLayout title={blog.data.title} image={blog.data.image} headings={headings} showTOC={true}>
+  <MainCard title={blog.data.title} description={blog.data.description} image={blog.data.image} infoIcon="lucide:info">
+    <!-- Article info using PostInfo component -->
+    <PostInfo
+      pubDate={displayDate}
+      badge={blog.data.badge}
+      word={remarkPluginFrontmatter.totalCharCount}
+      time={remarkPluginFrontmatter.readingTime}
+    />
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <FriendCard
-              name="EveSunMaple"
-              avatar="https://avatars.githubusercontent.com/u/121652165?v=4"
-              description="这个主题的作者"
-              url="https://www.saroprock.com/"
-              type="friend"
-            />
-            <FriendCard
-              name="Purinliang"
-              avatar="https://avatars.githubusercontent.com/u/68161856?v=4"
-              description="ICPC Gold Medalist - from the 2020 ICPC Asia Kunming Regional Contest"
-              url="https://github.com/purinliang"
-              type="friend"
-            />
-          </div>
-        </section>
+    <!-- Categories and tags using PostFilter component -->
+    <div class="mb-6">
+      <PostFilter categories={blog.data.categories} tags={blog.data.tags} />
+    </div>
 
-        <!-- Contributors Section -->
-        <section>
-          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Icon name="lucide:git-pull-request" class="w-6 h-6 text-primary" />
-            <span>友情链接</span>
-          </h2>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <FriendCard
-              name="暂时没有名字的服务器官网"
-              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMqaKLIXWHx6PLW0W1tGPwO3kn61_gAAhHJMRtRWRhV426aOPyKcngBAAMCAAN4AAM2BA.png"
-              description="一个MinecraftJava服务器官网"
-              url="https://sever.fanzhuo.xyz/"
-              type="contributor"
-            />
-            <FriendCard
-              name="飞屋工作室官网"
-              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMraKLI-yOETmWda-aOZGfci6CRFlYAAhXJMRtRWRhVQ4v61qfQOS0BAAMCAAN5AAM2BA.png"
-              description="我负责构建的网站"
-              url="https://shg.fanzhuo.xyz/"
-              type="contributor"
-            />
-            <FriendCard
-              name="张洪Heo"
-              avatar="https://img.zhheo.com/i/67d8fb5f563ff.webp"
-              description="分享设计与科技生活"
-              url="https://blog.zhheo.com/"
-              type="contributor"
-            />
-            <FriendCard
-              name="FeltSquirrel727"
-              avatar="https://blog.tbedu.top/profile.png"
-              description="一名热爱生活、热爱编程的高中学生"
-              url="https://blog.tbedu.top/"
-              type="contributor"
-            />
-            <FriendCard
-              name="❖星港◎Star☆"
-              avatar="https://bu.dusays.com/2025/04/11/67f92f6fcfb26.webp"
-              description="以博客记录生活与热爱！"
-              url="https://blog.starsharbor.com/"
-              type="contributor"
-            />
-            <FriendCard
-              name="白鱼小栈"
-              avatar="https://www.baiyuyu.com/avatar.jpg"
-              description="今天整点啥"
-              url="https://www.baiyuyu.com"
-              type="contributor"
-            />
-            <FriendCard
-              name="fanzhuo's blog"
-              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMmaKLG3HIXnDabb0_1QIY8zrjkS5oAAuLIMRtRWRhVhfFnFjfrdGsBAAMCAAN5AAM2BA.png"
-              description="本站的旧版"
-              url="https://fanzhuo.xyz/"
-              type="contributor"
-            />
-            <FriendCard
-              name="图床"
-              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMoaKLH3Pbn0veaTF6leFHMbQdL3jAAAgrJMRtRWRhVzL8nb3s1ngcBAAMCAANtAAM2BA.png"
-              description="本站的图片托管工具"
-              url="https://image.fanzhuo.xyz/"
-              type="contributor"
-            />
-          </div>
-        </section>
-        <div class="divider my-8">
-          <Icon name="lucide:heart" class="w-10 h-10 text-primary" />
-        </div>
-        <div class="text-center">
-          <!--<p class="text-base-content/80 mb-4">
-            欢迎交换友链！<br>请确保已添加 Fanzhuo's blog 的友情链接<br>申请格式/本站信息：<br>
-            <code class="link-info">站点名称：Fanzhuo's blog</code><br>
-            <code class="link-info">站点链接：https://blog.fanzhuo.xyz/</code><br>
-            <code class="link-info">站点图标：https://blog.fanzhuo.xyz/favicon.ico</code><br>
-            <code class="link-info">站点介绍：记录生活，题目、算法讲解……</code><br>
-            <code class="link-info">rss（选填）：https://blog.fanzhuo.xyz/rss.xml</code>
-          </p>
-          <a
-            href="https://coo.fanzhuo.xyz/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-primary gap-2"
-          >
-            <span>进入留言板申请</span>
-          </a>-->
-        </div>
-        <Warning>如果下方没有留言板请刷新页面</Warning>
-        <section class="comments">
-          <h2>欢迎交换友链！在这里申请（看顶置）(～￣▽￣)～</h2>
-          <Waline serverURL="https://coo.fanzhuo.xyz/" />
-        </section>
+    <!-- Article Content -->
+    <div class="mt-8">
+      <div id="content" class="prose max-w-none prose-headings:scroll-mt-20 prose-img:rounded-xl prose-img:mx-auto">
+        <Content />
+        <License
+          url={url}
+          title={blog.data.title}
+          image={blog.data.image}
+          pubDate={blog.data.pubDate}
+          badge={blog.data.badge}
+          categories={blog.data.categories}
+          tags={blog.data.tags}
+          word={remarkPluginFrontmatter.totalCharCount}
+          time={remarkPluginFrontmatter.readingTime}
+        />
       </div>
-      </MainCard>
-  </CardGroup>
+    </div>
+    <!--新增-->
+    <Warning>如果下方没有评论区请刷新页面</Warning>
+    <section class="comments">
+      <!-- <h2>Comments</h2> -->
+      <Waline serverURL="https://coo.fanzhuo.xyz/" />
+    </section>
+  </MainCard>
 </BaseLayout>
