@@ -4,10 +4,10 @@ description: "搭建基于 Telegraph 的图片上传工具"
 pubDate: "AUG 20 2025"
 image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMwaKW9QKA6wsGvVbeAeYPgx5AFB2MAAiLJMRu1RjFVhnonKaqFNVwBAAMCAAN5AAM2BA.png
 categories:
-  - DevOps
+  - Development
 tags:
   - 网站搭建
-badge: DevOps
+badge: Development
 ---
 
 在写网页、写博客的时候，经常会遇到需要插入图片的情况，这个时候就需要一款图片托管工具，那么我们能不能自己搭建一款呢？
