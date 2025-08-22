@@ -4,12 +4,12 @@ description: "如何使用纯HTML和CSS创建一个有趣的“失忆按钮”"
 pubDate: "AUG 21 2025"
 image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAM-aKahs4htPCIBZYAJkvqQGWNG7T4AAujIMRu1RjlVGzGN81SEcqABAAMCAAN5AAM2BA.png
 categories:
-  - DevOps
+  - Development
 tags:
-  - 交互按钮
+  - 交互
   - html
   - css
-badge: DevOps
+badge: Development
 ---
 
 ![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAM9aKadRHwZbUyC-8xzQWIMZS6h084AAuPIMRu1RjlVJPJUjbeTzhwBAAMCAAN4AAM2BA.png)
