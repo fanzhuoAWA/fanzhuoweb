@@ -49,7 +49,7 @@ site:
         #   href: /blog/category/Examples
         #   svg: "material-symbols:unknown-document-outline-rounded"
         #   target: _self
-        # 子菜单项配置
+        # 子菜单项配置 life：material-symbols:earthquake-rounded
     - id: project
       text: 作品
       href: /project
@@ -65,6 +65,11 @@ site:
       href: "mailto:contact.fan_zhuo@outlook.com"
       target: _blank # 在新标签页打开
       svg: "material-symbols:attach-email-outline-rounded"
+    - id: travel
+      text: 异次元之旅
+      href: "https://travel.moe/go.html?travel=on"
+      target: _blank # 在新标签页打开
+      svg: "material-symbols:rocket-outline-rounded"
     # - id: travelling
     #   text: 开往
     #   href: "https://www.travellings.cn/go.html"
