@@ -4,11 +4,12 @@ description: "将 Waline 评论系统集成到 Frosti 博客"
 pubDate: "AUG 21 2025"
 image: /image/image4.jpg
 categories:
-  - DevOps
+  - Development
 tags:
   - 评论
   - Waline
-badge: DevOps
+  - astro
+badge: Development
 ---
 
 # 介绍
@@ -116,4 +117,4 @@ import Waline from "../../components/Waline.astro";
 </section>
 ```
 # 完成！
-官方教程：[Adding Comment Systems to Frosti](https://frosti.saroprock.com/blog/adding-comment-systems)
+官方文档：[Adding Comment Systems to Frosti](https://frosti.saroprock.com/blog/adding-comment-systems)
