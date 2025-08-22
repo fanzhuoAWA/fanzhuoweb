@@ -1,6 +1,6 @@
 ---
-title: "使用CSS类和HTML实现“失忆按钮”"
-description: "如何使用纯HTML和CSS创建一个有趣的“失忆按钮”"
+title: "使用 CSS 和 HTML 实现“失忆按钮”"
+description: "如何使用 HTML 和 CSS 创建一个有趣的“失忆按钮”"
 pubDate: "AUG 21 2025"
 image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAM-aKahs4htPCIBZYAJkvqQGWNG7T4AAujIMRu1RjlVGzGN81SEcqABAAMCAAN5AAM2BA.png
 categories:
@@ -128,3 +128,4 @@ function handleDialogChoice(choice) {
 ```
 ### 完成！
 你可以在[飞屋工作室官网](https://shg.fanzhuo.xyz/)看到我留的失忆按钮小彩蛋！
+
