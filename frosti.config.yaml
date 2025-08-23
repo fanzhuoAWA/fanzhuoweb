@@ -65,11 +65,11 @@ site:
       href: "mailto:fan_zhuo@outlook.com"
       target: _blank # 在新标签页打开
       svg: "material-symbols:attach-email-outline-rounded"
-    # - id: travelling
-    #   text: 开往
-    #   href: "https://www.travellings.cn/go.html"
-    #   target: _blank # 在新标签页打开
-    #   svg: "material-symbols:subway-outline"
+    - id: travelling
+      text: 开往
+      href: "https://www.travellings.cn/go.html"
+      target: _blank # 在新标签页打开
+      svg: "material-symbols:subway-outline"
     
 
 # 用户的个人信息
