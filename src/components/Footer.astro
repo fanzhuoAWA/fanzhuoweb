@@ -23,11 +23,12 @@ import { USER_NAME, USER_SITE, USER_FOOTER_SOCIAL_ICONS } from "@config";
       <br />
       Copyright © <a href={USER_SITE} target="_blank" class="font-bold">{USER_NAME}</a>
       {new Date().getFullYear()} - All right reserved
+      <br />
       <a href="https://icp.gov.moe/?keyword=20258828" target="_blank">萌ICP备20258828号</a>
     </p>
   </aside>
   <nav>
-    <span class="footer-title">Social</span>
+    <span class="footer-title">联系</span>
     <div class="grid grid-flow-col gap-4">
       {
         USER_FOOTER_SOCIAL_ICONS.map((icon) => (
@@ -38,8 +39,8 @@ import { USER_NAME, USER_SITE, USER_FOOTER_SOCIAL_ICONS } from "@config";
           </div>
         ))
       }
-      <div class="tooltip" data-tip="RSS Feed">
-        <a tabindex="0" href="/rss.xml" aria-label="RSS Feed">
+      <div class="tooltip" data-tip="RSS订阅">
+        <a tabindex="0" href="/rss.xml" aria-label="RSS订阅">
           <Icon name="ri:rss-line" class="text-2xl md:text-xl" />
         </a>
       </div>
