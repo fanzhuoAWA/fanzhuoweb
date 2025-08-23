@@ -37,9 +37,9 @@ interface Props {
 
 const {
   serverURL,
-  lang = "zh", 
+  lang = "zh",
   dark = "html[data-theme-type='dark']",
-  emoji = ["https://unpkg.com/@waline/emojis@1.1.0/weibo", "https://unpkg.com/@waline/emojis@1.1.0/bilibili"],
+  emoji = ["https://unpkg.com/@waline/emojis@1.1.0/weibo", "https://unpkg.com/@waline/emojis@1.1.0/bilibili", "https://unpkg.com/@waline/emojis@1.1.0/qq", "https://unpkg.com/@waline/emojis@1.1.0/tieba", "https://unpkg.com/@waline/emojis@1.1.0/bmoji", "https://unpkg.com/@waline/emojis@1.1.0/alus"],
   meta = ["nick", "mail", "link"],
   requiredMeta = [],
   reaction = false,
@@ -66,13 +66,11 @@ const {
 >
   import { init } from "https://unpkg.com/@waline/client@v3/dist/waline.js";
 
-  let walineInstance;
+  async function initWaline() {
+    const container = document.querySelector("#waline-container");
+    if (!container) return;
 
-  async function mountWaline() {
-    if (walineInstance) {
-      await walineInstance.destroy();
-    }
-    walineInstance = init({
+    init({
       el: "#waline-container",
       serverURL,
       path: location.pathname,
@@ -86,13 +84,15 @@ const {
     });
   }
 
-  document.addEventListener("astro:after-swap", () => {
-    mountWaline();
+  document.addEventListener("astro:page-load", () => {
+    initWaline();
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
-    mountWaline();
-  });
+  if (document.readyState !== "loading") {
+    initWaline();
+  } else {
+    document.addEventListener("DOMContentLoaded", initWaline);
+  }
 </script>
 
 <style>
