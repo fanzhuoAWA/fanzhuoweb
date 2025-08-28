@@ -30,19 +30,24 @@ site:
       target: _self
       subItems:
         - id: all
-          text: 全部内容
+          text: All blogs
           href: /blog
           svg: "material-symbols:ink-pen-outline-rounded"
           target: _self
         - id: algorithm
-          text: 算法
+          text: Algorithm
           href: /blog/category/Algorithm
           svg: "material-symbols:deployed-code-outline"
           target: _self
         - id: development
-          text: 开发
+          text: Development
           href: /blog/category/Development
           svg: "material-symbols:code-rounded"
+          target: _self
+        - id: game
+          text: Game
+          href: /blog/category/Game
+          svg: "lucide:gamepad-2"
           target: _self
         # - id: examples
         #   text: 例子
