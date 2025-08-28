@@ -1,7 +1,7 @@
 # 网站的基本信息
 site:
-  tab: Fanzhuo's blog # 浏览器标签栏上显示的文本
-  title: Fanzhuo's blog # 网站的标题
+  tab: Fanzhuo's Blog # 浏览器标签栏上显示的文本
+  title: Fanzhuo's Blog # 网站的标题
   description: Fanzhuo的博客 # 网站的描述，用于SEO等
   language: zh # 网站的语言，例如 "en" 是英文
   favicon: /favicon.ico # 网站的图标，用于浏览器标签栏和其他地方显示
