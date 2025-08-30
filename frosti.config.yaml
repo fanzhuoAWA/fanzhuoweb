@@ -49,6 +49,11 @@ site:
           href: /blog/category/Game
           svg: "lucide:gamepad-2"
           target: _self
+        - id: life
+          text: Life
+          href: /blog/category/Life
+          svg: "material-symbols:earthquake-rounded"
+          target: _self
         # - id: examples
         #   text: 例子
         #   href: /blog/category/Examples
