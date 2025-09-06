@@ -3,12 +3,14 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { Icon } from "astro-icon/components";
 import MainCard from "@/components/MainCard.astro";
 import GitHubStats from "@/components/mdx/GitHubStats.astro";
+import RepositoryCard from "@/components/mdx/RepositoryCard.astro";
+import TimeLine from "@/components/mdx/TimeLine.astro";
 ---
 
 <BaseLayout title="About">
   <MainCard
-    title="About SunMaple"
-    description="Developer, open-source enthusiast, and creator of the Frosti blog theme."
+    title="关于"
+    description="记录生活、开发日常、算法与题目讲解(～￣▽￣)～"
     textOverlay="ABOUT"
     infoIcon="lucide:user"
   >
@@ -19,17 +21,17 @@ import GitHubStats from "@/components/mdx/GitHubStats.astro";
           <div
             class="w-32 h-32 md:w-40 md:h-40 rounded-xl ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden"
           >
-            <img src="https://github.com/EveSunMaple.png" alt="SunMaple" width="160" height="160" loading="eager" />
+            <img src="/profile.png" alt="Fanzhuo" width="160" height="160" loading="eager" />
           </div>
         </div>
 
         <div class="flex-1 text-center md:text-left">
-          <h1 class="text-3xl md:text-4xl font-bold mb-2">SunMaple</h1>
-          <p class="text-xl text-base-content/80 mb-4">Developer & Open-Source Enthusiast</p>
+          <h1 class="text-3xl md:text-4xl font-bold mb-2">Fanzhuo</h1>
+          <p class="text-xl text-base-content/80 mb-4">一名广东的初中生(。・ω・。)</p>
 
           <div class="flex flex-wrap gap-3 justify-center md:justify-start mb-6">
             <a
-              href="https://github.com/EveSunMaple"
+              href="https://github.com/fanzhuoAWA"
               target="_blank"
               rel="noopener noreferrer"
               class="btn btn-sm btn-outline gap-2"
@@ -38,7 +40,7 @@ import GitHubStats from "@/components/mdx/GitHubStats.astro";
               <span>GitHub</span>
             </a>
             <a
-              href="https://twitter.com/EveSunMaple"
+              href="https://x.com/fanzhuoW"
               target="_blank"
               rel="noopener noreferrer"
               class="btn btn-sm btn-outline gap-2"
@@ -46,53 +48,37 @@ import GitHubStats from "@/components/mdx/GitHubStats.astro";
               <Icon name="lucide:twitter" class="w-4 h-4" />
               <span>Twitter</span>
             </a>
-            <a href="mailto:evesunmaple@outlook.com" class="btn btn-sm btn-outline gap-2">
+            <a href="mailto:fan_zhuo@outlook.com" class="btn btn-sm btn-outline gap-2">
               <Icon name="lucide:mail" class="w-4 h-4" />
               <span>Email</span>
             </a>
           </div>
 
           <p class="text-base-content/80">
-            Hello! I'm SunMaple, a passionate developer focused on creating elegant, responsive, and efficient web
-            applications. I'm the creator of the Frosti blog theme, a modern Astro-based theme for content creators. I
-            love contributing to open-source projects and building tools that help others create beautiful digital
-            experiences.
+            你好(～￣▽￣)～
           </p>
         </div>
-      </section>
-
-      <!-- GitHub Stats -->
-      <section>
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-          <Icon name="lucide:github" class="w-6 h-6 text-primary" />
-          <span>GitHub Statistics</span>
-        </h2>
-
-        <GitHubStats username="EveSunMaple" showLanguages={false} showCommitGraph={true} />
       </section>
 
       <!-- Tech Stack -->
       <section>
         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
           <Icon name="lucide:code-2" class="w-6 h-6 text-primary" />
-          <span>Tech Stack</span>
+          <span>技术栈</span>
         </h2>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {
             [
+              { name: "C++", icon: "simple-icons:cplusplus", color: "oklch(0.6 0.2 240)" },
+              { name: "HTML5", icon: "simple-icons:html5", color: "oklch(0.7 0.2 30)" },
               { name: "Astro", icon: "simple-icons:astro", color: "oklch(0.5 0.2 300)" },
               { name: "JavaScript", icon: "simple-icons:javascript", color: "oklch(0.8 0.2 80)" },
-              { name: "TypeScript", icon: "simple-icons:typescript", color: "oklch(0.6 0.2 250)" },
-              { name: "React", icon: "simple-icons:react", color: "oklch(0.7 0.2 200)" },
-              { name: "Node.js", icon: "simple-icons:nodedotjs", color: "oklch(0.7 0.2 140)" },
-              { name: "TailwindCSS", icon: "simple-icons:tailwindcss", color: "oklch(0.6 0.2 220)" },
-              { name: "HTML5", icon: "simple-icons:html5", color: "oklch(0.7 0.2 30)" },
               { name: "CSS3", icon: "simple-icons:css3", color: "oklch(0.7 0.2 220)" },
               { name: "Git", icon: "simple-icons:git", color: "oklch(0.7 0.2 30)" },
-              { name: "C++", icon: "simple-icons:cplusplus", color: "oklch(0.6 0.2 240)" },
               { name: "C#", icon: "simple-icons:csharp", color: "oklch(0.6 0.2 160)" },
               { name: "Python", icon: "simple-icons:python", color: "oklch(0.7 0.2 250)" },
+              { name: "Scratch", icon: "simple-icons:scratch", color: "oklch(0.8 0.2 80)" },
             ].map((tech) => (
               <div class="flex flex-col items-center justify-center p-4 bg-base-200 rounded-lg hover:bg-base-300 transition-colors">
                 <div class="text-3xl mb-2" style={`color: ${tech.color}`}>
@@ -104,57 +90,73 @@ import GitHubStats from "@/components/mdx/GitHubStats.astro";
           }
         </div>
       </section>
-
-      <!-- Contribution Activity -->
-      <section>
+            <!-- Open Source Contributions -->
+      <section class="py-4">
         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-          <Icon name="lucide:activity" class="w-6 h-6 text-primary" />
-          <span>Recent Activity</span>
+          <Icon name="lucide:git-pull-request" class="w-6 h-6 text-primary" />
+          <span>网站技术</span>
         </h2>
 
-        <div class="bg-base-200 rounded-xl p-6 overflow-x-auto">
-          <div class="flex flex-col md:flex-row gap-8 md:gap-4 md:overflow-x-auto md:pb-2">
+        <div class="card bg-base-200 p-6">
+          <ul class="space-y-6">
             {
               [
                 {
-                  date: "January 2024",
-                  title: "Open Source Contributions",
-                  desc: "Contributed to several open source projects, focusing on performance optimizations.",
+                  project: "Astro",
+                  description: "前端框架",
+                  url: "https://astro.build/",
                 },
                 {
-                  date: "March 2024",
-                  title: "Initiated Frosti Project",
-                  desc: "Started development of the Frosti blog theme for Astro, focusing on modern design principles.",
+                  project: "Frosti",
+                  description: "主题",
+                  url: "https://github.com/EveSunMaple/Frosti",
                 },
                 {
-                  date: "July 2024",
-                  title: "Released Frosti v2",
-                  desc: "Published version 2 with improved responsive design and extended plugin support.",
+                  project: "Github",
+                  description: "代码托管",
+                  url: "https://github.com/",
                 },
                 {
-                  date: "March 2025",
-                  title: "Released Frosti v3",
-                  desc: "Launched version 3 of the Frosti blog theme with enhanced performance and new customization options.",
+                  project: "Vercel",
+                  description: "部署平台",
+                  url: "https://vercel.com/",
                 },
-              ].map((item, i) => (
-                <div class="relative flex gap-4 pb-2 md:pb-0 md:min-w-[250px]">
-                  <div class="flex flex-col items-center">
-                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-content text-xl">
-                      {i + 1}
-                    </div>
-                    <div class="w-0.5 h-16 bg-base-300 mt-2 md:hidden" />
+              ].map((contrib) => (
+                <li class="flex items-start gap-4">
+                  <div class="flex-shrink-0 bg-base-300 p-2 rounded-full">
+                    <Icon name="lucide:git-commit" class="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <div class="text-sm text-base-content/60 mb-1">{item.date}</div>
-                    <h3 class="text-lg font-bold">{item.title}</h3>
-                    <p class="text-base-content/80 mt-1">{item.desc}</p>
+                    <h3 class="text-lg font-bold">
+                      <a
+                        href={contrib.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-primary transition-colors flex items-center gap-1"
+                      >
+                        {contrib.project}
+                        <Icon name="lucide:external-link" class="w-4 h-4" />
+                      </a>
+                    </h3>
+                    <p class="text-base-content/80">{contrib.description}</p>
                   </div>
-                </div>
+                </li>
               ))
             }
-          </div>
+          </ul>
         </div>
       </section>
+      <TimeLine
+        items={[
+          { year: "2025.8.15", event: "本站建立" },
+          { year: "2025.8.18", event: "正式更新" },
+          { year: "2025.8.21", event: "搭建评论系统" },
+          { year: "2025.8.22", event: "萌IPC备审核通过" },
+          { year: "2025.8.23", event: "添加邮箱通知功能" },
+          { year: "2025.8.26", event: "加入开往" },
+          { year: "2025.8.28", event: "加入笔墨迹" },
+        ]}
+      />
     </div>
   </MainCard>
 </BaseLayout>

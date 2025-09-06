@@ -19,14 +19,19 @@ import { USER_NAME, USER_SITE, USER_FOOTER_SOCIAL_ICONS } from "@config";
       ></path>
     </svg>
     <p>
-      Powered by <a href="https://github.com/EveSunMaple/Frosti" target="_blank" class="font-bold">Frosti Template</a>
+      由 <a href="https://github.com/EveSunMaple/Frosti" target="_blank" class="font-bold">Frosti</a> 驱动
       <br />
-      Copyright © <a href={USER_SITE} target="_blank" class="font-bold">{USER_NAME}</a>
-      {new Date().getFullYear()} - All right reserved
+      版权所有 © 2024 - {new Date().getFullYear()} <a href={USER_SITE} target="_blank" class="font-bold">{USER_NAME}</a>
+       - 保留所有权利(´▽｀)
+      <br />
+      <a href="https://icp.gov.moe/?keyword=20258828" target="_blank">萌ICP备20258828号</a> | <a href="https://www.travellings.cn/go.html" target="_blank">开往-友链接力</a> | <a href="https://blogscn.fun/" target="_blank">笔墨迹</a>
+      <br />
+      <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
     </p>
   </aside>
   <nav>
-    <span class="footer-title">Social</span>
+    <span class="footer-title">联系</span>
     <div class="grid grid-flow-col gap-4">
       {
         USER_FOOTER_SOCIAL_ICONS.map((icon) => (
@@ -37,8 +42,8 @@ import { USER_NAME, USER_SITE, USER_FOOTER_SOCIAL_ICONS } from "@config";
           </div>
         ))
       }
-      <div class="tooltip" data-tip="RSS Feed">
-        <a tabindex="0" href="/rss.xml" aria-label="RSS Feed">
+      <div class="tooltip" data-tip="RSS订阅">
+        <a tabindex="0" href="/rss.xml" aria-label="RSS订阅">
           <Icon name="ri:rss-line" class="text-2xl md:text-xl" />
         </a>
       </div>

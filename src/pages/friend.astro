@@ -7,6 +7,7 @@ import FriendCard from "@/components/mdx/FriendCard.astro";
 import Card from "@/components/temple/Card.astro";
 import CardGroup from "@/components/temple/CardGroup.astro";
 import Showcase from "@/components/mdx/Showcase.astro";
+import Waline from "@/components/Waline.astro";
 
 const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
 ---
@@ -14,9 +15,9 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
 <BaseLayout title="Friends">
   <CardGroup cols="1">
     <MainCard
-      title="Friends & Resources"
-      description="A collection of links to friends, technologies, and contributors to the Frosti project."
-      textOverlay="FRIENDS"
+      title="友链"
+      description="我的朋友、友情链接和其他链接的集合"
+      image = "https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANtaLurpClyCjp9PZanHV6cTRE7bFsAAknFMRtfT-FVXysCpX40o9UBAAMCAAN3AAM2BA.png"
       infoIcon="lucide:link"
     >
       <div class="space-y-10">
@@ -24,199 +25,171 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
             <Icon name="lucide:users" class="w-6 h-6 text-primary" />
-            <span>Friends</span>
+            <span>好友</span>
           </h2>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <FriendCard
-              name="Lyme Blurred"
-              avatar="https://github.com/lymeblurred.png"
-              description="Building, breaking, and learning daily | A copy of EveSunMaple"
-              url="https://github.com/lymeblurred"
+              name="Purinliang"
+              avatar="https://avatars.githubusercontent.com/u/68161856?v=4"
+              description="ICPC Gold Medalist - from the 2020 ICPC Asia Kunming Regional Contest"
+              url="https://github.com/purinliang"
               type="friend"
             />
             <FriendCard
-              name="梦凌汐"
-              avatar="https://github.com/MeowLynxSea.png"
-              description="来自星辰边缘的猫猫~爱好是睡觉awa"
-              url="https://github.com/MeowLynxSea"
+              name="EveSunMaple"
+              avatar="https://avatars.githubusercontent.com/u/121652165?v=4"
+              description="热爱技术，喜欢记录生活中的点点滴滴。"
+              url="https://www.saroprock.com/"
               type="friend"
             />
             <FriendCard
-              name="颜涂楷睿"
-              avatar="https://github.com/SnowFoxqwq.png"
-              description="你好，我是雪狐~"
-              url="https://github.com/SnowFoxqwq"
+              name="FeltSquirrel727"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANBaKhP7l6ptsdXEZdQ7TKgghTlSqIAAvHEMRuCtElVlnJ07LAhiIkBAAMCAAN4AAM2BA.png"
+              description="一名热爱生活、热爱编程的高中学生"
+              url="https://blog.tbedu.top/"
+              type="friend"
+            />
+            <FriendCard
+              name="Gavin蔚蔚"
+              avatar="https://cdn-community.bcmcdn.com/47/community/d2ViXzEwMDFfMzc5NTQyNjE5XzM3OTU0MjYxOV8xNzUwNTg4NTgyMDI4XzUwZjg1MTcz.jpeg"
+              description="老朋友"
+              url="https://www.douyin.com/user/MS4wLjABAAAAVvOO2Zu_xtVxRgsFsEfssX-0G6jP5ifKzufUw5fSZquxXqkg6HmljjGoOfYWuqX8?from_tab_name=main"
               type="friend"
             />
           </div>
         </section>
 
+        <section>
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Icon name="ri:flower-line" class="w-6 h-6 text-primary" />
+            <span>感谢名单</span>
+          </h2>
+          感谢在 <a href="https://afdian.com/a/fanzhuo" target="_blank" style="color: blue; font-weight: bold;">爱发电</a> 支持我的朋友！
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <FriendCard
+              name="Amani"
+              avatar="https://www.pfasnews.com/profile.png"
+              description="这个家伙很懂PFAS"
+              url="http://pfasnews.com/"
+              type="friend"
+            />
+          </div>
+        </section>
         <!-- Contributors Section -->
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
             <Icon name="lucide:git-pull-request" class="w-6 h-6 text-primary" />
-            <span>Contributors</span>
+            <span>友情链接</span>
           </h2>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <FriendCard
-              name="EveSunMaple"
-              avatar="https://github.com/EveSunMaple.png"
-              description="Coding is my hobby, not my career."
-              url="https://github.com/EveSunMaple"
+              name="张洪Heo"
+              avatar="https://img.zhheo.com/i/67d8fb5f563ff.webp"
+              description="分享设计与科技生活"
+              url="https://blog.zhheo.com/"
               type="contributor"
             />
             <FriendCard
-              name="Loping151"
-              avatar="https://github.com/Loping151.png"
-              description="Loping151"
-              url="https://github.com/Loping151"
+              name="❖星港◎Star☆"
+              avatar="https://bu.dusays.com/2025/04/11/67f92f6fcfb26.webp"
+              description="以博客记录生活与热爱！"
+              url="https://blog.starsharbor.com/"
               type="contributor"
             />
             <FriendCard
-              name="Tianxiang Roxiyater"
-              avatar="https://github.com/TNXG.png"
-              description="明日尚未到来，希望凝于心上"
-              url="https://github.com/TNXG"
+              name="异站"
+              avatar="https://image.tabirstrees.top/images/2025/02/22/tabirstrees.png"
+              description="晴耕雨读"
+              url="https://www.tabirstrees.top/"
               type="contributor"
             />
             <FriendCard
-              name="Yaoqx"
-              avatar="https://github.com/YaoqxCN.png"
-              description="A lazy junior high school student who likes coding!"
-              url="https://github.com/YaoqxCN"
+              name="xyx404"
+              avatar="https://fastly.jsdelivr.net/npm/xyx404blogphoto@1.2.23/avatar.webp"
+              description="在努力和摆烂中选择了努力摆烂 AWA"
+              url="https://xyx404.github.io/"
               type="contributor"
             />
             <FriendCard
-              name="Yao Tutu"
-              avatar="https://github.com/yaotutu.png"
-              description="Graduated student of SHMTU, CS major."
-              url="https://github.com/yaotutu"
+              name="ZhouZhou's Blog"
+              avatar="https://s1.imagehub.cc/images/2025/08/22/5aeabd5d7868bc9bc70af208609c7b50.jpg"
+              description="记录技术、日常"
+              url="https://blog.zzzero.site/"
+              type="contributor"
+            />
+            <!--<FriendCard
+              name="暂时没有名字的服务器官网"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMqaKLIXWHx6PLW0W1tGPwO3kn61_gAAhHJMRtRWRhV426aOPyKcngBAAMCAAN4AAM2BA.png"
+              description="一个MinecraftJava服务器官网"
+              url="https://sever.fanzhuo.xyz/"
+              type="contributor"
+            />-->
+            <FriendCard
+              name="ArcticAria"
+              avatar="https://i.postimg.cc/JnnJjRGS/arctic-aria-logo.png"
+              description="你的生活、学习、工作一站式管理平台"
+              url="https://arcticaria.pages.dev/"
               type="contributor"
             />
             <FriendCard
-              name="WRXinYue"
-              avatar="https://github.com/WRXinYue.png"
-              description="Technology is not just a tool; it is a joy and an art."
-              url="https://github.com/WRXinYue"
+              name="飞屋工作室官网"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMraKLI-yOETmWda-aOZGfci6CRFlYAAhXJMRtRWRhVQ4v61qfQOS0BAAMCAAN5AAM2BA.png"
+              description="我负责构建的网站"
+              url="https://shg.fanzhuo.xyz/"
               type="contributor"
             />
             <FriendCard
-              name="龙一"
-              avatar="https://github.com/linglilongyi.png"
-              description="linglilongyi"
-              url="https://github.com/linglilongyi"
+              name="白鱼小栈"
+              avatar="https://www.baiyuyu.com/avatar.jpg"
+              description="今天整点啥"
+              url="https://www.baiyuyu.com"
+              type="contributor"
+            />
+            <!--<FriendCard
+              name="fanzhuo's blog"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMmaKLG3HIXnDabb0_1QIY8zrjkS5oAAuLIMRtRWRhVhfFnFjfrdGsBAAMCAAN5AAM2BA.png"
+              description="本站的旧版"
+              url="https://fanzhuo.xyz/"
               type="contributor"
             />
             <FriendCard
-              name="Youngestar"
-              avatar="https://github.com/youngestar.png"
-              description="Just go ahead!"
-              url="https://github.com/youngestar"
+              name="图床"
+              avatar="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMoaKLH3Pbn0veaTF6leFHMbQdL3jAAAgrJMRtRWRhVzL8nb3s1ngcBAAMCAANtAAM2BA.png"
+              description="本站的图片托管工具"
+              url="https://image.fanzhuo.xyz/"
               type="contributor"
-            />
-            <FriendCard
-              name="Liks"
-              avatar="https://github.com/Liksone.png"
-              description="Liks"
-              url="https://github.com/Liksone"
-              type="contributor"
-            />
+            />-->
           </div>
         </section>
-
-        <!-- Useful Resources Section -->
         <section>
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Icon name="lucide:bookmark" class="w-6 h-6 text-primary" />
-            <span>Useful Resources</span>
+            <Icon name="lucide:layout-template" class="w-6 h-6 text-primary" />
+            <span>其他链接</span>
           </h2>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <LinkCard
-              title="Astro Documentation"
-              desc="The official documentation for Astro, covering everything from getting started to advanced techniques."
-              url="https://docs.astro.build"
-              icon="simple-icons:astro"
-              categories={["Docs", "Learning", "Reference"]}
-            />
-
-            <LinkCard
-              title="Tailwind CSS Documentation"
-              desc="Learn how to use Tailwind's utility classes to style your website without writing CSS."
-              url="https://tailwindcss.com/docs"
-              icon="simple-icons:tailwindcss"
-              categories={["Docs", "CSS", "Reference"]}
-            />
-
-            <LinkCard
-              title="DaisyUI Components"
-              desc="Browse DaisyUI's component library and learn how to use them in your project."
-              url="https://daisyui.com/components/"
-              icon="simple-icons:daisyui"
-              categories={["Components", "UI", "Reference"]}
-            />
-
-            <LinkCard
-              title="TypeScript Handbook"
-              desc="The TypeScript Handbook is a comprehensive guide to the TypeScript language."
-              url="https://www.typescriptlang.org/docs/handbook/intro.html"
-              icon="simple-icons:typescript"
-              categories={["Docs", "TypeScript", "Reference"]}
-            />
+          <div class="flex items-center flex-wrap gap-3"><a href="https://fanzhuo.xyz/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="本站的旧版"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">fanzhuo's blog</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script>
+          <a href="https://image.fanzhuo.xyz/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="本站的图片托管工具"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">图床</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script>
+          <a href="https://sever.fanzhuo.xyz/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="站长的MinecraftJava服务器官网"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">暂时没有名字的服务器官网</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script>
+          <a href="https://shields.io/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="Concise, consistent, and legible badges"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">Shields.io</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script>
+          <a href="https://bg.diyun.site/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="在线创建精美渐变背景"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">渐变背景生成器</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script></div>
+        </section>
+        <section>
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Icon name="material-symbols:sms-failed-outline-rounded" class="w-6 h-6 text-primary" />
+            <span>失联友链</span>
+          </h2>
+          <div class="flex items-center flex-wrap gap-3"><a href="https://yfzhu.cn/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="计算机、股票业余爱好者"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">阿猪的博客</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script>
           </div>
         </section>
-
         <div class="divider my-8">
           <Icon name="lucide:heart" class="w-10 h-10 text-primary" />
         </div>
-
-        <div class="text-center">
-          <p class="text-base-content/80 mb-4">
-            Want to be featured on this page? Feel free to reach out or contribute to the project!
-          </p>
-          <a
-            href="https://github.com/EveSunMaple/Frosti"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-primary gap-2"
-          >
-            <Icon name="lucide:github" class="w-5 h-5" />
-            <span>Contribute on GitHub</span>
-          </a>
-        </div>
+        <section class="comments">
+          <h2>欢迎交换友链！在这里申请（看顶置）(～￣▽￣)～</h2>
+          <Waline serverURL="https://coo.fanzhuo.xyz/" />
+        </section>
       </div>
-    </MainCard>
-    <Card>
-      <div class="p-4 sm:p-6">
-        <div class="space-y-10">
-          <section>
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
-              <h2 class="text-2xl font-bold flex items-center gap-2">
-                <Icon name="lucide:layout-template" class="w-6 h-6 text-primary" />
-                <span>Sites Using Frosti</span>
-              </h2>
-              <a
-                href="https://github.com/EveSunMaple/Frosti/edit/main/src/pages/friend.astro"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-sm btn-outline btn-primary gap-2"
-              >
-                <Icon name="lucide:plus-circle" class="w-4 h-4" />
-                Add Your Site
-              </a>
-            </div>
-            <p class="text-base-content/70 mb-6">
-              Here is a list of sites built with Frosti. Want to get your site listed? Click the "Add Your Site" button
-              in the top right to edit this page by submitting a Pull Request!
-            </p>
-            <div class="flex flex-wrap items-center gap-3">
-              {sites.map((site) => <Showcase name={site.name} url={site.url} />)}
-            </div>
-          </section>
-        </div>
-      </div>
-    </Card>
+      </MainCard>
   </CardGroup>
 </BaseLayout>

@@ -1,0 +1,359 @@
+---
+title: "在欧卡2中使用自定义电台"
+description: "导入现实中的电台"
+pubDate: "AUG 28 2025"
+image: https://eurotrucksimulator2.com/images/hp_carousel/volvo.jpg
+categories:
+  - Game
+tags:
+  - 欧洲卡车模拟器2
+  - 电台
+badge: Game
+---
+
+import Collapse from "../../components/mdx/Collapse.astro";
+import Diff from "../../components/mdx/Diff.astro";
+import Error from "../../components/mdx/Error.astro";
+import Info from "../../components/mdx/Info.astro";
+import Kbd from "../../components/mdx/Kbd.astro";
+import Success from "../../components/mdx/Success.astro";
+import Warning from "../../components/mdx/Warning.astro";
+import TimeLine from "../../components/mdx/TimeLine.astro";
+import LinkCard from "../../components/mdx/LinkCard.astro";
+
+### 复制电台 URL
+
+<LinkCard
+  title="蜻蜓FM"
+  desc="awa"
+  url="https://www.qtfm.cn/"
+  img="https://sss.qtfm.cn/neo/home_banner.png"
+/>
+
+打开蜻蜓FM，搜索你想要听的电台。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANHaK-2C52QlWE9gJ52T0dW7jWikqgAAtTKMRvCaYFVMr3imwPPM8UBAAMCAAN5AAM2BA.png)
+
+点击播放。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANIaK-2Z09aunMTfJCrNN9JF8mEkuMAAtXKMRvCaYFVrviHhAh7s0MBAAMCAAN5AAM2BA.png)
+
+之后按 <Kbd>fn</Kbd> + <Kbd>f12</Kbd> 打开开发者模式（不同的浏览器打开方式可能会不一样）。
+
+选择 `网络` ，再点击 `重新加载页面` 。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANLaK-3Bs8CQKv9olEfUR1q6su4-xAAAtfKMRvCaYFVY9R1kucab0UBAAMCAAN3AAM2BA.png)
+
+找到类型是 `media` 的这一项，点击左边的名称。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANMaK-3wBEtLsns3mjHA7uKrzlRBiwAAtrKMRvCaYFVR76Qtgj7TG4BAAMCAAN5AAM2BA.png)
+
+复制从 `https` 开始到 `app_id` 这一串。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANOaK-4i-grCku8VK8eKhxnlHWA6sgAAt7KMRvCaYFV69KF3WdQeuEBAAMCAAN5AAM2BA.png)
+
+### 游戏内刷新电台文件
+
+进入游戏打开电台播放器，如果没有游戏内置的电台就点 `在线更新` 。
+
+### 更改游戏电台文件
+
+打开文件管理器，找到文档，再在文档里找到 `Euro Truck Simulator 2` 文件夹。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANPaK-5QnqV6tD4K28BpoG-Bh5718QAAt_KMRvCaYFV4D-Xfd2jqlwBAAMCAAN4AAM2BA.png)
+
+打开 `live_streams.sii` 文件（用记事本打开）。
+
+按照格式填写（直接改原来的电台就行了），蓝色填刚刚复制的 URL ，红色填名字，黄色填标签，绿色填语言，紫色填比特率（填 128 就行了）。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AANQaK-6piGOHQEpzC6v9gXdF_Fbrt8AAuXKMRvCaYFVdv4jHmHj1W4BAAMCAAN5AAM2BA.png)
+
+### 大功告成！
+
+你也可以直接把我的 `live_streams.sii` 复制过去（我加了三个我平常听的电台）。
+
+```
+SiiNunit
+{
+live_stream_def : _nameless.15f.aa46.2e80 {
+ stream_data: 275
+ stream_data[0]: "https://lhttp-hw.qtfm.cn/live/20194/64k.mp3?app_id|广州MYFM 88.0|Chat, Pop|CN|128|0"
+ stream_data[1]: "https://lhttp-hw.qtfm.cn/live/1262/64k.mp3?app_id|广东交通之声|Chat, Pop|CN|128|0"
+ stream_data[2]: "https://lhttp-hw.qtfm.cn/live/1254/64k.mp3?app_id|广东新闻广播|Chat, Pop, News|CN|128|0"
+ stream_data[3]: "http://relay.181.fm:8050|181.FM - 90's Country|90s|EN|128|0"
+ stream_data[4]: "http://relay.181.fm:8018|181.FM - Highway 181|Country|EN|128|0"
+ stream_data[5]: "http://relay.181.fm:8130|181.FM - Kickin' Country|Country|EN|128|0"
+ stream_data[6]: "http://relay.181.fm:8034|181.FM - Real Country|Country|EN|128|0"
+ stream_data[7]: "http://relay.181.fm:8016|181.FM - The Front Porch|Bluegrass|EN|64|0"
+ stream_data[8]: "https://streams.80s80s.de/web/mp3-192|80s80s|80s|DE|192|0"
+ stream_data[9]: "http://158.69.114.190:8065/stream|80sMania-radio|80s hits|GR|128|0"
+ stream_data[10]: "https://n0b.radiojar.com/083wqknmsuhvv?rj-ttl=5|89 FM Rainbow|Rock|GR|96|0"
+ stream_data[11]: "https://streams.90s90s.de/pop/mp3-192|90s90s|90s|DE|192|0"
+ stream_data[12]: "https://n10.radiojar.com/h693vkmhe5uvv?rj-ttl=5|Alepou Radio|Pop|GR|128|0"
+ stream_data[13]: "https://s6-webradio.antenne.de/antenne|Antenne Bayern|Pop|DE|128|0"
+ stream_data[14]: "http://arabelfm.ice.infomaniak.ch/arabelprodcastfm.mp3|Arabel FM|Variety|BE|128|0"
+ stream_data[15]: "https://ice.onestreaming.com/athenspartyrnb|Athens Party RNB|Hip-Hop and RNB|GR|128|0"
+ stream_data[16]: "https://n13.radiojar.com/9ndpdg3c0s8uv?rj-ttl=5&rj-tok=AAABkaOvYUsAAqQP5zVE3-F1SQ|Athens Up Radio|Electronic and House|GR|128|0"
+ stream_data[17]: "http://live.antenne.at/arr|Austrian Rock Radio|Rock|AT|128|0"
+ stream_data[18]: "https://radio.autoliferadio.com:8090/radio|AutoLife Azerbaijan|Jazz, Pop|AZ|128|0"
+ stream_data[19]: "https://dispatcher.rndfnk.com/br/br24/live/mp3/mid?aggregator=onlineradiobox-com|BR24|News|DE|128|0"
+ stream_data[20]: "http://ec2.yesstreaming.net:3350/stream|Barfly Radio|Jazz and Rock|GR|128|0"
+ stream_data[21]: "http://www.radiobeograd.rs/download/radio202/dnevnik/dnevnik202.mp3|Beograd 202|Spoken|RS|128|0"
+ stream_data[22]: "https://live.radio.si/BestFM|Best FM|Folk, Pop, Dance|SL|128|0"
+ stream_data[23]: "https://best.live24.gr/best1222|Best Radio|Electronic|GR|128|0"
+ stream_data[24]: "https://radio.bigrig.fm/|BigRig FM|Country|EN|320|0"
+ stream_data[25]: "https://stream.bigtimefm.de/stream.mp3|BigTimeFM|Dance, Pop|DE|192|0"
+ stream_data[26]: "http://centova32.instainternet.com:8033/stream|Blue Radio|Blues|GR|128|0"
+ stream_data[27]: "https://blueswave.radio:8000/blueswave|BluesWave Radio|Blues|GR|128|0"
+ stream_data[28]: "https://stream.radiojar.com/n8buhxbsk9duv|Bottle o' Groove|Blues|GR|128|0"
+ stream_data[29]: "http://176.9.117.123:9998/;stream/1|City Radio|Hits|MK|128|0"
+ stream_data[30]: "http://176.9.117.123:9996/;|Club FM|Adult Contemporary|MK|128|0"
+ stream_data[31]: "https://cp1.sednastream.com/proxy/clubfm?mp=/stream|Club FM SQ|Adult Contemporary|SQ|128|0"
+ stream_data[32]: "https://live.coolradio.rs/cool128|Cool Radio|Pop, Folk|SR|128|0"
+ stream_data[33]: "http://eco.onestreaming.com:8689/;|Cosmo Radio|Talk and News|GR|128|0"
+ stream_data[34]: "http://icecast2.play.cz:8000/country64.mp3|Country Radio|Country|CZ|64|0"
+ stream_data[35]: "http://stream.dbmedia.se/crrMP3|Country Rocks Radio|Various|SE|128|0"
+ stream_data[36]: "http://live-icy.gss.dr.dk:8000/A/A03H.mp3|DR P1|News|DK|192|0"
+ stream_data[37]: "http://live-icy.gss.dr.dk:8000/A/A04H.mp3|DR P2|Classical|DK|320|0"
+ stream_data[38]: "http://live-icy.gss.dr.dk:8000/A/A05H.mp3|DR P3|Top 40|DK|192|0"
+ stream_data[39]: "http://live-icy.gss.dr.dk:8000/A/A08H.mp3|DR P4 K\xc3\xb8benhavn|Variety|DK|192|0"
+ stream_data[40]: "http://live-icy.gss.dr.dk:8000/A/A25H.mp3|DR P5|Variety|DK|192|0"
+ stream_data[41]: "http://live-icy.gss.dr.dk:8000/A/A29H.mp3|DR P6 Beat|Variety|DK|192|0"
+ stream_data[42]: "http://live-icy.gss.dr.dk/A/A22H.mp3|DR P8 Jazz|Jazz|DK|192|0"
+ stream_data[43]: "https://stream.radiojar.com/pr9r38w802hvv|Dalkas FM|Pop|GR|128|0"
+ stream_data[44]: "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=onlineradiobox-com|Deutschlandfunk|Talk|DE|128|0"
+ stream_data[45]: "http://dieneue1077.cast.addradio.de/dieneue1077/rock/high/stream.mp3|Die Neue 107.7|Pop, Rock|DE|192|0"
+ stream_data[46]: "http://directfm.ice.infomaniak.ch/directfm-128.mp3|Direct FM|Variety|FR|128|0"
+ stream_data[47]: "http://176.31.120.166:6404/;|Diva FM|Jazz and Swing|GR|320|0"
+ stream_data[48]: "https://cast.streams.ovh:9362/;|DreamCity Web Radio|Blues|GR|128|0"
+ stream_data[49]: "https://eu8.fastcast4u.com/proxy/sotos?mp=/1|Dust Radio|Rock and Metal|GR|128|0"
+ stream_data[50]: "http://icecast.err.ee/raadio2.mp3|ERR Raadio 2|Various|EE|128|0"
+ stream_data[51]: "https://ic1.smcdn.pl/2380-1.mp3|ESKA Warszawa|Pop|PL|128|0"
+ stream_data[52]: "http://netradio.ziniur.lt/easyfm.mp3|Easy FM|Jazz|LT|256|0"
+ stream_data[53]: "http://sc-eldolive.newmedia.lu/;stream.nvs|EldoRadio Luxembourg|Pop|INT|128|0"
+ stream_data[54]: "https://radio.elmag.me/elmag.mp3|Elmag radio|Folk, Talk|SR|128|0"
+ stream_data[55]: "http://eco.onestreaming.com:8368/;|Erotas FM online|Folk, Pop and Rock|GR|128|0"
+ stream_data[56]: "https://eu1.fastcast4u.com/proxy/nmarog01?mp=/1|Eroticos FM|Pop|GR|96|0"
+ stream_data[57]: "http://ice.abradio.cz/fajn128.mp3|Fajn Radio|Top 40|CZ|128|0"
+ stream_data[58]: "https://imagine2.radioca.st/;stream.nsv|Fly 104|Electronic|GR|128|0"
+ stream_data[59]: "https://stream.zeno.fm/yetzdv442k8uv|Folk Radio Kneginec|Pop, Folk|HR|128|0"
+ stream_data[60]: "https://n0a.radiojar.com/n8buhxbsk9duv?rj-ttl=5&rj-tok=AAABkdbNcd4AsAz2bnU7EZNNww|Foxy Radio Station|Blues|GR|128|0"
+ stream_data[61]: "https://stream.funradio.sk:8000/funpgm256.mp3|Fun R\xc3\xa1dio|Pop|SK|256|0"
+ stream_data[62]: "https://stream.radiojar.com/garavelas-radio-com.m4a|Garavelas Radio Country|Country|GR|128|0"
+ stream_data[63]: "https://onairmediagroup.live24.gr/glenti1011xanthi?us_privacy=1YNY|Glenti FM|Folk|GR|160|0"
+ stream_data[64]: "https://streaming.hitfm.rs/hit.mp3|HIT FM|Pop, Folk|SR|128|0"
+ stream_data[65]: "http://mp3.ffh.de/ffhchannels/hqrock.mp3|Hit Radio FFH - Rock|Rock|DE|128|0"
+ stream_data[66]: "http://stream2.radiocenter.si:8000/;stream/1|Hitradio Center|Dance, Rock, R&B|SL|128|0"
+ stream_data[67]: "http://ice.abradio.cz/faktor128.mp3|Hitr\xc3\xa1dio - Faktor|Pop|CZ|128|0"
+ stream_data[68]: "http://s36.myradiostream.com:13028/;listen.mp3|House Heads UK|House|EN|128|0"
+ stream_data[69]: "https://imagine897.radioca.st/;stream.nsv|Imagine FM|Pop|GR|128|0"
+ stream_data[70]: "https://sp3.streams.ovh/8014/stream|Island FM|Electronic|EN|192|0"
+ stream_data[71]: "http://radio.canstream.co.uk:8075/live.mp3|Jazz London Radio|Jazz|EN|256|0"
+ stream_data[72]: "https://live.radioart.com/fJust_jazz.mp3?dlid=|Jazz Radio - Just Jazz|Jazz and Swing|GR|96|0"
+ stream_data[73]: "https://ice.greekstream.net/gnomi|Kalamaria FM|Hits|GR|128|0"
+ stream_data[74]: "http://188.40.62.20:8004/stream|Kalman Radio|Folk|BS|128|0"
+ stream_data[75]: "http://138.201.198.218:8075/;stream.nsv|Kameleon|Adult Contemporary|BS|128|0"
+ stream_data[76]: "https://kissfm.live24.gr/kissfmathens|Kiss FM|Rock and Pop|GR|192|0"
+ stream_data[77]: "http://icecast8.play.cz/kisspublikum128.mp3|Kiss Ji\xc5\xben\xc3\xad \xc4\x8cechy|Top 40|CZ|128|0"
+ stream_data[78]: "https://radiostreaming.ert.gr/ert-kosmos|Kosmos|Pop|GR|128|0"
+ stream_data[79]: "https://radiostreaming.ert.gr/ert-webjazz|Kosmos Jazz|Jazz and Swing|GR|128|0"
+ stream_data[80]: "http://dione.shoutca.st:8443/;?1619626151706|Kritikos FM|Pop and Folk|GR|128|0"
+ stream_data[81]: "http://ice-the.musicradio.com:80/LBC973MP3Low|LBC|Talk|EN|48|0"
+ stream_data[82]: "https://netradio.live24.gr/laikos876|Laikos FM|Pop and Folk|GR|128|0"
+ stream_data[83]: "http://195.13.253.51:8000/128_mp3|Latgolys Radeja|Local|LV|128|0"
+ stream_data[84]: "https://onairmediagroup.live24.gr/legend1016xanthi|Legend FM|Rock and Metal|GR|160|0"
+ stream_data[85]: "https://stream.zeno.fm/e0cbypaxvchvv|Lobby Radio Rap & Trap|Rap|GR|128|0"
+ stream_data[86]: "https://ice07.fluidstream.net/lovefm.mp3|Love FM|Pop|IT|320|0"
+ stream_data[87]: "https://loveradio-her.live24.gr/loveradio-her2|Love Radio|Folk, Pop and Rock|GR|128|0"
+ stream_data[88]: "https://radio.albanialoveradio.al/stream|Love Radio Digital|Pop|SQ|128|0"
+ stream_data[89]: "https://netradio.live24.gr/magic982|MAGIC FM 98.2|Pop|GR|96|0"
+ stream_data[90]: "https://solid2.streamupsolutions.com/proxy/wddmcway/stream|MC45|Rap|GR|128|0"
+ stream_data[91]: "http://icecast.vrtcdn.be/mnm-high.mp3|MNM|Pop|BE|128|0"
+ stream_data[92]: "http://n11a-eu.rcs.revma.com/1nnezw8qz7zuv|MUZO.FM|Rock, Pop|PL|128|0"
+ stream_data[93]: "http://stream.manofm.lt/listen?|Mano FM|Pop|LT|128|0"
+ stream_data[94]: "https://metromedia.live24.gr/metropolis955thess|Metropolis 95.5|Talk and News|GR|128|0"
+ stream_data[95]: "https://stream.zeno.fm/cngtgn2wea0uv|Musicafe Radio|Oldies|GR|128|0"
+ stream_data[96]: "https://streaming.myradio1046.fm/myradio1046|My Radio 104.6|Hits|GR|128|0"
+ stream_data[97]: "https://icecast.ndr.de/ndr/njoy/live/mp3/128/stream.mp3?aggregator=onlineradiobox-com|N-Joy|Dance, Pop|DE|128|0"
+ stream_data[98]: "https://icecast.omroep.nl/3fm-bb-mp3|NPO 3 FM|Pop|NL|192|0"
+ stream_data[99]: "https://icecast.omroep.nl/radio1-bb-mp3|NPO Radio 1|Talk|NL|192|0"
+ stream_data[100]: "http://185.52.127.155/fr/30001/mp3_128.mp3?origine=fluxradios|NRJ Energy Paris|Pop|FR|128|0"
+ stream_data[101]: "http://edge-bauerse-03-gos2.sharp-stream.com/nrj_instreamtest_se_mp3?|NRJ Sverige|Pop|SE|96|0"
+ stream_data[102]: "https://lyd.nrk.no/nrk_radio_alltid_nyheter_mp3_h|NRK Alltid Nyheter|News|NO|192|0"
+ stream_data[103]: "https://lyd.nrk.no/nrk_radio_jazz_mp3_h|NRK Jazz|Jazz|NO|192|0"
+ stream_data[104]: "http://lyd.nrk.no/nrk_radio_klassisk_mp3_h|NRK Klassisk|Classical|NO|192|0"
+ stream_data[105]: "https://lyd.nrk.no/nrk_radio_p1_hordaland_mp3_h|NRK P1 Hordaland|Variety|NO|192|0"
+ stream_data[106]: "https://lyd.nrk.no/nrk_radio_p1_ostlandssendingen_mp3_h|NRK P1 \xc3\x98stlandssendingen|Oldies|NO|192|0"
+ stream_data[107]: "https://lyd.nrk.no/nrk_radio_p2_mp3_h|NRK P2|Talk|NO|192|0"
+ stream_data[108]: "http://lyd.nrk.no/nrk_radio_mp3_mp3_h|NRK mP3|Hip Hop, Electro|NO|192|0"
+ stream_data[109]: "http://rs2.myradio24.de:8410/stream|Oldie Party Austria|Oldies|AT|128|0"
+ stream_data[110]: "http://icepe11.infomaniak.ch/ouifm-high.mp3|Oui FM|Rock|FR|192|0"
+ stream_data[111]: "http://188.40.62.20:8032/;stream.nsv|POP FM BS|Pop, Folk|BS|128|0"
+ stream_data[112]: "https://n0f.radiojar.com/pepper?rj-ttl=5&rj-tok=AAABkaOuIQYA0l7jYuZgP-xrLw|Pepper|Jazz and Swing|GR|192|0"
+ stream_data[113]: "http://pink.exyuserver.com/;|Pink Radio|Pop|SR|128|0"
+ stream_data[114]: "https://stream.piraterock.se:8101/webradio|Pirate Rock|Rock|SE|192|0"
+ stream_data[115]: "http://mp3.polskieradio.pl:8080/;|Polskie Radio - 24|News|PL|192|0"
+ stream_data[116]: "http://mp3.polskieradio.pl:8906/;|Polskie Radio - Czw\xc3\xb3rka|Pop|PL|192|0"
+ stream_data[117]: "http://mp3.polskieradio.pl:8902/;|Polskie Radio - Dw\xc3\xb3jka|Classical|PL|192|0"
+ stream_data[118]: "http://mp3.polskieradio.pl:8916/;|Polskie Radio - Dzieciom|Children|PL|192|0"
+ stream_data[119]: "http://mp3.polskieradio.pl:8900/;|Polskie Radio - Jedynka|Easy listening|PL|192|0"
+ stream_data[120]: "http://stream4.nadaje.com:9212/radiokatowice|Polskie Radio - Katowice|Local|PL|128|0"
+ stream_data[121]: "http://mp3.polskieradio.pl:8918/;|Polskie Radio - Kierowc\xc3\xb3w|Easy listening|PL|192|0"
+ stream_data[122]: "http://stream4.nadaje.com:11986/prs|Polskie Radio - Szczecin|Local|PL|128|0"
+ stream_data[123]: "http://mp3.polskieradio.pl:8904/;|Polskie Radio - Tr\xc3\xb3jka|Pop|PL|192|0"
+ stream_data[124]: "http://stream.radiopik.pl:9004/|Polskie Radio PiK|Adult Contemporary|PL|128|0"
+ stream_data[125]: "http://stream.popfm.dk/pop128|Pop FM|Pop|DK|128|0"
+ stream_data[126]: "http://www.radioproton.at:8000/proton|Proton FM|Local|AT|256|0"
+ stream_data[127]: "http://icestreaming.rai.it/4.mp3|RAI Radio 4 Light|Rock|IT|256|0"
+ stream_data[128]: "http://rs6-krk2.rmfstream.pl/rmf_2010|RMF 10s|2010s|PL|128|0"
+ stream_data[129]: "http://rs6-krk2.rmfstream.pl/rmf_2000|RMF 2000|2000s|PL|128|0"
+ stream_data[130]: "http://217.74.72.10:8000/rmf_50s|RMF 50s|50s|PL|128|0"
+ stream_data[131]: "http://217.74.72.10:8000/rmf_60s|RMF 60s|60s|PL|128|0"
+ stream_data[132]: "http://217.74.72.10:8000/rmf_70s|RMF 70s|70s|PL|128|0"
+ stream_data[133]: "http://217.74.72.10:8000/rmf_80s|RMF 80s|80s|PL|128|0"
+ stream_data[134]: "http://217.74.72.10:8000/rmf_90s|RMF 90s|90s|PL|128|0"
+ stream_data[135]: "http://217.74.72.11:8000/rmf_alternatywa|RMF Alternatywa|Alternative Rock|PL|128|0"
+ stream_data[136]: "http://217.74.72.10:8000/rmf_classic|RMF Classic|Classical|PL|128|0"
+ stream_data[137]: "http://217.74.72.11:8000/rmf_fm|RMF FM|Pop|PL|128|0"
+ stream_data[138]: "http://rmfstream1.interia.pl:8000/rmf_hip_hop|RMF Hip Hop|Hip Hop|PL|128|0"
+ stream_data[139]: "http://217.74.72.10:8000/rmf_maxxx|RMF MAXXX|Electronic|PL|128|0"
+ stream_data[140]: "http://217.74.72.11:8000/rmf_24|RMF24|News|PL|128|0"
+ stream_data[141]: "https://duthradio.ddns.net:8010/radio.mp3|ROFA Station|Rap|GR|128|0"
+ stream_data[142]: "http://stream.rsg.ba:9000/;stream |RSG|Adult Contemporary|BS|128|0"
+ stream_data[143]: "http://tachyon.shoutca.st:8594/;|RSO 91.7|Rock and Pop|GR|128|0"
+ stream_data[144]: "http://live.newmedia.lu/|RTL Radio L\xc3\xabtzebuerg|Variety|LU|256|0"
+ stream_data[145]: "http://5.20.223.18/rrb128.mp3|RUSRADIO LT|Pop|LT|128|0"
+ stream_data[146]: "http://icecast.err.ee:80/raadio2.mp3|Raadio 2|Pop|EE|128|0"
+ stream_data[147]: "http://icecast.err.ee/raadio4madal.mp3|Raadio 4|Various|EE|128|0"
+ stream_data[148]: "https://eu4.fastcast4u.com/proxy/nikoud00?mp=/1|RadiOi|Punk and Rock|GR|128|0"
+ stream_data[149]: "http://82.135.234.195:8000/pukas.mp3|Radijo Stotis P\xc5\xabkas|Folk, Pop|LV|192|0"
+ stream_data[150]: "http://111.gr:8000/;|Radio 1|Pop|GR|128|0"
+ stream_data[151]: "http://live3.infonetmedia.si/Radio1|Radio 1 SL|Rock, Pop, News|SL|128|0"
+ stream_data[152]: "https://live-bauerdk.sharp-stream.com/radio100_dk_mp3|Radio 100|Adult Contemporary|DK|128|0"
+ stream_data[153]: "http://radio105.makbots.com:21010/;stream.nsv|Radio 105 Bombarder|News, Sport|MK|128|0"
+ stream_data[154]: "https://stream.rcs.revma.com/an1ugyygzk8uv|Radio 357|Various|PL|128|0"
+ stream_data[155]: "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO538.mp3|Radio 538|Pop|NL|128|0"
+ stream_data[156]: "https://live.radio.si/Aktual|Radio Aktual|Pop, News, Folk|SL|128|0"
+ stream_data[157]: "http://live1.radioantena.si/Antena|Radio Antena|Dance, Rock, Pop|SL|128|0"
+ stream_data[158]: "http://air.radioart.com/fCountry.mp3?dlid=|Radio Art - Country|Country|GR|128|0"
+ stream_data[159]: "http://air.radioart.com/fJust_blues.mp3?dlid=|Radio Art - Just Blues|Blues|GR|96|0"
+ stream_data[160]: "http://eco.onestreaming.com:8099/;|Radio Astro|Rock and Pop|GR|128|0"
+ stream_data[161]: "http://stream.radiobaobab.pl:8000/radiobaobab.mp3|Radio Baobab|Blues|PL|128|0"
+ stream_data[162]: "http://uk1.internet-radio.com/proxy/bloodstream?mp=/stream|Radio Bloodstream|Rock|EN|144|0"
+ stream_data[163]: "https://stream.ffn.de/radiobollerwagen/mp3-192|Radio Bollerwagen|Variety|DE|192|0"
+ stream_data[164]: "http://stream.bubamara.com.mk/live-128.aac|Radio Bubamara|Folk, Adult Contemporary|MK|128|0"
+ stream_data[165]: "https://stream.exit.si/live|Radio Capris|Rock, Pop, News|SL|128|0"
+ stream_data[166]: "http://sc8.radiocaroline.net:8040/|Radio Caroline|Rock|EN|128|0"
+ stream_data[167]: "http://stream.radioreklama.bg/city64|Radio City (\xd0\xa0\xd0\xb0\xd0\xb4\xd0\xb8\xd0\xbe \xd0\xa1\xd0\xb8\xd1\x82\xd0\xb8)|Pop|BG|128|0"
+ stream_data[168]: "https://cp1.sednastream.com/proxy/clubfmkosova?mp=/stream|Radio Club FM Kosove|Rock, Pop|SR|128|0"
+ stream_data[169]: "https://radiocontact.ice.infomaniak.ch/radiocontact-mp3-192.mp3|Radio Contact|Adult Contemporary|BE|192|0"
+ stream_data[170]: "http://tachyon.shoutca.st:8289/xstream|Radio D|Pop|SR|128|0"
+ stream_data[171]: "http://tachyon.shoutca.st:8303/xstream|Radio D plus|Pop|SR|128|0"
+ stream_data[172]: "https://antena.albaniadigitalradio.al/radiodj|Radio DJ|Dance, Electronic|SQ|128|0"
+ stream_data[173]: "http://radiodudelange.ice.infomaniak.ch/radiodudelange-128.mp3|Radio Diddel\xc3\xa9ng|Variety|LU|128|0"
+ stream_data[174]: "http://s6.voscast.com:8824/;stream.mp3/;|Radio Dukagini|Rock, Pop|SR|128|0"
+ stream_data[175]: "https://n01.radiojar.com/t0x7dyqmsuhvv?rj-ttl=5|Radio ENA|Pop and Folk|GR|128|0"
+ stream_data[176]: "https://stream.ffn.de/ffn/mp3-192/stream.mp3|Radio FFN|News, Pop|DE|192|0"
+ stream_data[177]: "http://193.108.24.21:8000/fmplus|Radio FM+ (\xd0\xa0\xd0\xb0\xd0\xb4\xd0\xb8\xd0\xbe FM+)|Adult Contemporary|BG|128|0"
+ stream_data[178]: "http://radio.fsspx.pl:8000/radio.mp3|Radio FSSPX|Christian|PL|128|0"
+ stream_data[179]: "https://live.radiostreaming.al:8010/;stream.mp3|Radio Fontana|Talk, News|SQ|128|0"
+ stream_data[180]: "http://sirius.shoutca.st:8761/1|Radio Forever 80s|Retro|PL|128|0"
+ stream_data[181]: "http://streaming.radio.lublin.pl:8000/radiofreee|Radio Freee|Alternative|PL|128|0"
+ stream_data[182]: "http://193.108.24.21:8000/fresh|Radio Fresh (\xd0\xa0\xd0\xb0\xd0\xb4\xd0\xb8\xd0\xbe \xd0\xa4\xd1\x80\xd0\xb5\xd1\x88)|Pop|BG|128|0"
+ stream_data[183]: "https://stream.laut.fm/radiogoldstar|Radio GoldStar|Oldies|GR|128|0"
+ stream_data[184]: "http://hear.fi:8000/hear.mp3|Radio Hear|Adult Contemporary|FI|320|0"
+ stream_data[185]: "https://streaming.radiojat.rs/radiojat.mp3|Radio Jat|Pop, News|SR|128|0"
+ stream_data[186]: "https://streaming.karolina.rs/karolina.mp3|Radio Karolina|Pop, Folk, Talk|SR|128|0"
+ stream_data[187]: "http://stream3.nadaje.com:8048/;0872561763972044stream.nsv|Radio Kaszebe|Classical|PL|128|0"
+ stream_data[188]: "https://stream-162.zeno.fm/a5ffd4skgg0uv?zs=Vc8ZjmmJR9aV90sbz7FyaA|Radio Kavadarci|Folk|MK|128|0"
+ stream_data[189]: "https://radiokos.radioca.st/;|Radio Kosova e Lir\xc3\xab|News|SQ|128|0"
+ stream_data[190]: "http://zeus.lrb.lu:8000/lrb.live|Radio LRB|Adult Contemporary|LU|192|0"
+ stream_data[191]: "http://radio.1dhe1.com:8555/;|Radio Llapi|Folk, Sports|SQ|128|0"
+ stream_data[192]: "http://team-data.ba:8030/;?type=http&nocache=57|Radio M|Rock, Pop, News|BS|128|0"
+ stream_data[193]: "http://play.radiomrs.com:7494/;stream.nsv|Radio MRS|Electronic|PL|128|0"
+ stream_data[194]: "http://116.203.7.166:9010/;stream.nsv|Radio Mix|Rock, Pop|BS|128|0"
+ stream_data[195]: "https://stream.radionl.fm/rnlhoogeveen|Radio NL|Dutch Schlager|NL|192|0"
+ stream_data[196]: "http://comet.shoutca.st:8050/stream|Radio Nova Gradiska|Pop, Talk|HR|128|0"
+ stream_data[197]: "http://stream.rcs.revma.com/ypqt40u0x1zuv|Radio Nowy \xc5\x9awiat|Variety|PL|128|0"
+ stream_data[198]: "http://s1.slotex.pl:7390/stream/1/|Radio Orbit|Alternative Rock|PL|128|0"
+ stream_data[199]: "https://ic2.smcdn.pl/4100-1.mp3|Radio PLUS|Adult Contemporary|PL|128|0"
+ stream_data[200]: "https://stream.silvacast.com/RPLive/mp3-128/onlineradiobox_net/|Radio Paloma|Pop, Folk|DE|128|0"
+ stream_data[201]: "http://stream4.nadaje.com:15274/live|Radio Parada|Local|PL|128|0"
+ stream_data[202]: "http://ns5.albaservers.com:8020/;?1516996701669.mp3|Radio Peja|Rock, Pop|SR|128|0"
+ stream_data[203]: "https://stream.radio.co/sbe73908d2/listen|Radio Prishtina|Rock, Pop, Folk|SR|128|0"
+ stream_data[204]: "http://edge-bauerno-03-gos2.sharp-stream.com/radiorock_no_mp3?|Radio Rock|Rock|NO|128|0"
+ stream_data[205]: "http://193.105.67.24:8010/;stream.nsv|Radio Rogla|Rock, Pop, Oldies|SL|128|0"
+ stream_data[206]: "http://stream.wlmm.dk/stream/54/|Radio SLR|Variety|DK|128|0"
+ stream_data[207]: "https://live.radio.si/Salomon|Radio Salomon|Dance, Pop|SL|128|0"
+ stream_data[208]: "https://cp1.sednastream.com/proxy/radioshqip?mp=/stream|Radio Shqip|Albanian Music|SQ|128|0"
+ stream_data[209]: "http://wma02.fluidstream.net:2250/;|Radio Sorrriso|Variety|IT|128|0"
+ stream_data[210]: "http://nashe1.hostingradio.ru/ultra-128.mp3|Radio Ultra (\xd0\xa0\xd0\xb0\xd0\xb4\xd0\xb8\xd0\xbe \xd0\xa3\xd0\xbb\xd1\x8c\xd1\x82\xd1\x80\xd0\xb0)|Rock|RU|128|0"
+ stream_data[211]: "http://ca3.rcast.net:8024/;|Radio Vala Rinore|Pop, Adult Contemporary|SQ|128|0"
+ stream_data[212]: "https://live.wtfradio.rs/wtfradio.mp3|Radio WTF|Dance, Electronic|SR|128|0"
+ stream_data[213]: "http://zt04.cdn.eurozet.pl/ZETPAR.mp3|Radio Zet Party|Dance|PL|128|0"
+ stream_data[214]: "http://poznan5-6.radio.pionier.net.pl:8000/tuba9-1.mp3|Radio Z\xc5\x82ote Przeboje|Oldies|PL|128|0"
+ stream_data[215]: "https://thanasis.radioca.st/stream?|Rain Music Radio|Jazz and Hip-Hop|GR|128|0"
+ stream_data[216]: "http://rock-high.rautemusik.fm/Musik.Rock|RauteMusik.FM - Rock|Indie Rock|DE|192|0"
+ stream_data[217]: "https://realfm.live24.gr/realfm|Real FM|Talk and News|GR|192|0"
+ stream_data[218]: "http://ice-the.musicradio.com:80/RealXSManchesterMP3|Real Radio XS Manchester|Classic Rock|EN|128|0"
+ stream_data[219]: "http://5.20.223.18/relaxfm128.mp3|Relax FM|Pop|LT|128|0"
+ stream_data[220]: "https://metromedia.live24.gr/republicthess|Republic FM|Electronic|GR|128|0"
+ stream_data[221]: "http://retroserver.streamr.ru:8043/retro256.mp3|Retro FM (\xd0\xa0\xd0\xb5\xd1\x82\xd1\x80\xd0\xbe FM)|Retro|RU|256|0"
+ stream_data[222]: "http://streammp3.retro-radio.dk/retro-mp3|Retro Radio|Oldies|DK|192|0"
+ stream_data[223]: "https://stream-153.zeno.fm/ax5v5k9b2hhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJheDV2NWs5YjJoaHZ2IiwiaG9zdCI6InN0cmVhbS0xNTMuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ik5uV0RDaWxKUU1Hcmp3V0RIeXluVVEiLCJpYXQiOjE3MjU4ODgxOTgsImV4cCI6MTcyNTg4ODI1OH0.XcNFCFLTfFmSlZzcJQN_cp4z2aZQeDqHi7IusTE_ZPo|RnB Hits Radio|Hip-Hop and RnB|GR|96|0"
+ stream_data[224]: "https://stream.zeno.fm/av7zrzlnf3huv|Rock Club|Heavy Metal|GR|128|0"
+ stream_data[225]: "http://5.20.223.18/crf128.mp3|Rock FM|Rock|EN|128|0"
+ stream_data[226]: "https://stream-153.zeno.fm/ybwz7k5gzchvv?zs=xzV7CDObQg2InZQNn6KWYQ |Rock Fans Kosova|Rock|SQ|128|0"
+ stream_data[227]: "https://stream.zeno.fm/5fcz2fkbqtzuv|Rock Lab Radio|Classic Rock and Metal|GR|320|0"
+ stream_data[228]: "http://radiostream.pl/tuba8-1.mp3|Rock Radio|Rock|PL|128|0"
+ stream_data[229]: "http://icecast5.play.cz/rockzone128.mp3|Rock Zone|Rock|CZ|128|0"
+ stream_data[230]: "http://listen.rusongs.ru:8005/ru-mp3-128|Russian Songs (\xd0\xa0\xd1\x83\xd1\x81\xd1\x81\xd0\xba\xd0\xb8\xd0\xb5 \xd0\xbf\xd0\xb5\xd1\x81\xd0\xbd\xd0\xb8)|Pop|RU|128|0"
+ stream_data[231]: "http://icecast5.play.cz/radiobeat128.mp3|R\xc3\xa1dio Beat|Classic Rock|CZ|128|0"
+ stream_data[232]: "http://icecast5.play.cz:8000/impuls128.mp3|R\xc3\xa1dio Impuls|Adult Contemporary|CZ|128|0"
+ stream_data[233]: "https://stream.sepia.sk:8000/viva320.mp3|R\xc3\xa1dio Viva|Pop|SK|320|0"
+ stream_data[234]: "http://live.slovakradio.sk:8000/Regina_BB_128.mp3|SRo 2 R\xc3\xa1dio Regina Bansk\xc3\xa1 Bystrica|Spoken|SK|128|0"
+ stream_data[235]: "https://dispatcher.rndfnk.com/swr/swr3/live/mp3/128/stream.mp3|SWR 3|News, Pop|DE|128|0"
+ stream_data[236]: "http://server.rmnradio.de:30842/|Schlagerparadies|German Schlager|DE|128|0"
+ stream_data[237]: "http://eco.onestreaming.com:8012/;|Sferikos.gr|Pop|GR|128|0"
+ stream_data[238]: "http://stream.laut.fm/simliveradio|SimLiveRadio|Dance, Pop|DE|128|0"
+ stream_data[239]: "http://radio.simulatorradio.com:8002/stream.mp3|Simulator Radio|Sim radio|EN|128|0"
+ stream_data[240]: "https://skai.live24.gr/skai1003-2|Skai|Talk and News|GR|128|0"
+ stream_data[241]: "http://icecast.skyrock.net/s/natio_mp3_128k|Skyrock|Rock|FR|128|0"
+ stream_data[242]: "http://media-sov.musicradio.com/ChillMP3|Smooth Chill|Chill|EN|128|0"
+ stream_data[243]: "http://media-ice.musicradio.com/SmoothLondonMP3|Smooth Radio|Adult Contemporary|EN|128|0"
+ stream_data[244]: "https://n09.radiojar.com/zeqcyyvu48hvv?rj-ttl=5|Sok FM|Pop and Folk|GR|128|0"
+ stream_data[245]: "https://sportfm.live24.gr/sportfm7712|Sport FM|Talk and News|GR|128|0"
+ stream_data[246]: "https://sp3.streams.ovh/8062/stream|Stigma Radio 97.6|Jazz and Pop|GR|128|0"
+ stream_data[247]: "http://radio.studiob.rs:8004/|Studio B|Pop|RS|128|0"
+ stream_data[248]: "https://stream.sunshine-live.de/hq/mp3-192|Sunshine Live|Dance, Techno|DE|192|0"
+ stream_data[249]: "http://dione.shoutca.st:8530/;|Super FM|Pop and Folk|GR|128|0"
+ stream_data[250]: "https://mcp1.mydataknox.com:8010/stream|Super Radio|Pop, Folk, News|HR|128|0"
+ stream_data[251]: "https://listen.radioking.com/radio/552965/stream/612287|Tambura\xc5\xa1ki Radio|Pop|HR|128|0"
+ stream_data[252]: "http://stream.laut.fm/techliveradio|TechLiveRadio|Pop, Rock|DE|128|0"
+ stream_data[253]: "https://live-bauerdk.sharp-stream.com/thevoice_dk_mp3|The Voice|Pop|DK|128|0"
+ stream_data[254]: "http://wroclaw.radio.pionier.net.pl:8000/pl/tuba10-1.mp3|Tok FM|Spoken|PL|128|0"
+ stream_data[255]: "http://str0.creacast.com/topmusic1|Top Music - Strasbourg|Pop|FR|128|0"
+ stream_data[256]: "http://cast.streams.ovh:8008/stream|Trance Athena|Trance|GR|128|0"
+ stream_data[257]: "http://radio.trucksim.fm:8000/stream|TruckSimFM|Sim radio|EN|320|0"
+ stream_data[258]: "https://oreo.truckstopradio.co.uk/radio/8000/radio.mp3|TruckStopRadio|Sim radio|EN|320|0"
+ stream_data[259]: "https://radio.truckers.fm/|TruckersFM|Sim radio|EN|320|0"
+ stream_data[260]: "https://ic2.smcdn.pl/3990-1.mp3|VOX FM|Dance|PL|128|0"
+ stream_data[261]: "https://vrt.streamabc.net/vrt-radio2antwerpen-mp3-128-8732799|VRT Radio 2|Pop|BE|128|0"
+ stream_data[262]: "https://fresh.vanillaradio.com:8009/live|Vanilla Radio Fresh Flavors|Hip-Hop|GR|128|0"
+ stream_data[263]: "https://live.radio.si/Veseljak|Veseljak|Pop, News, Folk|SL|128|0"
+ stream_data[264]: "https://tx-bauerse.sharp-stream.com/http_live.php?i=vinylfm_instream_se_mp3|Vinyl FM|60s, 70s, 80s|SE|128|0"
+ stream_data[265]: "http://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3?aggregator=onlineradiobox-com|WDR 1LIVE|Pop, Rock|DE|128|0"
+ stream_data[266]: "https://ams-pioneer02.dedicateware.com:1060/;?type=http|YES!|Pop|GR|128|0"
+ stream_data[267]: "https://radiostreaming.ert.gr/ert-zeppelin|Zeppelin 106.7|Rock|GR|192|0"
+ stream_data[268]: "https://stream.zuccaradio.com/stream|Zucca Radio|Pop|GR|128|0"
+ stream_data[269]: "http://whsh4u-panel.com:14155/stream|djlrockradio|Punk and Rock|GR|128|0"
+ stream_data[270]: "http://stream.myrock.fm/myrock128|myROCK|Rock|DK|128|0"
+ stream_data[271]: "http://stream.laut.fm/simulator1|simulator1|Dance, Pop|DE|128|0"
+ stream_data[272]: "http://icecast8.play.cz/cro1-128.mp3|\xc4\x8cRo 1 Radio\xc5\xbeurn\xc3\xa1l|News, Talk|CZ|128|0"
+ stream_data[273]: "http://netradio.ziniur.lt/ziniur.mp3|\xc5\xbdini\xc5\xb3 radijas|Spoken|LT|256|0"
+ stream_data[274]: "https://eco.onestreaming.com/proxy/toxotis/stream|\xce\xa1\xce\xac\xce\xb4\xce\xb9\xce\xbf \xce\xa4\xce\xbf\xce\xbe\xcf\x8c\xcf\x84\xce\xb7\xcf\x82|Pop|GR|128|0"
+}
+
+}
+
+```
