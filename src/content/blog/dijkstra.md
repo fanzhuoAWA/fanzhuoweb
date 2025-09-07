@@ -6,6 +6,8 @@ image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMUaDrp4vK69On9IzL2uP
 categories:
   - Algorithm
 tags:
+  - Dijkstra
+  - 最短路
   - 图论
 badge: Algorithm
 ---

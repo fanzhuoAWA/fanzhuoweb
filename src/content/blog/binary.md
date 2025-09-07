@@ -8,7 +8,7 @@ categories:
 tags:
   - 模板
   - C++
-  - 笔记
+  - 二分
 badge: Algorithm
 ---
 

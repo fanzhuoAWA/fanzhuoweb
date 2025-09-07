@@ -3,6 +3,8 @@ import ProfileBar from "./sidebar/ProfileBar.astro";
 import ToolBar from "./sidebar/ToolBar.astro";
 import TOCBar from "./sidebar/TOCBar.astro";
 import SearchBar from "./sidebar/SearchBar.astro";
+import Categories from "./new-test/Categories.astro";
+import Tags from "./new-test/Tags.astro";
 
 interface Props {
   headings?: Array<{
@@ -22,6 +24,9 @@ const { headings = [], showTOC = true } = Astro.props as Props;
 </div>
 <div class="relative mb-4">
   <SearchBar />
+</div>
+<div class="relative mb-4">
+  <Tags />
 </div>
 <div class="md:sticky md:top-4">
   <ToolBar />
