@@ -1,3 +1,3 @@
 export function getTagUrl(tag: string) {
-    return `blog/tag/${tag}`;
+    return `/blog/tag/${tag}`;
 }
