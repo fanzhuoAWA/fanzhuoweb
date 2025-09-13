@@ -2,8 +2,9 @@
 title: "Dijkstra最短路算法讲解"
 description: "zzz"
 pubDate: "MAY 31 2025"
-image: https://origin.picgo.net/2025/09/13/graph-1edfb13fe0696d4ad.png
+categories:
   - Algorithm
+image: https://origin.picgo.net/2025/09/13/graph-1edfb13fe0696d4ad.png
 tags:
   - Dijkstra
   - 最短路
