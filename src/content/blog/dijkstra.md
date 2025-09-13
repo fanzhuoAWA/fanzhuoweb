@@ -2,8 +2,7 @@
 title: "Dijkstra最短路算法讲解"
 description: "zzz"
 pubDate: "MAY 31 2025"
-image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMUaDrp4vK69On9IzL2uPaXoFU-B9sAAkTKMRupmthV8ILEvcQlrd4BAAMCAAN4AAM2BA.png
-categories:
+image: https://origin.picgo.net/2025/09/13/graph-1edfb13fe0696d4ad.png
   - Algorithm
 tags:
   - Dijkstra
@@ -17,7 +16,7 @@ badge: Algorithm
 
 很简单就能理解，举个例子，我们就以下图的多节点、多路径图来讲解一下Dijkstra算法寻找最短路径的过程。（这个图可能有点看不清， B-E 的距离是 6 ， C-D 的距离是 15 ，这个图这俩数……qwq）
 
-![图（1）](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMUaDrp4vK69On9IzL2uPaXoFU-B9sAAkTKMRupmthV8ILEvcQlrd4BAAMCAAN4AAM2BA.png "图（1）")
+![图（1）](https://origin.picgo.net/2025/09/13/graph-1edfb13fe0696d4ad.png "图（1）")
 你看，从 A 开始，直接能到的点有 B E 。之后我们将除此之外的其他点到 A 的距离视为无穷大（ 0x3F3F3F3F3F3F3F3F ），之后我们将每个点到自身的距离视为 0 。
 那么，在最开始的时候， A 到诸点的距离如下。
 

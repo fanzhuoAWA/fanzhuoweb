@@ -2,7 +2,6 @@
 title: "C++二分模板"
 description: "zzz"
 pubDate: "MAY 24 2025"
-image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMSaDGu__uKwFRpuBqE1JK6c0PXTiMAAuXJMRvLa4hVGXYdQrPWg50BAAMCAANtAAM2BA.png
 categories:
   - Algorithm
 tags:
@@ -12,7 +11,7 @@ tags:
 badge: Algorithm
 ---
 
-其实就是上[purinliang](https://github.com/purinliang "purinliang")的课时记下的一些笔记
+上课时记下的一些笔记
 
 ```cpp
 //整数二分

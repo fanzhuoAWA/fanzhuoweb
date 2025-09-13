@@ -2,7 +2,6 @@
 title: "C++模意义下的乘法逆元模板"
 description: "zzz"
 pubDate: "MAY 24 2025"
-image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAMRaDGtWDlGRm3DhFTiKH5KOrQXwFgAAuLJMRvLa4hVrAdTrPA_CCEBAAMCAANtAAM2BA.png
 categories:
   - Algorithm
 tags:
@@ -12,7 +11,7 @@ tags:
 badge: Algorithm
 ---
 
-也是上[purinliang](https://github.com/purinliang "purinliang")的课时记下的一些笔记
+也是上课时记的笔记
 
 ## 前导知识
 费马小定理：若$p$是质数，对任意整数$a$不是$p$的倍数，有$a^{p-1}\equiv 1\pmod pap−1≡1(modp)$，也可以写作$a^{p}\equiv a\pmod pap≡a(modp)$。

@@ -2,7 +2,7 @@
 title: "使用 CSS 和 HTML 实现“失忆按钮”"
 description: "如何使用 HTML 和 CSS 创建一个有趣的“失忆按钮”"
 pubDate: "AUG 21 2025"
-image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAM-aKahs4htPCIBZYAJkvqQGWNG7T4AAujIMRu1RjlVGzGN81SEcqABAAMCAAN5AAM2BA.png
+image: https://origin.picgo.net/2025/09/13/06e8a8e2992f301e64f9bff89590f84b3a12bbe4819593c6.png
 categories:
   - Development
 tags:
@@ -12,7 +12,7 @@ tags:
 badge: Development
 ---
 
-![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAM9aKadRHwZbUyC-8xzQWIMZS6h084AAuPIMRu1RjlVJPJUjbeTzhwBAAMCAAN4AAM2BA.png)
+![](https://origin.picgo.net/2025/09/13/OIP-C9eb0409f200afb92.webp)
 看到这张表情包，突然心血来潮（，想在网站里塞一个小彩蛋：失忆按钮(。・ω・。)
 
 ### 先理一下功能
