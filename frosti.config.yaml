@@ -70,11 +70,11 @@ site:
       href: /friend
       svg: "material-symbols:supervisor-account-outline-rounded"
       target: _self
-    - id: featured
-      text: 精选
-      href: "https://featured.fanzhuo.xyz"
-      target: _blank
-      svg: "ri:quill-pen-line"
+    # - id: featured
+    #   text: 精选
+    #   href: "https://featured.fanzhuo.xyz"
+    #   target: _blank
+    #   svg: "ri:quill-pen-line"
     - id: contact
       text: 邮箱
       href: "mailto:fan_zhuo@outlook.com"
