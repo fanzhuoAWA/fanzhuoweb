@@ -31,7 +31,7 @@ badge: Life
 
 ### 图集
 
-<video src="https://origin.picgo.net/2025/12/06/6d5244b9051a55c857669b1394991e682c2597716b33a497.mp4"></video>
+<video src="https://v.06dn.com/api/v3/slave/source/0/L3VwbG9hZHMvMzM3NzcvMjAyNTEyLzA3LzMzNzc3X09rUTd0eUQ2X-aSuOS4ieadoS5tcDQ/%E6%92%B8%E4%B8%89%E6%9D%A1.mp4?sign=Gn71_H1q6WONFFJi0wj1iSdcRBhx0W4BhupHNYLuusg%3D%3A1765118183"></video>
 
 撸三条
 
