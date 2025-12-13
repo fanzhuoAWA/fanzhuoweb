@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import { USER_NAME, USER_SITE, USER_FOOTER_SOCIAL_ICONS } from "@config";
+import WordCount from './new-test/WordCount.astro';
 ---
 
 <footer class="footer bg-base-100 p-10 rounded-xl shadow-lg">
@@ -28,6 +29,7 @@ import { USER_NAME, USER_SITE, USER_FOOTER_SOCIAL_ICONS } from "@config";
       <br />
       <script defer src="https://vercount.one/js"></script>
       本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+      <WordCount template=" 共 {count} 字" />
     </p>
   </aside>
   <nav>
