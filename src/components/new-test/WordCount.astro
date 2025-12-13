@@ -20,7 +20,7 @@ let totalWords = 0;
 
 try {
   // 获取指定集合的所有文章
-  const allPosts = await getCollection(collectionName);
+  const allPosts = await getCollection(collectionName as "blog");
   
   for (const post of allPosts) {
     const content = post.body; // Astro提供的纯文本内容
