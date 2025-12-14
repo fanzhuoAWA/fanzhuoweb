@@ -5,22 +5,48 @@ import Card from "../temple/Card.astro";
 import { Image } from "astro:assets";
 
 // Get current path to determine active link
+
+// --- 新增：圣诞节判断逻辑 ---
+const isChristmasSeason = () => {
+  const now = new Date();
+  const month = now.getMonth() + 1; // 月份 (0-11) 转为 (1-12)
+  const day = now.getDate();
+  
+  // 判断是否为12月，并且日期在22-28日之间
+  return month === 12 && day >= 22 && day <= 28;
+};
+
+const shouldShowFrame = isChristmasSeason();
+// --- 逻辑结束 ---
+
 const currentPath = Astro.url.pathname;
 ---
 
 <Card>
-  <div class="relative p-4 flex flex-col">
-    <div class="p-2 flex justify-center">
-      <Image
-        class="mask mask-circle"
-        format="webp"
-        width={250}
-        height={250}
-        src={USER_AVATAR}
-        alt="Profile"
-        loading="eager"
-      />
-    </div>
+  <div class="p-2 flex justify-center">
+  <!-- 外层容器：大小由头像决定，但需要限制在合理范围内 -->
+  <div class="relative inline-block max-w-[250px] max-h-[250px] w-full h-auto">
+    <!-- 底层：原始头像 -->
+    <Image
+      class="w-full h-auto rounded-full"
+      format="webp"
+      width={250}
+      height={250}
+      src={USER_AVATAR}
+      alt="Profile"
+      loading="eager"
+    />
+    <!-- 上层：头像框图片 -->
+    {
+    shouldShowFrame && (
+    <img
+      src="/Christmas.png"
+      alt=""
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.5] pointer-events-none z-10"
+    />)
+    }
+  </div>
+  </div>
     <ul class="menu bg-transparent w-full m-0 p-0 hidden md:flex flex-col items-center lg:items-start">
       {
         SITE_MENU.map((item) => (
