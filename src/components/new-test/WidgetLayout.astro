@@ -28,30 +28,63 @@ const className = Astro.props.class;
 </widget-layout>
 
 <style define:vars={{ collapsedHeight }}>
-    .collapsed {
-        height: var(--collapsedHeight);
-    }
+  .collapsed {
+    height: var(--collapsedHeight);
+    overflow: hidden; /* 确保内容被裁剪 */
+  }
+
+  .collapse-wrapper {
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
+  }
+
+  /* 用于隐藏/显示按钮的类 */
+  .hidden {
+    display: none !important;
+  }
 </style>
 
 <script>
-    class WidgetLayout extends HTMLElement {
-        constructor() {
-            super();
+class WidgetLayout extends HTMLElement {
+  constructor() {
+    super();
 
-            if (this.dataset.isCollapsed !== "true")
-                return;
+    // 获取关键元素
+    const id = this.dataset.id;
+    const isCollapsed = this.dataset.isCollapsed === 'true';
+    const wrapper = this.querySelector(`#${id}`);
+    const expandBtn = this.querySelector('.expand-btn');
+    const buttonText = expandBtn?.querySelector('button div');
 
-            const id = this.dataset.id;
-            const btn = this.querySelector('.expand-btn');
-            const wrapper = this.querySelector(`#${id}`)
-            btn!.addEventListener('click', () => {
-                wrapper!.classList.remove('collapsed');
-                btn!.classList.add('hidden');
-            })
+    // 如果初始不是收起状态，则直接返回
+    if (!isCollapsed || !expandBtn) {
+      // 确保展开状态下，按钮是隐藏的（如果有的话）
+      if (expandBtn) expandBtn.classList.add('hidden');
+      return;
+    }
+
+    // 核心点击事件：切换收起/展开状态
+    expandBtn.addEventListener('click', () => {
+      const currentlyCollapsed = wrapper.classList.contains('collapsed');
+
+      if (currentlyCollapsed) {
+        // 执行展开：移除.collapsed类，更新按钮文本为“收起”
+        wrapper.classList.remove('collapsed');
+        if (buttonText) {
+          buttonText.innerHTML = `收起`; // 使用向上箭头
         }
-    }
+      } else {
+        // 执行收起：添加.collapsed类，更新按钮文本为“更多”
+        wrapper.classList.add('collapsed');
+        if (buttonText) {
+          buttonText.innerHTML = `查看更多`;
+        }
+      }
+    });
+  }
+}
 
-    if (!customElements.get("widget-layout")) {
-        customElements.define("widget-layout", WidgetLayout);
-    }
+// 注册自定义元素（确保只注册一次）
+if (!customElements.get('widget-layout')) {
+  customElements.define('widget-layout', WidgetLayout);
+}
 </script>
