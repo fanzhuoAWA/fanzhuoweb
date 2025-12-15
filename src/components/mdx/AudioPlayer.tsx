@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 // 定义 props 类型
 interface AudioPlayerProps {
   src: string; // 音频文件的路径 (例如: /music/song.mp3)
+  lrcText?: string; //.lrc 文件的路径，例如 "/music/水手.lrc"
   captionsSrc?: string; // 可选的字幕轨道（WebVTT）
 }
 
@@ -51,7 +52,7 @@ const parseLyrics = (rawLyrics: string): LyricLine[] => {
   return lines.sort((a, b) => a.time - b.time);
 };
 
-const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, captionsSrc }) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, lrcText, captionsSrc }) => {
   // --- 状态和引用 ---
   const [rawLyrics, setRawLyrics] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -105,43 +106,80 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, captionsSrc }) => {
   }, [currentLineIndex]);
 
   // --- 效果钩子：用于加载和解析元数据 ---
-  useEffect(() => {
-    if (!src) return;
-    setRawLyrics(null);
-    setError(null);
-    setIsPlaying(false);
-    setCurrentTime(0);
-    if (audioRef.current) {
-      audioRef.current.src = src;
+  // --- 效果钩子：用于加载歌词（优先远程LRC，回退内嵌歌词）---
+useEffect(() => {
+  if (!src) return;
+  setError(null);
+  setIsPlaying(false);
+  setCurrentTime(0);
+  setRawLyrics(null);
+  if (audioRef.current) {
+    audioRef.current.src = src;
+  }
+
+  const loadLyrics = async () => {
+    // 第一优先级：如果提供了 lrcText（作为文件路径），获取并解析
+    if (lrcText) {
+      try {
+        console.log(`正在加载歌词文件: ${lrcText}`);
+        const response = await fetch(lrcText);
+        if (!response.ok) {
+          throw new Error(`无法加载歌词文件 (${response.status}): ${response.statusText}`);
+        }
+        const remoteLrcText = await response.text();
+        console.log(`歌词文件加载成功，长度: ${remoteLrcText.length}`);
+
+        if (remoteLrcText.trim().length > 0) {
+          // 使用你已有的 parseLyrics 函数进行解析
+          setRawLyrics(remoteLrcText);
+          setError(null); // 清除错误
+        } else {
+          throw new Error('歌词文件内容为空');
+        }
+        return; // 远程LRC加载成功，直接返回
+      } catch (e) {
+        console.error('加载远程LRC歌词失败:', e);
+        const errorMessage = e instanceof Error ? e.message : '发生未知错误';
+        // 如果远程LRC加载失败，可以在这里选择是否继续尝试内嵌歌词
+        // 这里我们记录错误，并继续执行下面的内嵌歌词解析逻辑
+        setError(`加载外部歌词失败: ${errorMessage}，将尝试解析内嵌歌词...`);
+        // 注意：不在此处 return，继续向下执行尝试内嵌歌词
+      }
     }
 
-    const loadMetadata = async () => {
-      try {
-        const mm = await import("music-metadata");
-        const response = await fetch(src);
-        if (!response.ok)
-          throw new Error(`无法加载音频文件: ${response.statusText}`);
-        const blob = await response.blob();
-        const metadata = await mm.parseBlob(blob);
+    // 第二优先级：如果没有提供 lrcText，或远程加载失败，则尝试解析内嵌歌词
+    // 注意：以下内嵌歌词解析代码仅在非静态构建环境下有效
+    try {
+      const mm = await import("music-metadata");
+      const response = await fetch(src);
+      if (!response.ok) throw new Error(`无法加载音频文件: ${response.statusText}`);
+      const blob = await response.blob();
+      const metadata = await mm.parseBlob(blob);
 
-        let extractedLyrics = "（无歌词）";
-        if (metadata.common.lyrics && metadata.common.lyrics.length > 0) {
-          const firstLyric = metadata.common.lyrics[0];
-          extractedLyrics = firstLyric?.text || extractedLyrics;
-          setRawLyrics(extractedLyrics);
-        } else {
-          setError("未在此文件中找到内嵌歌词。");
-          setRawLyrics(extractedLyrics);
-        }
-      } catch (e) {
-        console.error("Error in loading or parsing metadata:", e);
-        const errorMessage = e instanceof Error ? e.message : "发生未知错误。";
-        setError(`加载或解析标签失败: ${errorMessage}`);
-        setRawLyrics("（无歌词）");
+      let extractedLyrics = "（无歌词）";
+      if (metadata.common.lyrics && metadata.common.lyrics.length > 0) {
+        const firstLyric = metadata.common.lyrics[0];
+        extractedLyrics = firstLyric?.text || extractedLyrics;
+        setRawLyrics(extractedLyrics);
+        setError(null); // 清除可能由远程LRC加载失败产生的错误
+      } else {
+        // 如果之前远程LRC也失败了，这里会覆盖错误信息，你可能需要调整
+        setError("未在此文件中找到内嵌歌词。");
+        setRawLyrics(extractedLyrics);
       }
-    };
-    loadMetadata();
-  }, [src]);
+    } catch (e) {
+      console.error("解析音频元数据失败:", e);
+      // 如果 music-metadata 解析也失败，且之前远程LRC已失败，则保留最终错误状态
+      if (!lrcText) { // 仅在根本没有提供lrcText时，才设置此错误
+        const errorMessage = e instanceof Error ? e.message : "发生未知错误。";
+        setError(`加载或解析歌词失败: ${errorMessage}`);
+        setRawLyrics("（歌词加载失败）");
+      }
+    }
+  };
+
+  loadLyrics();
+}, [src, lrcText]); // 依赖项必须包含 lrcText
 
   // --- 音频事件处理 ---
   const togglePlayPause = () => {
@@ -275,9 +313,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, captionsSrc }) => {
           aria-label={isPlaying ? "Pause" : "Play"}
           disabled={!duration}
         >
-          <i
-            className={`text-xl ${isPlaying ? "ri-pause-fill" : "ri-play-fill"}`}
-          />
+          {isPlaying ? (<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M6 5h2v14H6zm10 0h2v14h-2z"/></svg>) : (<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M19.376 12.416L8.777 19.482A.5.5 0 0 1 8 19.066V4.934a.5.5 0 0 1 .777-.416l10.599 7.066a.5.5 0 0 1 0 .832"/></svg>)}
         </button>
 
         <div className="flex-1 min-w-0">

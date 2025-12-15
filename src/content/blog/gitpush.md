@@ -17,3 +17,11 @@ draft: true
 之后，让我们发布一个本地提交：`git commit -m "项目初始化"`
 
 最后，让我们将本地更改提交到远程仓库：`git push`
+
+feat：新增特性或功能
+fix：修复Bug
+docs：文档相关的变更
+style：代码风格的调整，如格式化、空格等
+refactor：重构代码
+test：增加或修改测试用例
+chore：构建过程或辅助工具的变更
