@@ -56,7 +56,7 @@ class WidgetLayout extends HTMLElement {
     const buttonText = expandBtn?.querySelector('button div');
 
     // 如果初始不是收起状态，则直接返回
-    if (!isCollapsed || !expandBtn) {
+    if (!isCollapsed || !expandBtn || !wrapper) {
       // 确保展开状态下，按钮是隐藏的（如果有的话）
       if (expandBtn) expandBtn.classList.add('hidden');
       return;
@@ -64,16 +64,19 @@ class WidgetLayout extends HTMLElement {
 
     // 核心点击事件：切换收起/展开状态
     expandBtn.addEventListener('click', () => {
+      // 再次检查 wrapper 是否存在
+      if (!wrapper) return;
+      
       const currentlyCollapsed = wrapper.classList.contains('collapsed');
 
       if (currentlyCollapsed) {
-        // 执行展开：移除.collapsed类，更新按钮文本为“收起”
+        // 执行展开：移除.collapsed类，更新按钮文本为"收起"
         wrapper.classList.remove('collapsed');
         if (buttonText) {
-          buttonText.innerHTML = `收起`; // 使用向上箭头
+          buttonText.innerHTML = `收起`;
         }
       } else {
-        // 执行收起：添加.collapsed类，更新按钮文本为“更多”
+        // 执行收起：添加.collapsed类，更新按钮文本为"更多"
         wrapper.classList.add('collapsed');
         if (buttonText) {
           buttonText.innerHTML = `查看更多`;
