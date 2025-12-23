@@ -4,21 +4,6 @@ import { Icon } from "astro-icon/components";
 import Card from "../temple/Card.astro";
 import { Image } from "astro:assets";
 
-// Get current path to determine active link
-
-// --- 新增：圣诞节判断逻辑 ---
-const isChristmasSeason = () => {
-  const now = new Date();
-  const month = now.getMonth() + 1; // 月份 (0-11) 转为 (1-12)
-  const day = now.getDate();
-  
-  // 判断是否为12月，并且日期在22-28日之间
-  return month === 12 && day >= 22 && day <= 28;
-};
-
-const shouldShowFrame = isChristmasSeason();
-// --- 逻辑结束 ---
-
 const currentPath = Astro.url.pathname;
 ---
 
@@ -37,14 +22,12 @@ const currentPath = Astro.url.pathname;
       loading="eager"
     />
     <!-- 上层：头像框图片 -->
-    {
-    shouldShowFrame && (
     <img
+      id="christmas-frame"
       src="/Christmas.png"
-      alt=""
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.5] pointer-events-none z-10"
-    />)
-    }
+      alt="圣诞节头像框"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.5] pointer-events-none z-10 hidden"
+    />
   </div>
   </div>
     <ul class="menu bg-transparent w-full m-0 p-0 hidden md:flex flex-col items-center lg:items-start">
@@ -115,3 +98,35 @@ const currentPath = Astro.url.pathname;
     </div>
   </div>
 </Card>
+
+<script>
+// 客户端JavaScript：在浏览器中判断是否为圣诞节期间
+function isChristmasSeason() {
+  const now = new Date();
+  const month = now.getMonth() + 1; // 月份 (0-11) 转为 (1-12)
+  const day = now.getDate();
+  
+  // 判断是否为12月，并且日期在22-28日之间
+  return month === 12 && day >= 22 && day <= 28;
+}
+
+// 页面加载后检查
+document.addEventListener('DOMContentLoaded', () => {
+  if (isChristmasSeason()) {
+    const frame = document.getElementById('christmas-frame');
+    if (frame) {
+      frame.classList.remove('hidden');
+    }
+  }
+});
+
+// 如果是单页应用，还需要监听页面切换
+document.addEventListener('astro:page-load', () => {
+  if (isChristmasSeason()) {
+    const frame = document.getElementById('christmas-frame');
+    if (frame) {
+      frame.classList.remove('hidden');
+    }
+  }
+});
+</script>
