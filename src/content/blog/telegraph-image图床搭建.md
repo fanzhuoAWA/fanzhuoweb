@@ -2,7 +2,7 @@
 title: "搭建免费、无限空间的图床"
 description: "搭建基于 Telegraph 的图片上传工具"
 pubDate: "AUG 20 2025"
-image: https://origin.picgo.net/2025/09/13/awa47a40ca90424d192.png
+image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOLaVCtZIxNPVXj8iKtBYn6h-gN_AoAAqsLaxtWrYhWxQAB_Mg60AyBAQADAgADeQADNgQ.png
 categories:
   - Development
 tags:
@@ -18,26 +18,26 @@ Telegraph-Image 是一款开源的图床系统，通过 Telegraph-Image ，我�
 首先我们需要一个 [Github](https://github.com/) 账号、一个 [Clougflare](https://dash.cloudflare.com/) 账号和一个 [Telegram](http://telegram.org/) 账号。
 ### 在 Github 上 Fork Telegraph-Image 项目。
 打开 [Telegraph-Image 项目仓库](https://github.com/cf-pages/Telegraph-Image) 点击右上角的 Fork ，创建新分支到你的仓库。
-![](https://origin.picgo.net/2025/09/13/qwq7c29615298be6eff.png)
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOMaVCuB2f_7kgC06NhhRJeRFqQOkMAArALaxtWrYhWqc1xreG5gT4BAAMCAAN5AAM2BA.png)
 
 ### 获取 Bot_Token
 在 Telegram 中，向 @BotFather 发送命令 ```/newbot``` ，根据提示依次输入你的机器人名称和用户名。成功创建机器人后，你将会收到一个 BOT_TOKEN ，用于与 Telegram API 进行交互。
-![](https://origin.picgo.net/2025/09/13/365426825-04f01289-205c-43e0-ba03-d9ab3465e34935a857c42d9af3b0.png)
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAONaVCu0V9UPg6pD4wUWkTOCQQL9C4AArcLaxtWrYhWVM1uahKJy7cBAAMCAAN4AAM2BA.png)
 
 ### 设置机器人为频道管理员
 创建一个新的频道（ Channel ），进入该频道后，选择频道设置。将刚刚创建的机器人添加为频道管理员，这样机器人才能发送消息。
-![](https://origin.picgo.net/2025/09/13/365426803-cedea4c7-8b31-42e0-98a1-8a72ff69528fb47b2160ea66055a.png)![](https://origin.picgo.net/2025/09/13/365426775-16393802-17eb-4ae4-a758-f0fdb7aaebc41f32e59c8b0787ee.png)
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOOaVCu9taZcyL80alkphwMqBWWppEAArgLaxtWrYhW4yg-tdaVi2gBAAMCAAN4AAM2BA.png)![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOPaVCvDA3Nwt4Cwm3kYteHUDZlOnEAArsLaxtWrYhW0A_wAdf_JcUBAAMCAAN5AAM2BA.png)
 
 ### 获取Chat_ID
 通过 @VersaToolsBot 获取你的频道ID：向该机器人发送消息，按照指示操作，最后就可以得到 CHAT_ID （即频道的ID）。
 
 或者也可以通过 @GetTheirIDBot 获取（也是按指示操作）。
-![](https://origin.picgo.net/2025/09/13/365426594-59fe8b20-c969-4d13-8d46-e58c0e8b9e7990d975373504d258.png)
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOQaVCvRS0RAdSWbzV8NcnEa4RTXsAAArwLaxtWrYhWhXC2IPgOHjABAAMCAAN4AAM2BA.png)
 
 # 部署
 ### 连接 Git 提供程序
 打开 Cloudflare Dashboard ，进入 Pages 管理页面，选择创建项目，选择连接到 Git 提供程序
-![](https://origin.picgo.net/2025/09/13/68747470733a2f2f74656c6567726170682d696d6167652e70616765732e6465762f66696c652f3864346566396237373631613235383231643963322e706e67d6cbe5a904620c35.png)
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAORaVCvWsA7LMai4_J0VMJCa05KPo8AAr0LaxtWrYhWFoQeXjJ3tqUBAAMCAAN5AAM2BA.png)
 
 按照页面提示输入项目名称，选择我们刚刚 Frok 的 git 仓库，点击部署站点即可完成部署
 ### 设置环境变量
