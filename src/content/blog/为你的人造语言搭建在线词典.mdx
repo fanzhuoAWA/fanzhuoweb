@@ -1,0 +1,190 @@
+---
+title: "为你的人造语言搭建在线词典"
+description: "使用sanatian"
+pubDate: "DEC 28 2025"
+image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOgaVE0rTfnNLxw_cWM3BJ-K_DgAYIAAj4MaxtWrZBWgNpgieIMeKIBAAMCAAN5AAM2BA.png
+categories:
+  - Development
+tags:
+  - 人造语言
+  - 语言
+  - html
+  - css
+badge: Development
+---
+
+import Kbd from "../../components/mdx/Kbd.astro";
+
+演示地址：[乌斯托什语词典](https://sanatian.fanzhuo.xyz/)
+
+# 前言
+
+人造语言（Constructed Language，简称Conlang）是指那些语音、语法和词汇都由创造者有意识设计的语言。与自然语言（如汉语、英语等）不同，人造语言并不随人类文化的演变而变化，而是根据特定的需求和目的进行构造。
+
+如果你有一个自己的人造语言，可能会为需要一个词典而发愁，而这篇文章可以帮助你为你的人造语言搭建在线词典。
+
+# 搭建
+
+### 事前准备
+
+首先你需要一个 [Github](https://github.com/) 账号、一个 [Vercel](https://vercel.com/) 账号、一个域名（有很多免费域名教程，这里不再赘述）、在你的电脑上安装 git 、在你的电脑上安装 python。
+
+### 本地部署
+
+打开 [sanatian项目](https://github.com/fanzhuoAWA/Uwezto-e-Sanatian) ，点击右上角的 Fork ，创建新分支到你的仓库。
+
+然后将仓库克隆到本地（在本地新建文件夹，右键运行 git 终端），在终端里输入 `git clone <你的仓库URL>` ，推荐使用SSH，可以不用魔法来推送更改。
+
+至此，你成功在本地部署了sanatian。
+
+### 改写词库
+
+打开 `dictionary.txt` ，你将会看到原来的词库内容，你可以直接 <Kbd>Ctrl</Kbd> + <Kbd>A</Kbd> 全选后 <Kbd>backspace</Kbd> 删除掉。
+
+你可以添加你的词库内容了！
+
+一条词汇的格式是这样的：
+
+```txt
+
+word:<词（必要）>
+explanation:<释义（必要）>
+part_of_speech:<词性（必要）>
+phonetic_symbols:<音标（可选）>
+example_sentence:<例句（可选）>
+cultural_note:<来源（可选）>
+grammar_note:<语法解析（可选）>
+
+```
+
+两个词之间用空格隔开。
+
+重要解释↓
+
+#### explanation & part_of_speech
+
+这两个是释义和词性。如果这个词有两个词性，比如 `n.` 和 `v.` 那你可以在两个词性之间添加 `@@@` ，并在两个词性的两个释义之间也添加 `@@@` ，就像这样：
+
+```txt
+
+explanation:蓝色的；蔚蓝的@@@蓝色；蔚蓝
+part_of_speech:adj.@@@n.
+
+```
+
+这里顺序很重要，是一一按顺序对应的， `蓝色的；蔚蓝的` 对应 `adj.` ， `蓝色；蔚蓝` 对应 `n.` 。・ω・。
+
+#### example_sentence
+
+这个是例句，格式是 `<序号>.<原句>###<翻译>。` ，序号就是 1、2、3、4这些，如果你有多个例句，请使用多个 `example_sentence` ，并将序号按例句的编号写，例如这是两个例句的情况：
+
+```txt
+
+example_sentence:1.Io aldra ö sana of sanatian.###我修改词典中的一个词。
+example_sentence:2.Ao oulue aldra dat'projekt'initz?###你可以修改那个项目初始化吗？
+
+```
+
+#### 演示
+
+所以，一个符合格式的词典应该是这样的（这题展示两个词）：
+
+```txt
+
+word:compra
+explanation:理解；领会
+part_of_speech:vt.
+phonetic_symbols:/kɒm.pra/
+grammar_note:过去式：compraz（表示“已经理解”）
+
+word:vlook
+explanation:看起来地
+part_of_speech:adv.
+phonetic_symbols:/vlʊk/
+
+```
+
+### 个性化修改
+
+#### 按首字母筛选
+
+默认的首字母筛选的字母为 `'A', 'B', 'C', 'D', 'Ð', 'E', 'É', 'Ë', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'Ł', 'M', 'N', 'Ñ', 'O', 'Ö', 'P', 'Q', 'R', 'S', 'ß', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'` ，如果你想修改为自己的字母，可以打开 `dictionary.html` ，找到第 305 行附近的这个代码：
+
+```javascript
+
+const alphabetOrder = [
+    'A', 'B', 'C', 'D', 'Ð', 'E', 'É', 'Ë', 'F', 'G', 'H', 'I',
+    'J', 'K', 'L', 'Ł', 'M', 'N', 'Ñ', 'O', 'Ö', 'P', 'Q', 'R', 'S',
+    'ß', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+];
+
+```
+
+将里面的内容修改为你的字母。
+
+#### 词性
+
+如果你想使用自己的词性缩写或者新的词性，找到 60 行附件的这些代码：
+
+```html
+
+<h3 style="margin-bottom: 15px; color: #2c3e50; margin-top: 25px;">按类别筛选</h3>
+<div class="category-filter" id="categoryFilter">
+    <button class="category-btn active" data-category="all">全部词汇</button>
+    <button class="category-btn" data-category="noun">名词 (n.)</button>
+    <button class="category-btn" data-category="verb">动词 (v.)</button>
+    <button class="category-btn" data-category="adj">形容词 (adj.)</button>
+    <button class="category-btn" data-category="adv">副词 (adv.)</button>
+    <button class="category-btn" data-category="pron">代词 (pron.)</button>
+    <button class="category-btn" data-category="conj">连词 (conj.)</button>
+    <button class="category-btn" data-category="int">感叹词 (int.)</button>
+    <button class="category-btn" data-category="prep">介词 (prep.)</button>
+    <button class="category-btn" data-category="art">冠词 (art.)</button>
+    <button class="category-btn" data-category="det">限定词 (det.)</button>
+    <button class="category-btn" data-category="num">数词 (num.)</button>
+    </div>
+</div>
+
+```
+
+修改它！（记得词库里的词性要和这个对应上）
+
+### 本地预览，然后发布到 Github
+
+终端输入 `python -m http.server` ，然后浏览器进入 `http://localhost:8000/dictionary.html` 查看效果，确认可以了，没有问题了，进行发布环节。
+
+首先，你需要让 Git 知道你是谁，终端输入 `git config --global user.name "你的 Github 用户名"` 和 `git config --global user.email "你的 Github 使用的邮箱"` 。
+
+然后，更改远程仓库为ssh*（如果是通过ssh克隆的不用改），输入 `git remote set-url origin git@github.com:xxx/xxx` 。
+
+提交所有文件 `git add .` 。
+
+发布本地提交 `git commit -m "项目初始化"` 。
+
+将本地更改提交到远程仓库 `git push` 。
+
+## 部署
+
+打开 [Vercel](https://vercel.com/) ，点击右上角的 `Add New...` ，选择连接 Git 存储库，连接你的 Github （具体网上有教程）。
+
+部署好后给你的项目添加域名，或者也可以使用 vercel 分配给你的 `.vercel.app` 域名，不过国内经常被墙。
+
+## Q&A
+
+Q1：人造语言吧里不是已经有一个词典软件了吗，相比之下 sanatian 有什么优点？
+
+A1：人造语言吧里的那个软件只支持安卓，且离线，数据（词库）无法共享（其实可以把数据库发到其他设备，但是有点麻烦）， sanatian 则是一个网站，可以用任意连了网的设备打开，查询。
+
+Q2：缺点呢？
+
+A2：那个软件下载安装了直接就能用， sanatian 搭建相比之下比较麻烦，并且需要修改 `dictionary.txt` 来添加词汇。
+
+## TODO
+
+1、添加方便的增加词汇方法（可能会内置一个exe程序）。
+
+2、支持 `SQLite` 数据库格式。
+
+3、为这个教程添加图片。
+
+如果你有什么改进意见，欢迎评论。
