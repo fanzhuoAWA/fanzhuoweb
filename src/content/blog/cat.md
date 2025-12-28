@@ -32,7 +32,7 @@ badge: Life
 
 ### 图集
 
-<video src="https://v.06dn.com/api/v3/slave/source/0/L3VwbG9hZHMvMzM3NzcvMjAyNTEyLzA3LzMzNzc3X09rUTd0eUQ2X-aSuOS4ieadoS5tcDQ/%E6%92%B8%E4%B8%89%E6%9D%A1.mp4?sign=Gn71_H1q6WONFFJi0wj1iSdcRBhx0W4BhupHNYLuusg%3D%3A1765118183"></video>
+<video src="https://img.wjwj.top/2025/12/28/48ed6645a0fe399c93070c4f914bf2c4.mp4" controls poster="https://img.wjwj.top/2025/12/28/48ed6645a0fe399c93070c4f914bf2c4.fr.jpeg"></video>
 
 撸三条
 
