@@ -8,6 +8,7 @@ import Card from "@/components/temple/Card.astro";
 import CardGroup from "@/components/temple/CardGroup.astro";
 import Showcase from "@/components/mdx/Showcase.astro";
 import Waline from "@/components/Waline.astro";
+import Collapse from "@/components/mdx/Collapse.astro";
 
 const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
 ---
@@ -120,31 +121,10 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
               type="contributor"
             />
             <FriendCard
-              name="ArcticAria"
-              avatar="https://i.postimg.cc/JnnJjRGS/arctic-aria-logo.png"
-              description="你的生活、学习、工作一站式管理平台"
-              url="https://arcticaria.pages.dev/"
-              type="contributor"
-            />
-            <FriendCard
               name="Chlorine"
               avatar="https://img.chlo.is/avatar/03.webp"
               description="An Element-chan who writes."
               url="https://chlo.is"
-              type="contributor"
-            />
-            <FriendCard
-              name="ZhouZhou's Blog"
-              avatar="https://s1.imagehub.cc/images/2025/08/22/5aeabd5d7868bc9bc70af208609c7b50.jpg"
-              description="记录技术、日常"
-              url="https://blog.zzzero.site/"
-              type="contributor"
-            />
-            <FriendCard
-              name="白鱼小栈"
-              avatar="https://www.baiyuyu.com/avatar.jpg"
-              description="今天整点啥"
-              url="https://www.baiyuyu.com"
               type="contributor"
             />
           </div>
@@ -164,14 +144,28 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
           <a href="https://shields.io/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="Concise, consistent, and legible badges"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">Shields.io</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script>
           <a href="https://bg.diyun.site/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="在线创建精美渐变背景"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">渐变背景生成器</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script></div>
         </section>
-        <!--<section>
-          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Icon name="material-symbols:sms-failed-outline-rounded" class="w-6 h-6 text-primary" />
-            <span>失联友链</span>
-          </h2>
-          <div class="flex items-center flex-wrap gap-3"><a href="https://yfzhu.cn/" class="btn btn-sm btn-outline gap-2 website-badge" target="_blank" rel="noopener noreferrer" title="计算机、股票业余爱好者"><div class="flex items-center rounded-full bg-gray-200 h-3 justify-center status-dot w-3" title="Online"><div class="h-2 rounded-full w-2 bg-green-500"></div></div><span class="font-medium">阿猪的博客</span></a><script type="module" data-astro-exec="">document.addEventListener("astro:page-load",(()=>{document.querySelectorAll(".website-badge").forEach((e=>{const t=e.getAttribute("href");if(!t)return;const r=e.querySelector(".status-dot");if(!r)return;const s=r.querySelector("div");if(!s)return;const o=new AbortController,a=setTimeout((()=>o.abort()),5e3);fetch(t,{method:"HEAD",mode:"no-cors",signal:o.signal}).then((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-green-500"),r.setAttribute("title","Online")})).catch((()=>{s.classList.remove("bg-gray-400"),s.classList.add("bg-red-500"),r.setAttribute("title","Offline or unreachable")})).finally((()=>{clearTimeout(a)}))}))}))</script>
+        <Collapse title="折叠的友链">
+          这里收录了出现问题的友链，问题原因包括但不限于：网站搭建中、持续无法访问、长期未更新等。
+          <br><br>
+          如果已解决问题可以在下方评论告知。
+          <br><br>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <FriendCard
+              name="ZhouZhou's Blog"
+              avatar="https://s1.imagehub.cc/images/2025/08/22/5aeabd5d7868bc9bc70af208609c7b50.jpg"
+              description="记录技术、日常"
+              url="https://blog.zzzero.site/"
+              type="contributor"
+            />
+            <FriendCard
+              name="白鱼小栈"
+              avatar="https://www.baiyuyu.com/avatar.jpg"
+              description="今天整点啥"
+              url="https://www.baiyuyu.com"
+              type="contributor"
+            />
           </div>
-        </section>-->
+        </Collapse>
         <div class="divider my-8">
           <Icon name="lucide:heart" class="w-10 h-10 text-primary" />
         </div>
