@@ -1,7 +1,7 @@
 ---
 title: "为你的人造语言搭建在线词典"
 description: "使用sanatian"
-pubDate: "DEC 28 2025"
+pubDate: "DEC 29 2025"
 image: https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOgaVE0rTfnNLxw_cWM3BJ-K_DgAYIAAj4MaxtWrZBWgNpgieIMeKIBAAMCAAN5AAM2BA.png
 categories:
   - Development
@@ -42,6 +42,14 @@ import Kbd from "../../components/mdx/Kbd.astro";
 打开 `dictionary.txt` ，你将会看到原来的词库内容，你可以直接 <Kbd>Ctrl</Kbd> + <Kbd>A</Kbd> 全选后 <Kbd>backspace</Kbd> 删除掉。
 
 你可以添加你的词库内容了！
+
+#### 自动添加（推荐）
+
+运行自动添加程序：终端输入 `python add_word.py` ，简单易懂，跟着提示来就行了。
+
+![](https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOiaVKI7ad92S--cykte2j0ZD7yl7MAAggOaxuqx5FWNQOiBVye6BkBAAMCAAN5AAM2BA.png)
+
+#### 手动添加（不推荐）
 
 一条词汇的格式是这样的：
 
@@ -177,14 +185,12 @@ A1：人造语言吧里的那个软件只支持安卓，且离线，数据（词
 
 Q2：缺点呢？
 
-A2：那个软件下载安装了直接就能用， sanatian 搭建相比之下比较麻烦，并且需要修改 `dictionary.txt` 来添加词汇。
+A2：那个软件下载安装了直接就能用， sanatian 搭建相比之下比较麻烦。
 
 ## TODO
 
-1、添加方便的增加词汇方法（可能会内置一个exe程序）。
+1、支持 `SQLite` 数据库格式。
 
-2、支持 `SQLite` 数据库格式。
-
-3、为这个教程添加图片。
+2、为这个教程添加图片。
 
 如果你有什么改进意见，欢迎评论。
