@@ -16,21 +16,26 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 
 import react from "@astrojs/react";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   site: USER_SITE,
   output: "static",
+
   style: {
     scss: {
       includePaths: ["./src/styles"],
     },
   },
+
   integrations: [updateConfig(), mdx(), icon(), terser({
     compress: true,
     mangle: true,
   }), sitemap(), tailwind({
     configFile: "./tailwind.config.mjs",
   }), playformCompress(), react()],
+
   markdown: {
     shikiConfig: {
       theme: CODE_THEME,
@@ -206,6 +211,7 @@ export default defineConfig({
       },
     ]],
   },
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -215,4 +221,6 @@ export default defineConfig({
       },
     },
   },
+
+  adapter: cloudflare()
 });
