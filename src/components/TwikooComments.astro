@@ -24,7 +24,7 @@ const { envId, path } = Astro.props;
 </style>
 
 <div class="mt-8">
-  <h2 class="mb-4 text-lg font-medium text-zinc-900 dark:text-zinc-100">评论</h2>
+  <h2 class="mb-4 text-lg font-medium" style="color: oklch(var(--bc))">评论</h2>
   <div 
     id="tcomment" 
     class="twikoo-container rounded-lg border p-4 dark:border-zinc-700"
@@ -40,7 +40,7 @@ const { envId, path } = Astro.props;
 
 <!-- 使用 defer 属性延迟执行，确保 DOM 就绪 -->
 <script 
-  src="https://cdn.jsdelivr.net/npm/twikoo@1.6.32/dist/twikoo.all.min.js"
+  src="https://cdn.jsdelivr.net/npm/twikoo@1.7.11/dist/twikoo.min.js"
   defer
 ></script>
 

@@ -157,7 +157,30 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
           <Icon name="lucide:heart" class="w-10 h-10 text-primary" />
         </div>        
         <section class="comments">
-          <h2>欢迎交换友链！在这里申请（看顶置）(～￣▽￣)～</h2>
+          <h2>欢迎交换友链！在这里申请！</h2>
+
+  <div class="friend-apply-card">
+    <div class="apply-section">
+      <div class="section-title">请确认你的网站符合以下内容：</div>
+      <ul class="check-list">
+        <li>已添加 Fanzhuo's blog 博客的友情链接</li>
+        <li>链接主体为个人，网站类型为博客</li>
+        <li>网站现在可以在中国大陆区域正常访问</li>
+        <li>网站内容符合中国大陆法律法规</li>
+      </ul>
+    </div>
+
+    <div class="apply-section">
+      <div class="section-title">申请格式与本站信息：</div>
+      <div class="info-grid">
+        <div class="info-row"><span class="info-label">站点名称：</span><span class="info-value">Fanzhuo's blog</span></div>
+        <div class="info-row"><span class="info-label">站点链接：</span><span class="info-value"><a href="https://fanzhuo.xyz/" target="_blank" rel="noopener">https://fanzhuo.xyz/</a></span></div>
+        <div class="info-row"><span class="info-label">站点图标：</span><span class="info-value"><a href="https://fanzhuo.xyz/profile.png" target="_blank" rel="noopener">https://fanzhuo.xyz/profile.png</a></span></div>
+        <div class="info-row"><span class="info-label">站点介绍：</span><span class="info-value">我的开发日志、生活随笔与算法浅谈。</span></div>
+        <div class="info-row"><span class="info-label">rss（选填）：</span><span class="info-value"><a href="https://fanzhuo.xyz/rss.xml" target="_blank" rel="noopener">https://fanzhuo.xyz/rss.xml</a></span></div>
+      </div>
+    </div>
+  </div>
             <TwikooComments 
               envId="https://twikoo.fanzhuo.xyz/" 
             />
@@ -166,3 +189,85 @@ const sites = [{ name: "Frosti Demo", url: "https://frosti.saroprock.com/" }];
       </MainCard>
   </CardGroup>
 </BaseLayout>
+
+<style>
+/* 友链申请卡片样式 - 适配 Frosti 主题 */
+.friend-apply-card {
+  background: oklch(var(--b1));
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid oklch(var(--bc) / 0.1);
+}
+
+.apply-section {
+  margin-bottom: 1.75rem;
+}
+
+.apply-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: oklch(var(--bc));
+}
+
+.check-list {
+  list-style: none;
+  padding-left: 1.75rem;
+  margin: 0;
+}
+
+.check-list li {
+  margin: 0.5rem 0;
+  color: oklch(var(--bc) / 0.8);
+  position: relative;
+  line-height: 1.5;
+}
+
+.check-list li::before {
+  content: "✓";
+  color: oklch(var(--p));
+  font-weight: bold;
+  position: absolute;
+  left: -1.5rem;
+}
+
+.info-grid {
+  background: oklch(var(--b2) / 0.5);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+.info-label {
+  width: 5rem;
+  font-weight: 600;
+  color: oklch(var(--bc) / 0.7);
+}
+
+.info-value {
+  flex: 1;
+  color: oklch(var(--bc));
+  word-break: break-all;
+}
+
+.info-value a {
+  color: oklch(var(--p));
+  text-decoration: none;
+}
+
+.info-value a:hover {
+  text-decoration: underline;
+}
+</style>
