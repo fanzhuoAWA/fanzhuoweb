@@ -7,6 +7,22 @@ interface Props {
 const { envId, path } = Astro.props;
 ---
 
+<!-- 提前加载 Twikoo 的 CSS -->
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/twikoo@1.7.11/dist/twikoo.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/twikoo@1.7.11/dist/twikoo.css"></noscript>
+
+<!-- 备用的内联样式，确保在 CSS 加载前不会碎掉 -->
+<style is:global>
+  /* 确保评论容器在 CSS 加载前有基本样式 */
+  #tcomment {
+    min-height: 200px;
+  }
+  #tcomment .tk-comment-container {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+</style>
+
 <div class="mt-8">
   <h2 class="mb-4 text-lg font-medium text-zinc-900 dark:text-zinc-100">评论</h2>
   <div 
