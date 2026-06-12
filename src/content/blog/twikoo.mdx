@@ -1,7 +1,7 @@
 ---
 title: "Cloudflare workers 云函数部署 Twikoo 评论系统"
-description: ""
-pubDate: "JUN 10 2026"
+description: "本文介绍如何使用 Cloudflare Workers 和 D1 数据库部署 Twikoo 评论系统，并集成到 Astro 静态博客中。"
+pubDate: "JUN 12 2026"
 categories:
   - Development
 tags:
@@ -14,10 +14,10 @@ badge: Development
 
 import Warning from "../../components/mdx/Warning.astro";
 
-<Warning>Cloudflare workers 部署需使用命令行，冷启动时间较短，功能有部分限制，无法直接使用 SMTP 发送通知的邮件集成。</Warning>
+<Warning>通过 Cloudflare Workers 部署需使用命令行，冷启动时间较短，功能有一定限制（例如无法直接使用 SMTP 发送邮件通知）。</Warning>
 
 
-# 部署步骤
+# 部署
 
 ## 克隆
 
@@ -25,7 +25,7 @@ import Warning from "../../components/mdx/Warning.astro";
 git clone git@github.com:twikoojs/twikoo-cloudflare.git
 ```
 
-## 安装 npm 软件包
+## 安装依赖
 
 ```bash
 npm install
@@ -41,49 +41,49 @@ npx wrangler login
 
 ## 创建 Cloudflare D1 数据库并设置模式
 
-```bath
+```bash
 npx wrangler d1 create twikoo
 ```
 
-从这一步的输出中复制 `database_name` 和 `database_id`，粘贴到 `wrangler.toml` 文件中，替换原始值。
+从命令输出中复制 `database_name` 和 `database_id` ，粘贴到 `wrangler.toml` 文件中，替换对应的原始值。
 
 ## 设置 Cloudflare D1 架构
 
-```bath
+```bash
 npx wrangler r2 bucket create twikoo
 ```
 
-## 创建 Cloudflare R2 存储
+## 创建 Cloudflare R2 存储（可选）
 
-```bath
+```bash
 npx wrangler r2 bucket create twikoo
 ```
 
-将 R2 的域名更新为 `wrangler.toml` 文件，替换 `R2_PUBLIC_URL` 值
+创建 R2 存储桶主要用于图片上传功能。请注意，创建 R2 存储桶需要绑定银行卡。如果你不需要图片上传，可以跳过此步骤。
 
-该步骤是为了图片上传功能，创建 Cloudflare R2 存储需要绑定银行卡，我们可以选择不创建。
+若创建了 R2 存储桶，请将返回的 R2 域名更新到 `wrangler.toml` 文件中的 `R2_PUBLIC_URL` 字段。
 
-## 部署 Cloudflare workers
+## 部署 Workers
 
-```bath
+```bash
 npx wrangler deploy --minify
 ```
 
-如果一切顺利，你会在命令行看到类似这样的信息： `https：//twikoo-cloudflare.<your user name>.workers.dev` 。
+如果一切顺利，命令行会输出类似 `https：//twikoo-cloudflare.<your user name>.workers.dev` 的地址。
 
-你可以访问地址。如果一切设置完美，你应该会在浏览器中看到类似的话：
+访问该地址，如果配置正确，浏览器中应显示如下 JSON 信息：
 
 `{"code":100,"message":"Twikoo 云函数运行正常，请参考 https://twikoo.js.org/frontend.html 完成前端的配置","version":"1.7.11"}`
 
-但是我实测是访问不了的（可能是我这边的问题），需要绑定自定义域名再访问。
+直接访问该地址可能失败，建议绑定自定义域名后使用。
 
 # 前端配置
 
-如果你的博客也是前端框架使用 Astro 的静态博客，那么你可以参考本教程。
+以下配置以 Astro 框架为例。
 
-# 创建组件
+## 创建组件
 
-在 `src\components` 中创建 `TwikooComments.astro` ：
+在 `src\components` 目录下创建 `TwikooComments.astro` ，内容如下：
 
 ```astro
 ---
@@ -349,39 +349,18 @@ const { envId, path } = Astro.props;
 </style>
 ```
 
-## 设置前端
+## 使用组件
 
-在 `[...slug].astro` 中，添加：
+在博客文章模板（如 `[...slug].astro` ）中引入组件：
 
 ```astro
----
-<!--新增↓-->
-import TwikooComments from "@/components/TwikooComments.astro";
-<!--新增↑-->
-
-<!--其他-->
-
-<!--新增↓-->
-const { slug } = Astro.params;
-<!--新增↑-->
----
-
-<BaseLayout title={blog.data.title} image={blog.data.image} headings={headings} showTOC={true}>
-  <MainCard title={blog.data.title} description={blog.data.description} image={blog.data.image} infoIcon="lucide:info">
-    <!--其他-->
-    <!--新增↓-->
-    <section class="comments">
-        <TwikooComments 
-          envId="https://example.com/" <!--填你的 R2 的域名，没创建 R2 的话请填写你绑定的自定义域名或 Cloudflare 分配的域名-->
-          path={`/blog/${slug}`}
-        />
-    </section>
-    <!--新增↑-->
-  </MainCard>
-</BaseLayout>
+<TwikooComments 
+  envId="https://example.com/" <!--填你的 R2 的域名，没创建 R2 的话请填写你绑定的自定义域名或 Cloudflare 分配的域名-->
+  path={`/blog/${slug}`}
+/>
 ```
 
-在你单独想使用的页面添加（如友链界面）：
+在其他独立页面（如友链页）中，可以省略 `path` 参数：
 
 ```astro
 <TwikooComments 
@@ -389,6 +368,183 @@ const { slug } = Astro.params;
 />
 ```
 
-感谢观看！
+# 邮箱提醒配置
 
-参考文档：[Twikoo 文档](https://twikoo.js.org/backend.html)
+## 注册 Resend 账号
+
+[Resend 官网](https://resend.com/)
+
+这一步不用教了吧(。・ω・。)。
+
+## 添加并验证域名
+
+为了使用自己的域名邮箱（如我网站的 `blog@email.fanzhuo.xyz` ），需要将域名添加到 Resend 并验证。
+
+1. 登录 Resend 控制台，点击左侧 `Domains`
+2. 点击 `Add Domain`
+3. 输入你的域名（如 `email.fanzhuo.xyz`），选择区域（推荐选择距离你最近的区域，如 `Tokyo ap-northeast-1`）
+4. 按照提示配置 DNS 记录。如果你的域名托管在 Cloudflare，可以点击 `Go to Cloudflare` 自动配置
+
+添加记录后，DNS 传播通常需要几分钟到一小时。在 Resend Domains 页面查看状态变为 Verified（绿色） 即表示验证成功 。
+
+## 创建 API Key
+
+点击 API Keys ，点击 `Create API Key` ；
+
+按照提示填写后，复制并保存 API Key。
+
+## 在 Twikoo 后台配置邮件通知
+
+进入后台，进入配置管理，点击邮件通知。
+
+按以下内容填写：
+
+|配置项|填写内容（示例）|说明|
+| ------------ | ------------ | ------------ |
+|`SENDER_EMAIL`|`blog@email.fanzhuo.xyz`|你刚刚在 Resend 添加的域名邮箱（@前面的内容自定义）|
+|`SENDER_NAME`|`Fanzhuo's Blog 评论提醒`|邮件通知标题|
+|`SMTP_SERVICE`|`Resend`|邮件通知邮箱服务商|
+|`SMTP_USER`|`resend`|任意非空值即可|
+|`SMTP_PASS`|`re_xxxxxxxxxxxx`|	上一步复制的 API Key|
+
+点击页面底部的保存按钮。
+
+## 测试邮件功能
+
+在配置页面底部，点击邮件通知测试，输入你的接收邮箱，点击发送测试邮件。
+
+如果收到邮件，说明配置成功了！
+
+## 邮件模板自定义
+
+在 `MAIL_TEMPLATE` 字段中，可以自定义邮件模板，支持以下变量：
+
+| 变量 | 说明 |
+|:---|:---|
+| `${SITE_URL}` | 网站链接 |
+| `${SITE_NAME}` | 网站名称 |
+| `${NICK}` | 评论者昵称 |
+| `${COMMENT}` | 评论内容 |
+| `${POST_URL}` | 文章链接 |
+| `${PARENT_NICK}` | 被回复者昵称 |
+| `${PARENT_COMMENT}` | 被回复的评论内容 |
+
+这边贴上我的 `MAIL_TEMPLATE` 和 `MAIL_TEMPLATE_ADMIN` 。
+
+`MAIL_TEMPLATE` ：
+
+```html
+<div
+    style="border-radius: 10px 10px 10px 10px;font-size:14px;color: #555555;width: 666px;font-family:'Century Gothic','Trebuchet MS','Hiragino Sans GB',微软雅黑,'Microsoft Yahei',Tahoma,Helvetica,Arial,'SimSun',sans-serif;margin:50px auto;border:1px solid #eee;max-width:100%;background: #ffffff repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);">
+    <div
+        style="width:100%;background:#49BDAD;color:#ffffff;border-radius: 10px 10px 0 0;background-image: -moz-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));background-image: -webkit-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));height: 66px;">
+        <p
+            style="font-size:15px;word-break:break-all;padding: 23px 32px;margin:0;background-color: hsla(0,0%,100%,.4);border-radius: 10px 10px 0 0;">
+            您在<a style="text-decoration:none;color: #ffffff;" href="${SITE_URL}"
+                target="_blank">${SITE_NAME}</a>上的留言有新回复啦！</p>
+    </div>
+    <div style="margin:40px auto;width:90%">
+        <p>Hi, ${PARENT_NICK} 同学，您曾在文章上发表评论：</p>
+        <div
+            style="background: #fafafa repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);margin:20px 0px;padding:15px;border-radius:5px;font-size:14px;color:#555555;">
+            ${PARENT_COMMENT}</div>
+        <p><strong>${NICK}</strong> 给您的回复如下：</p>
+        <div
+            style="background: #fafafa repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);margin:20px 0px;padding:15px;border-radius:5px;font-size:14px;color:#555555;">
+            ${COMMENT}</div>
+        <p>您可以点击<a style="text-decoration:none; color:#12addb" href="${POST_URL}" target="_blank">查看回复的完整内容</a>，欢迎再次光临<a
+                style="text-decoration:none; color:#12addb" href="${SITE_URL}" target="_blank">${SITE_NAME}</a>。</p>
+        <hr />
+        <p style="font-size:12px;color:#b7adad">本邮件为系统自动发送，请勿直接回复邮件哦，可到博文内容回复。</p>
+    </div>
+</div>
+```
+
+`MAIL_TEMPLATE_ADMIN` ：
+
+```html
+<div
+    style="border-radius: 10px 10px 10px 10px;font-size:14px;color: #555555;width: 666px;font-family:'Century Gothic','Trebuchet MS','Hiragino Sans GB',微软雅黑,'Microsoft Yahei',Tahoma,Helvetica,Arial,'SimSun',sans-serif;margin:50px auto;border:1px solid #eee;max-width:100%;background: #ffffff repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);">
+    <div
+        style="width:100%;background:#49BDAD;color:#ffffff;border-radius: 10px 10px 0 0;background-image: -moz-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));background-image: -webkit-linear-gradient(0deg, rgb(67, 198, 184), rgb(255, 209, 244));height: 66px;">
+        <p
+            style="font-size:15px;word-break:break-all;padding: 23px 32px;margin:0;background-color: hsla(0,0%,100%,.4);border-radius: 10px 10px 0 0;">
+            (～￣▽￣)～<a style="text-decoration:none;color: #ffffff;" href="${SITE_URL}"
+                target="_blank">${SITE_NAME}</a>上有新评论啦！</p>
+    </div>
+    <div style="margin:40px auto;width:90%">
+        <p>${NICK} 回复说：</p>
+        <div
+            style="background: #fafafa repeating-linear-gradient(-45deg,#fff,#fff 1.125rem,transparent 1.125rem,transparent 2.25rem);box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);margin:20px 0px;padding:15px;border-radius:5px;font-size:14px;color:#555555;">
+            ${COMMENT}</div>
+        <p>您可以点击<a style="text-decoration:none; color:#12addb" href="${POST_URL}" target="_blank">查看回复的完整内容</a>。</p>
+        <hr />
+    </div>
+</div>
+```
+
+# 自定义表情包
+
+Twikoo 默认只有 3 套基础表情包，你可以通过配置 JSON 文件来添加自定义表情包。
+
+## 快速上手
+
+如果你不想自己折腾，可以直接使用我整理好的 JSON 文件：
+
+```test
+https://fanzhuo.xyz/twikoo-emotion.json
+```
+
+这个文件包含了2233娘、小电视、微博、贴吧、雪初音、QQ和小黑盒的表情包。
+
+## 自己配置
+
+在项目中创建一个 JSON 文件。
+
+进入 [Twikoo-Magic](https://github.com/noionion/Twikoo-Magic) 。
+
+在 `README` 中找到你喜欢的表情包，进入该文件夹，复制 JSON 文件里的全部内容到你的 JSON 文件里。
+
+如果需要添加多套表情包，需要将它们合并到一个 JSON 文件中。
+
+合并注意事项：
+
+| 规则 | 说明 |
+|:---|:---|
+| 分组之间用逗号分隔 | 每个表情包分组后面加英文逗号 `,` |
+| 最后一个分组不加逗号 | 末尾分组后面不要加逗号 |
+| 外层大括号包裹 | 整个文件最外层只有一个 `{ }` |
+| 使用双引号 | JSON 要求键名必须用双引号 |
+
+格式示例：
+
+```json
+{
+  "分组1": {
+    "type": "image",
+    "container": [...]
+  },
+  "分组2": {
+    "type": "image",
+    "container": [...]
+  },
+  "分组3": {
+    "type": "image",
+    "container": [...]
+  }
+}
+```
+
+## 如何使用
+
+打开 Twikoo 后台，进入配置管理，找到插件。
+
+在 `EMOTION_CDN` 中输入表情 CDN （就是刚刚的 `https://fanzhuo.xyz/twikoo-emotion.json` 或者你自己创建的JSON文件的地址）
+
+点击页面底部的保存按钮。
+
+# 最后
+
+感谢阅读！
+
+参考文献：[Twikoo 文档](https://twikoo.js.org/backend.html)
