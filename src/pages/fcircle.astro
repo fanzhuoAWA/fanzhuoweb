@@ -69,3 +69,89 @@ import MainCard from "@/components/MainCard.astro";
     setTimeout(initFcircle, 100);
   });
 </script>
+
+<style is:global>
+/* ===== 修复星星港湾版朋友圈的样式冲突 ===== */
+
+/* 1. 修复卡片悬停抖动，消除Frosti全局过渡的干扰 */
+#friend-circle-lite-root .card,
+#friend-circle-lite-root #random-article {
+  transition: border 0.25s ease, transform 0.25s ease !important;
+  will-change: transform;
+}
+
+#friend-circle-lite-root .card:hover,
+#friend-circle-lite-root #random-article:hover {
+  transform: translateY(-4px) !important;
+}
+
+/* 卡片内部元素不继承 Frosti 的全局过渡 */
+#friend-circle-lite-root .card *,
+#friend-circle-lite-root #random-article * {
+  transition: none !important;
+}
+
+/* 恢复卡片内部特定元素的过渡 */
+#friend-circle-lite-root .card-title {
+  transition: color 0.25s ease !important;
+}
+#friend-circle-lite-root .card-bg {
+  transition: transform 0.6s ease, bottom 0.3s ease, right 0.3s ease !important;
+}
+#friend-circle-lite-root #load-more-btn {
+  transition: all 0.25s ease !important;
+}
+#friend-circle-lite-root .random-link-button {
+  transition: background-color 0.25s ease-in-out !important;
+}
+
+/* 2. 修复随机钓鱼的字体动画 */
+#friend-circle-lite-root #random-article .random-container .random-title {
+  transition: font-size 0.3s ease-in-out !important;
+}
+#friend-circle-lite-root #random-article .random-container:hover .random-title {
+  font-size: 32px !important;
+}
+#friend-circle-lite-root #random-article .random-container {
+  transition: none !important;
+}
+
+/* 3. 强制显示边框，并使用Frosti的主题色变量 */
+#friend-circle-lite-root .card,
+#friend-circle-lite-root #random-article {
+  border: 1px solid var(--border-color, oklch(var(--b2))) !important;
+}
+#friend-circle-lite-root .card:hover,
+#friend-circle-lite-root #random-article:hover {
+  border-color: oklch(var(--p)) !important;
+}
+
+/* 4. 使用Frosti主题色变量控制所有主要交互颜色 */
+#friend-circle-lite-root .card-title:hover {
+  color: oklch(var(--p)) !important;
+}
+#friend-circle-lite-root .random-link-button {
+  background-color: oklch(var(--p)) !important;
+}
+#friend-circle-lite-root .random-link-button:hover {
+  background-color: oklch(var(--p) / 0.8) !important;
+}
+#friend-circle-lite-root #load-more-btn:hover {
+  background-color: oklch(var(--p)) !important;
+  border-color: oklch(var(--p)) !important;
+  color: oklch(var(--pc)) !important;
+}
+#friend-circle-lite-root #modal-author-name-link {
+  color: oklch(var(--p)) !important;
+}
+#friend-circle-lite-root .stat-num {
+  color: oklch(var(--p)) !important;
+}
+#friend-circle-lite-root .modal-article .modal-article-title:hover {
+  color: oklch(var(--p)) !important;
+}
+
+#friend-circle-lite-root .random-link-button {
+  border-radius: 6px !important;
+}
+</style>
