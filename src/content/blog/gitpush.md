@@ -25,3 +25,7 @@ style：代码风格的调整，如格式化、空格等
 refactor：重构代码
 test：增加或修改测试用例
 chore：构建过程或辅助工具的变更
+
+
+TODO:
+1.部署FriendCircleLite
