@@ -70,6 +70,11 @@ site:
       href: /friend
       svg: "material-symbols:supervisor-account-outline-rounded"
       target: _self
+    - id: fcircle
+      text: 朋友圈
+      href: /fcircle
+      svg: "material-symbols:rss-feed"
+      target: _self
     # - id: featured
     #   text: 精选
     #   href: "https://featured.fanzhuo.xyz"

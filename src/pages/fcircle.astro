@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
+import MainCard from "@/components/MainCard.astro";
+---
+
+<BaseLayout title="朋友圈">
+  <MainCard
+    title="朋友圈"
+    description="朋友们的最新动态"
+    image="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOUaVCxH8yTDNi4oPGF5XkMplml2CoAAscLaxtWrYhWgYkwnxv0GW4BAAMCAAN3AAM2BA.png"
+    infoIcon="lucide:rss"
+  >
+    <div class="space-y-10">
+      <section>
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+          <Icon name="lucide:activity" class="w-6 h-6 text-primary" />
+          <span>最新动态</span>
+        </h2>
+        <div id="friend-circle-lite-root"></div>
+      </section>
+    </div>
+  </MainCard>
+</BaseLayout>
+
+<link
+  rel="stylesheet"
+  href="https://fastly.jsdelivr.net/gh/willow-god/Friend-Circle-Lite/main/fclite.min.css"
+/>
+
+<script>
+  // 强制等 DOM 加载完再执行
+  document.addEventListener('DOMContentLoaded', function() {
+    // 定义全局配置
+    window.UserConfig = {
+      private_api_url: "https://friend-circle-lite-2mm.pages.dev/",
+      page_turning_number: 24,
+      error_img: "https://pic.imgdb.cn/item/6695daa4d9c307b7e953ee3d.jpg",
+    };
+
+    // 动态加载核心 JS
+    var script = document.createElement('script');
+    script.src = 'https://fastly.jsdelivr.net/gh/willow-god/Friend-Circle-Lite/main/fclite.min.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  });
+</script>
