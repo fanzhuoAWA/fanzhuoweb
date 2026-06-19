@@ -27,5 +27,3 @@ test：增加或修改测试用例
 chore：构建过程或辅助工具的变更
 
 
-TODO:
-1.部署FriendCircleLite
