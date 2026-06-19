@@ -4,19 +4,15 @@ import { Icon } from "astro-icon/components";
 import MainCard from "@/components/MainCard.astro";
 ---
 
-<BaseLayout title="朋友圈">
+<BaseLayout title="友链动态">
   <MainCard
-    title="朋友圈"
+    title="友链动态"
     description="朋友们的最新文章"
     image="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOUaVCxH8yTDNi4oPGF5XkMplml2CoAAscLaxtWrYhWgYkwnxv0GW4BAAMCAAN3AAM2BA.png"
     infoIcon="lucide:rss"
   >
     <div class="space-y-10">
       <section>
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-          <Icon name="lucide:activity" class="w-6 h-6 text-primary" />
-          <span>最新动态</span>
-        </h2>
         <div id="friend-circle-lite-root"></div>
       </section>
     </div>
@@ -29,17 +25,48 @@ import MainCard from "@/components/MainCard.astro";
 />
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // 使用 any 断言避免 TypeScript 类型检查报错
+  function initFcircle() {
+    // 检查是否已有根容器
+    const root = document.getElementById('friend-circle-lite-root');
+    if (!root) return;
+
+    // 防止重复加载，先清空容器
+    root.innerHTML = '';
+
     (window as any).UserConfig = {
       private_api_url: 'https://friend-circle-lite-2mm.pages.dev/',
       page_turning_number: 24,
       error_img: 'https://pic.imgdb.cn/item/6695daa4d9c307b7e953ee3d.jpg',
     };
 
-    var script = document.createElement('script');
+    // 动态加载核心 JS（如果已经加载过，强制重新执行）
+    const existingScript = document.querySelector('script[data-fcircle="true"]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    const script = document.createElement('script');
     script.src = 'https://fastly.jsdelivr.net/gh/willow-god/Friend-Circle-Lite/main/fclite.min.js';
     script.defer = true;
+    script.dataset.fcircle = 'true';
     document.head.appendChild(script);
+  }
+
+  // 首次加载执行
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFcircle);
+  } else {
+    initFcircle();
+  }
+
+  // 🔥 关键：监听 Astro 的页面切换事件，重新初始化
+  document.addEventListener('astro:after-swap', () => {
+    // 给 DOM 一点时间完成替换
+    setTimeout(initFcircle, 100);
+  });
+
+  // 如果用 swup，也可以用这个事件（Frosti 可能用的是 swup）
+  document.addEventListener('swup:content:replace', () => {
+    setTimeout(initFcircle, 100);
   });
 </script>
