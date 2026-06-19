@@ -19,34 +19,35 @@ import MainCard from "@/components/MainCard.astro";
   </MainCard>
 </BaseLayout>
 
+<!-- 引用 Stars-harbor 版的 CSS（从你的 page 分支加载） -->
 <link
   rel="stylesheet"
-  href="https://fastly.jsdelivr.net/gh/willow-god/Friend-Circle-Lite/main/fclite.min.css"
+  href="https://friend-circle-lite-2mm.pages.dev/main/fclite.css"
 />
 
 <script>
   function initFcircle() {
-    // 检查是否已有根容器
     const root = document.getElementById('friend-circle-lite-root');
     if (!root) return;
 
-    // 防止重复加载，先清空容器
+    // 清空容器
     root.innerHTML = '';
 
     (window as any).UserConfig = {
       private_api_url: 'https://friend-circle-lite-2mm.pages.dev/',
       page_turning_number: 24,
-      error_img: 'https://pic.imgdb.cn/item/6695daa4d9c307b7e953ee3d.jpg',
+      error_img: 'https://friend-circle-lite-2mm.pages.dev/favicon.ico',
     };
 
-    // 动态加载核心 JS（如果已经加载过，强制重新执行）
+    // 移除旧的 script
     const existingScript = document.querySelector('script[data-fcircle="true"]');
     if (existingScript) {
       existingScript.remove();
     }
 
+    // 加载 Stars-harbor 版的 JS
     const script = document.createElement('script');
-    script.src = 'https://fastly.jsdelivr.net/gh/willow-god/Friend-Circle-Lite/main/fclite.min.js';
+    script.src = 'https://friend-circle-lite-2mm.pages.dev/main/fclite.js';
     script.defer = true;
     script.dataset.fcircle = 'true';
     document.head.appendChild(script);
@@ -59,13 +60,11 @@ import MainCard from "@/components/MainCard.astro";
     initFcircle();
   }
 
-  // 🔥 关键：监听 Astro 的页面切换事件，重新初始化
+  // 监听 Astro 页面切换
   document.addEventListener('astro:after-swap', () => {
-    // 给 DOM 一点时间完成替换
     setTimeout(initFcircle, 100);
   });
 
-  // 如果用 swup，也可以用这个事件（Frosti 可能用的是 swup）
   document.addEventListener('swup:content:replace', () => {
     setTimeout(initFcircle, 100);
   });
