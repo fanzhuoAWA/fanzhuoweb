@@ -6,12 +6,11 @@ import TwikooComments from "@/components/TwikooComments.astro";
 ---
 
 <BaseLayout title="朋友圈">
-  <MainCard
-    title="朋友圈"
-    description="朋友们的最新文章"
-    image="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAOUaVCxH8yTDNi4oPGF5XkMplml2CoAAscLaxtWrYhWgYkwnxv0GW4BAAMCAAN3AAM2BA.png"
-    infoIcon="lucide:rss"
-  >
+    <MainCard
+      title="朋友圈"
+      description="朋友们的最新文章"
+      infoIcon="simple-icons:artstation"
+    >
     <div class="space-y-10">
       <section>
         <div id="friend-circle-lite-root"></div>
@@ -20,7 +19,7 @@ import TwikooComments from "@/components/TwikooComments.astro";
     <TwikooComments 
       envId="https://twikoo.fanzhuo.xyz/" 
     />
-  </MainCard>
+    </MainCard>
 </BaseLayout>
 
 <!-- 引用 Stars-harbor 版的 CSS（从你的 page 分支加载） -->

@@ -74,7 +74,7 @@ site:
         - id: fcircle
           text: 朋友圈
           href: /fcircle
-          svg: "material-symbols:rss-feed"
+          svg: "simple-icons:artstation"
           target: _self
     - id: project
       text: 作品
