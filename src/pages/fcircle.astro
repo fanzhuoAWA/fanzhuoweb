@@ -85,7 +85,7 @@ import TwikooComments from "@/components/TwikooComments.astro";
 
 #friend-circle-lite-root .card:hover,
 #friend-circle-lite-root #random-article:hover {
-  transform: translateY(-4px) !important;
+  transform: translateY(-2px) !important;
 }
 
 /* 卡片内部元素不继承 Frosti 的全局过渡 */
@@ -156,5 +156,115 @@ import TwikooComments from "@/components/TwikooComments.astro";
 
 #friend-circle-lite-root .random-link-button {
   border-radius: 6px !important;
+}
+
+/* ===== 新增：文章卡片背景改为类似友链卡的渐变样式 ===== */
+#friend-circle-lite-root .card {
+  background: linear-gradient(to bottom right, oklch(var(--p) / 0.2), oklch(var(--b1))) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border-color: oklch(var(--p) / 0.3) !important;
+}
+
+#friend-circle-lite-root .card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(-2px) !important;
+  border-color: oklch(var(--p)) !important;
+}
+/* ===== 随机钓鱼卡片添加渐变背景 ===== */
+#friend-circle-lite-root #random-article {
+  background: linear-gradient(to bottom right, oklch(var(--p) / 0.15), oklch(var(--b1))) !important;
+  border-color: oklch(var(--p) / 0.25) !important;
+}
+
+#friend-circle-lite-root #random-article:hover {
+  border-color: oklch(var(--p)) !important;
+}
+
+
+/* ===== 模态框样式适配 Frosti ===== */
+
+#friend-circle-lite-root .modal-content {
+  background: oklch(var(--b1)) !important;
+  border: 1px solid oklch(var(--bc) / 0.1) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+  padding: 1.5rem !important;
+}
+
+#friend-circle-lite-root #modal-author-avatar {
+  width: 64px !important;
+  height: 64px !important;
+  border: 2px solid oklch(var(--p)) !important;
+  box-shadow: 0 0 0 2px oklch(var(--b1)) !important;
+}
+
+#friend-circle-lite-root #modal-author-name-link {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  color: oklch(var(--p)) !important;
+  text-decoration: none !important;
+  margin: 0.5rem 0 0.25rem 0 !important;
+}
+
+#friend-circle-lite-root #modal-author-name-link:hover {
+  text-decoration: underline !important;
+}
+
+#friend-circle-lite-root #modal-articles-container {
+  border-top: 1px solid oklch(var(--bc) / 0.1) !important;
+  margin-top: 0.75rem !important;
+  padding-top: 0.75rem !important;
+}
+
+#friend-circle-lite-root .modal-article {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.5rem 0 !important;
+  border-bottom: 1px solid oklch(var(--bc) / 0.05) !important;
+}
+
+#friend-circle-lite-root .modal-article:last-child {
+  border-bottom: none !important;
+}
+
+#friend-circle-lite-root .modal-article .modal-article-title {
+  color: oklch(var(--bc)) !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: color 0.25s ease, transform 0.25s ease !important;
+  max-width: 70% !important;
+  display: inline-block !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#friend-circle-lite-root .modal-article .modal-article-title:hover {
+  color: oklch(var(--p)) !important;
+  transform: translateX(4px) !important;
+  text-decoration: underline !important;
+}
+
+#friend-circle-lite-root .modal-article .modal-article-title:hover {
+  color: oklch(var(--p)) !important;
+  text-decoration: underline !important;
+}
+
+#friend-circle-lite-root .modal-article .modal-article-date {
+  color: oklch(var(--bc) / 0.4) !important;
+  font-size: 0.75rem !important;
+  flex-shrink: 0 !important;
+}
+
+#friend-circle-lite-root .modal {
+  background-color: rgba(0, 0, 0, 0.4) !important;  /* 纯黑半透明，无毛玻璃 */
+}
+
+/* 暗色模式下微调 */
+[data-theme-type="dark"] #friend-circle-lite-root .modal-content {
+  border-color: oklch(var(--bc) / 0.15) !important;
 }
 </style>
