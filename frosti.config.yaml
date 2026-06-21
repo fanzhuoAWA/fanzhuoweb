@@ -63,18 +63,18 @@ site:
     - id: friend
       text: 朋友
       href: /friend
-      svg: "lucide:users-round"
+      svg: "lucide:users-round" # material-symbols:supervisor-account-outline-rounded
       target: _self
       subItems:
         - id: links
           text: 友链
           href: /friend
-          svg: "material-symbols:supervisor-account-outline-rounded"
+          svg: "lucide:link"
           target: _self
         - id: fcircle
           text: 朋友圈
           href: /fcircle
-          svg: "simple-icons:artstation"
+          svg: "material-symbols:rss-feed"
           target: _self
     - id: project
       text: 作品
