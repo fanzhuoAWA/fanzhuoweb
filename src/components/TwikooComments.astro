@@ -13,26 +13,24 @@ const { envId, path } = Astro.props;
 
 <!-- 备用的内联样式，确保在 CSS 加载前不会碎掉 -->
 <style is:global>
-  /* 确保评论容器在 CSS 加载前有基本样式 */
-  #tcomment {
+  #twikoo {
     min-height: 200px;
   }
-  #tcomment .tk-comment-container {
+  #twikoo .tk-comment-container {
     opacity: 1 !important;
     visibility: visible !important;
   }
 </style>
 
 <div class="mt-8">
-  <h2 class="mb-4 text-lg font-medium" style="color: oklch(var(--bc))">评论</h2>
+  <h2 class="frosti-heading !text-lg mb-4">评论</h2>
   <div 
-    id="tcomment" 
-    class="twikoo-container rounded-lg border p-4 dark:border-zinc-700"
+    id="twikoo"
     data-env-id={envId}
     data-path={path || 'auto'}
   >
-    <div class="flex items-center justify-center py-8 text-zinc-500 dark:text-zinc-400">
-      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mr-2"></div>
+    <div class="flex items-center justify-center py-8 text-base-content/60">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mr-2"></div>
       正在加载评论...
     </div>
   </div>
@@ -62,13 +60,13 @@ const { envId, path } = Astro.props;
   }
 
   function showErrorMessage() {
-    const containers = document.querySelectorAll('#tcomment');
+    const containers = document.querySelectorAll('#twikoo');
     containers.forEach(container => {
       if (container) {
         container.innerHTML = `
           <div class="text-center py-8 text-red-500">
             <p>评论系统加载失败</p>
-            <button onclick="location.reload()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+            <button onclick="location.reload()" class="btn btn-primary btn-sm mt-2">
               重新加载
             </button>
           </div>
@@ -78,10 +76,10 @@ const { envId, path } = Astro.props;
   }
 
   function initializeTwikoo() {
-    const container = document.getElementById('tcomment');
+    const container = document.getElementById('twikoo');
     
     if (!container) {
-      console.warn('Twikoo container (#tcomment) not found');
+      console.warn('Twikoo container (#twikoo) not found');
       return;
     }
 
@@ -101,7 +99,7 @@ const { envId, path } = Astro.props;
       // 初始化 Twikoo
       window.twikoo.init({
         envId: envId,
-        el: '#tcomment',
+        el: '#twikoo',
         path: path === 'auto' ? location.pathname : path,
         lang: 'zh-CN'
       });
@@ -113,7 +111,7 @@ const { envId, path } = Astro.props;
         <div class="text-center py-8 text-red-500">
           <p>评论系统初始化失败</p>
           <p class="text-sm mt-1">${error.message}</p>
-          <button onclick="location.reload()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+          <button onclick="location.reload()" class="btn btn-primary btn-sm mt-2">
             重新加载
           </button>
         </div>
@@ -146,7 +144,7 @@ const { envId, path } = Astro.props;
   // 页面可见性变化处理（可选）
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
-      const container = document.getElementById('tcomment');
+      const container = document.getElementById('twikoo');
       if (container && container.children.length === 0) {
         console.log('Page became visible, checking Twikoo');
         setTimeout(handlePageInit, 100);
@@ -156,104 +154,201 @@ const { envId, path } = Astro.props;
 </script>
 
 <style is:global>
-  .twikoo-container {
-    font-family: inherit;
+  #twikoo {
+    font-family: 'Geist', system-ui, sans-serif;
     min-height: 200px;
   }
-  
-  .dark .twikoo-container {
-    background-color: transparent;
+
+  /* ── 输入框 (昵称/邮箱/网址 + 评论正文) ── */
+  #twikoo .el-textarea__inner {
+    background-color: oklch(var(--b2)) !important;
+    border-color: oklch(var(--bc) / 0.2) !important;
+    color: oklch(var(--bc)) !important;
+    border-radius: 0.75rem !important;
+    min-height: 8rem !important;
   }
-  
-  /* 输入框样式 */
-  .dark .tk-content textarea,
-  .dark .tk-input input {
-    background-color: rgb(39 39 42) !important;
-    border-color: rgb(63 63 70) !important;
-    color: rgb(228 228 231) !important;
+
+  #twikoo .el-textarea__inner:focus {
+    border-color: oklch(var(--p)) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px oklch(var(--p) / 0.3) !important;
   }
-  
-  .dark .tk-content textarea:focus,
-  .dark .tk-input input:focus {
-    border-color: rgb(96 165 250) !important;
+
+  /* 带 prepend 标签的输入组合 (昵称/邮箱/网址) */
+  #twikoo .el-input-group {
+    border: 1px solid oklch(var(--bc) / 0.2) !important;
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
   }
-  
-  /* 按钮样式 */
-  .dark .tk-submit {
-    background-color: rgb(24 24 27) !important;
-    border-color: rgb(63 63 70) !important;
-    color: rgb(228 228 231) !important;
+
+  #twikoo .el-input-group .el-input__inner {
+    background-color: oklch(var(--b2)) !important;
+    border: none !important;
+    color: oklch(var(--bc)) !important;
   }
-  
-  .dark .tk-submit:hover {
-    background-color: rgb(39 39 42) !important;
+
+  #twikoo .el-input-group .el-input__inner:focus {
+    outline: none !important;
+    box-shadow: none !important;
   }
-  
-  /* 评论区域样式 */
-  .dark .tk-comment,
-  .dark .tk-replies-wrap {
-    background-color: transparent !important;
-    border-color: rgb(63 63 70) !important;
+
+  #twikoo .el-input-group:focus-within {
+    border-color: oklch(var(--p)) !important;
+    box-shadow: 0 0 0 1px oklch(var(--p) / 0.3) !important;
   }
-  
-  .dark .tk-comment .tk-main {
-    color: rgb(228 228 231) !important;
+
+  #twikoo .el-input-group__prepend {
+    background-color: oklch(var(--b3)) !important;
+    border: none !important;
+    border-right: 1px solid oklch(var(--bc) / 0.2) !important;
+    color: oklch(var(--bc) / 0.8) !important;
   }
-  
-  .dark .tk-comment .tk-meta span {
-    color: rgb(161 161 170) !important;
+
+  /* ── 提交按钮 ── */
+  #twikoo .el-button--primary {
+    background-color: oklch(var(--p)) !important;
+    border-color: oklch(var(--p)) !important;
+    color: oklch(var(--pc)) !important;
+    border-radius: 0.75rem !important;
   }
-  
-  /* 链接样式 */
-  .dark .tk-comment a {
-    color: rgb(96 165 250) !important;
+
+  #twikoo .el-button--primary:hover {
+    background-color: oklch(var(--p) / 0.85) !important;
+    border-color: oklch(var(--p) / 0.85) !important;
   }
-  
-  .dark .tk-comment a:hover {
-    color: rgb(147 197 253) !important;
+
+  #twikoo .el-button:not(.el-button--primary) {
+    border-radius: 0.75rem !important;
   }
-  
-  /* 表情包容器 */
-  .dark .tk-owo-container {
-    background-color: rgb(39 39 42) !important;
-    border-color: rgb(63 63 70) !important;
+
+  /* ── 评论列表 ── */
+  #twikoo .tk-comment,
+  #twikoo .tk-replies-wrap {
+    border-color: oklch(var(--bc) / 0.15) !important;
   }
-  
-  /* 标签和额外信息 */
-  .dark .tk-tag,
-  .dark .tk-extras {
-    color: rgb(161 161 170) !important;
+
+  #twikoo .tk-comment .tk-main {
+    color: oklch(var(--bc)) !important;
   }
-  
-  /* 字体和边框圆角 */
-  .tk-comment,
-  .tk-content,
-  .tk-input {
-    font-family: 'Geist', system-ui, sans-serif !important;
+
+  #twikoo .tk-comment .tk-meta span {
+    color: oklch(var(--bc) / 0.6) !important;
   }
-  
-  .tk-content textarea,
-  .tk-input input,
-  .tk-submit,
-  .tk-comment,
-  .tk-owo-container {
-    border-radius: 0.5rem !important;
+
+  #twikoo .tk-comment .tk-nick-link {
+    color: oklch(var(--bc)) !important;
   }
-  
-  .tk-comment {
+
+  #twikoo .tk-comment .tk-nick-link:hover {
+    color: oklch(var(--p)) !important;
+  }
+
+  /* ── 点赞/点踩/回复按钮 ── */
+  #twikoo .tk-action-link,
+  #twikoo .tk-action-icon,
+  #twikoo .tk-actions button {
+    color: oklch(var(--p)) !important;
+  }
+
+  #twikoo .tk-action-link:hover,
+  #twikoo .tk-action-link.tk-liked,
+  #twikoo .tk-action-link.tk-disliked,
+  #twikoo .tk-actions button:hover {
+    color: oklch(var(--p) / 0.75) !important;
+  }
+
+  /* ── 链接 ── */
+  #twikoo .tk-comment a {
+    color: oklch(var(--p)) !important;
+  }
+
+  #twikoo .tk-comment a:hover {
+    color: oklch(var(--p) / 0.75) !important;
+  }
+
+  /* ── 表情包容器 ── */
+  #twikoo .tk-owo-container {
+    background-color: oklch(var(--b2)) !important;
+    border-color: oklch(var(--bc) / 0.2) !important;
+    border-radius: 0.75rem !important;
+  }
+
+  /* ── 表情包弹出面板 ── */
+  #twikoo .OwO .OwO-body {
+    background-color: oklch(var(--b1)) !important;
+    border-color: oklch(var(--bc) / 0.2) !important;
+    border-radius: 0.75rem !important;
+    color: oklch(var(--bc)) !important;
+  }
+
+  #twikoo .OwO .OwO-body .OwO-bar {
+    border-top-color: oklch(var(--bc) / 0.15) !important;
+  }
+
+  #twikoo .OwO .OwO-body .OwO-items .OwO-item:hover {
+    background-color: oklch(var(--p) / 0.1) !important;
+  }
+
+  #twikoo .OwO .OwO-body .OwO-bar .OwO-packages li:hover,
+  #twikoo .OwO .OwO-body .OwO-bar .OwO-packages .OwO-package-active {
+    background-color: oklch(var(--p) / 0.1) !important;
+  }
+
+  /* ── 评论数 / 图标 ── */
+  #twikoo .tk-icon.__comments,
+  #twikoo .tk-comments-count {
+    color: oklch(var(--p)) !important;
+  }
+
+  /* ── 排序按钮 (最早/最新/热门) ── */
+  #twikoo .tk-sort-item {
+    color: oklch(var(--p) / 0.6) !important;
+  }
+
+  #twikoo .tk-sort-item.__active,
+  #twikoo .tk-sort-item:focus {
+    color: oklch(var(--p)) !important;
+  }
+
+  #twikoo .tk-sort-item:hover {
+    color: oklch(var(--p) / 0.8) !important;
+  }
+
+  /* ── 标签与额外信息 ── */
+  #twikoo .tk-tag,
+  #twikoo .tk-extras {
+    color: oklch(var(--bc) / 0.6) !important;
+  }
+
+  /* ── 头像 ── */
+  #twikoo .tk-avatar {
+    border-radius: 0.75rem !important;
+  }
+
+  /* ── 评论间距 ── */
+  #twikoo .tk-comment {
     margin-bottom: 1rem !important;
   }
-  
-  /* 加载状态 */
-  .dark .tk-loading {
-    color: rgb(161 161 170) !important;
+
+  /* ── 加载状态 ── */
+  #twikoo .tk-loading {
+    color: oklch(var(--bc) / 0.6) !important;
   }
-  
-  /* 加载动画 */
+
+  #twikoo .el-loading-spinner .path {
+    stroke: oklch(var(--p)) !important;
+  }
+
+  #twikoo .el-loading-spinner i,
+  #twikoo .el-loading-spinner .el-loading-text {
+    color: oklch(var(--p)) !important;
+  }
+
+  /* ── loading 动画 ── */
   .animate-spin {
     animation: spin 1s linear infinite;
   }
-  
+
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
