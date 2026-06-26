@@ -105,9 +105,9 @@ const entryData = entry.data;
 
 <script>
   function masonry() {
-    const container = document.querySelector('.shuoshuo-list');
+    const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
     if (!container) return;
-    const cards = [...container.children];
+    const cards = [...container.children] as HTMLElement[];
     if (!cards.length) return;
 
     const gap = 8;
@@ -132,10 +132,10 @@ const entryData = entry.data;
   }
 
   function initMasonry() {
-    const container = document.querySelector('.shuoshuo-list');
+    const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
     if (!container) return;
 
-    const imgs = container.querySelectorAll('img, video');
+    const imgs = container.querySelectorAll('img, video') as NodeListOf<HTMLImageElement | HTMLVideoElement>;
     let pending = imgs.length;
 
     if (pending === 0) {
@@ -144,7 +144,7 @@ const entryData = entry.data;
     }
 
     for (const el of imgs) {
-      if (el.complete || el.readyState >= 3) {
+      if (el.complete || (el as HTMLVideoElement).readyState >= 3) {
         pending--;
         if (pending === 0) masonry();
       } else {
@@ -166,7 +166,7 @@ const entryData = entry.data;
     window.addEventListener('load', initMasonry);
   }
 
-  let timer;
+  let timer: ReturnType<typeof setTimeout>;
   window.addEventListener('resize', () => {
     clearTimeout(timer);
     timer = setTimeout(initMasonry, 150);
