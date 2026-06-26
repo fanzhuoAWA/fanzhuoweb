@@ -53,6 +53,6 @@ export const remarkShuoshuoSplit: Plugin<[], Root> = () => {
       sections.push(createCardDiv(currentSection));
     }
 
-    tree.children = [...head, ...sections.reverse()] as any;
+    tree.children = [...head, ...sections] as any;
   };
 };
