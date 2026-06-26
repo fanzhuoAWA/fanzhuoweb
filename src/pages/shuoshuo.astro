@@ -1,0 +1,174 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getEntry } from 'astro:content';
+import MainCard from "@/components/MainCard.astro";
+
+const entry = await getEntry('blog', '说说');
+if (!entry) {
+  throw new Error('说说 entry not found');
+}
+const { Content, headings } = await entry.render();
+const entryData = entry.data;
+---
+
+<BaseLayout title="说说" headings={headings}>
+  <MainCard
+    title="说说"
+    description={entryData.description}
+    infoIcon="lucide:message-square"
+  >
+    <div class="shuoshuo-list">
+      <Content />
+    </div>
+  </MainCard>
+</BaseLayout>
+
+<style>
+  .shuoshuo-list {
+    position: relative;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card) {
+    background: oklch(var(--b1));
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 oklch(var(--b3));
+    border: 1px solid oklch(var(--bc) / 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card:hover) {
+    box-shadow: 0 8px 20px -5px oklch(var(--b3));
+    transform: translateY(-2px);
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card h1) {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    margin: 0;
+    background: linear-gradient(to right, oklch(var(--p) / 0.06), transparent);
+    border-bottom: 1px solid oklch(var(--bc) / 0.08);
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card > *:not(h1)) {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card > p) {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: oklch(var(--bc));
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card > p:first-of-type) {
+    padding-top: 0.5rem;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card > p:last-child) {
+    padding-bottom: 0.5rem;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card img) {
+    border-radius: 0.4rem;
+    margin: 0.25rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card video) {
+    border-radius: 0.4rem;
+    margin: 0.25rem 0;
+    max-width: 100%;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card blockquote) {
+    border-left: 2px solid oklch(var(--p) / 0.5);
+    padding: 0.25rem 0.6rem;
+    margin: 0.25rem 0;
+    font-size: 0.8rem;
+    background: oklch(var(--b2) / 0.5);
+    border-radius: 0 0.4rem 0.4rem 0;
+    color: oklch(var(--bc) / 0.8);
+    font-style: italic;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card del) {
+    color: oklch(var(--bc) / 0.5);
+    text-decoration: line-through;
+  }
+</style>
+
+<script>
+  function masonry() {
+    const container = document.querySelector('.shuoshuo-list');
+    if (!container) return;
+    const cards = [...container.children];
+    if (!cards.length) return;
+
+    const gap = 8;
+    const cols = 2;
+    const colW = (container.clientWidth - gap) / cols;
+
+    const h = [0, 0];
+
+    for (const card of cards) {
+      card.style.position = 'absolute';
+      card.style.width = colW + 'px';
+
+      const idx = h[0] <= h[1] ? 0 : 1;
+      card.style.left = idx ? (colW + gap) + 'px' : '0';
+      card.style.top = h[idx] + 'px';
+
+      h[idx] += card.offsetHeight + gap;
+    }
+
+    container.style.height = Math.max(h[0], h[1]) - gap + 'px';
+    container.style.position = 'relative';
+  }
+
+  function initMasonry() {
+    const container = document.querySelector('.shuoshuo-list');
+    if (!container) return;
+
+    const imgs = container.querySelectorAll('img, video');
+    let pending = imgs.length;
+
+    if (pending === 0) {
+      masonry();
+      return;
+    }
+
+    for (const el of imgs) {
+      if (el.complete || el.readyState >= 3) {
+        pending--;
+        if (pending === 0) masonry();
+      } else {
+        el.addEventListener('load', () => {
+          pending--;
+          if (pending === 0) masonry();
+        });
+        el.addEventListener('error', () => {
+          pending--;
+          if (pending === 0) masonry();
+        });
+      }
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    initMasonry();
+  } else {
+    window.addEventListener('load', initMasonry);
+  }
+
+  let timer;
+  window.addEventListener('resize', () => {
+    clearTimeout(timer);
+    timer = setTimeout(initMasonry, 150);
+  });
+</script>

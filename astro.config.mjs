@@ -13,6 +13,7 @@ import { CODE_THEME, USER_SITE } from "./src/config.ts";
 import updateConfig from "./src/integration/updateConfig.ts";
 
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
+import { remarkShuoshuoSplit } from "./src/plugins/remark-shuoshuo-split";
 
 import react from "@astrojs/react";
 
@@ -198,7 +199,7 @@ export default defineConfig({
       },
       ],
     },
-    remarkPlugins: [remarkMath, remarkReadingTime],
+    remarkPlugins: [remarkMath, remarkReadingTime, remarkShuoshuoSplit],
     rehypePlugins: [rehypeKatex, [
       rehypeExternalLinks,
       {

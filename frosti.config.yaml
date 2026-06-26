@@ -76,6 +76,11 @@ site:
           href: /fcircle
           svg: "material-symbols:rss-feed"
           target: _self
+    - id: shuoshuo
+      text: 说说
+      href: /shuoshuo
+      svg: "lucide:message-square"
+      target: _self
     - id: project
       text: 作品
       href: /project
