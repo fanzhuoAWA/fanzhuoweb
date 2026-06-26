@@ -1,0 +1,773 @@
+---
+title: "在 Astro 博客中集成音乐播放器"
+description: ""
+pubDate: "JUN 26 2026"
+categories:
+  - Development
+tags:
+  - Astro
+  - 音乐
+  - 播放器
+badge: Development
+---
+
+import AudioPlayer from "../../components/mdx/AudioPlayer.tsx";
+import Collapse from "../../components/mdx/Collapse.astro";
+import LinkCard from "../../components/mdx/LinkCard.astro";
+
+# 预览
+
+<AudioPlayer 
+  src="https://link.jiyiho.cn/orfile/view.php/4cd38ddc0719573d04599e609dfbf96a.mp3"
+  lrcText="/music/海阔天空-Beyond-歌词.lrc"
+  client:load 
+/> 
+
+# 前言
+
+我想在我的博客中添加一个音乐播放器，然后我在 [EveSunMaple](https://www.saroprock.com/) 大佬的博客中发现了一个现成的 `AudioPlayer.tsx` 组件，决定将其移植到我的使用 Frosti 主题的博客中（Frosti也是 [EveSunMaple](https://www.saroprock.com/) 大佬搭建的φ(゜▽゜*)♪）。
+
+这个音乐播放器有以下功能：
+
+1.播放/暂停 `MP3` 文件
+
+2.显示歌词（支持 `LRC` 格式）
+
+3.歌词高亮与滚动同步
+
+4.进度条拖拽
+
+样式也非常美观，那么开干吧！
+
+# 过程
+
+## COPY
+
+<Collapse title="新建一个 AudioPlayer.tsx ，粘贴以下内容（已折叠）：">
+
+```tsx
+import type React from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+// 定义 props 类型
+interface AudioPlayerProps {
+  src: string; // 音频文件的路径 (例如: /music/song.mp3)
+  captionsSrc?: string; // 可选的字幕轨道（WebVTT）
+}
+
+// 歌词行数据结构
+interface LyricLine {
+  time: number; // 歌词开始时间 (秒)
+  text: string; // 歌词文本
+}
+
+// 格式化时间的辅助函数
+const formatTime = (timeInSeconds: number) => {
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
+
+/**
+ * 歌词解析函数：将原始歌词字符串解析为 LyricLine 数组
+ */
+const parseLyrics = (rawLyrics: string): LyricLine[] => {
+  const lines: LyricLine[] = [];
+  const lrcPattern = /^\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)/;
+
+  const rawLines = rawLyrics.split("\n");
+
+  rawLines.forEach((line) => {
+    if (!line || line.startsWith("{")) return;
+    const match = line.match(lrcPattern);
+
+    if (match) {
+      const minutes = Number.parseInt(match[1], 10);
+      const seconds = Number.parseInt(match[2], 10);
+      const milliseconds = Number.parseInt(match[3].padEnd(3, "0"), 10);
+
+      const timeInSeconds = minutes * 60 + seconds + milliseconds / 1000;
+      const text = match[4].trim();
+
+      if (text) {
+        lines.push({ time: timeInSeconds, text });
+      }
+    }
+  });
+
+  return lines.sort((a, b) => a.time - b.time);
+};
+
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, captionsSrc }) => {
+  // --- 状态和引用 ---
+  const [rawLyrics, setRawLyrics] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const [currentLineIndex, setCurrentLineIndex] = useState(-1);
+
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const lyricScrollRef = useRef<HTMLDivElement>(null);
+
+  // --- 歌词计算 ---
+  const parsedLyrics = useMemo(() => {
+    return rawLyrics ? parseLyrics(rawLyrics) : [];
+  }, [rawLyrics]);
+
+  const currentLyricLine =
+    currentLineIndex >= 0 && parsedLyrics[currentLineIndex]
+      ? parsedLyrics[currentLineIndex].text
+      : "（歌词加载中...）";
+
+  // --- 歌词同步逻辑 ---
+  const findCurrentLyric = useCallback((time: number, lyrics: LyricLine[]) => {
+    for (let i = lyrics.length - 1; i >= 0; i--) {
+      if (time >= lyrics[i].time) {
+        return i;
+      }
+    }
+    return -1;
+  }, []);
+
+  // --- 歌词滚动逻辑 ---
+  useEffect(() => {
+    if (lyricScrollRef.current && currentLineIndex >= 0) {
+      const targetElement = lyricScrollRef.current.children[
+        currentLineIndex + 1
+      ] as HTMLElement; // +1 因为第一个子元素是填充 div
+      if (targetElement) {
+        // 滚动到目标元素，使其在容器中居中
+        const offset =
+          targetElement.offsetTop -
+          lyricScrollRef.current.offsetHeight / 2 +
+          targetElement.offsetHeight / 2;
+
+        lyricScrollRef.current.scrollTo({
+          top: offset,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [currentLineIndex]);
+
+  // --- 效果钩子：用于加载和解析元数据 ---
+  useEffect(() => {
+    if (!src) return;
+    setRawLyrics(null);
+    setError(null);
+    setIsPlaying(false);
+    setCurrentTime(0);
+    if (audioRef.current) {
+      audioRef.current.src = src;
+    }
+
+    const loadMetadata = async () => {
+      try {
+        const mm = await import("music-metadata");
+        const response = await fetch(src);
+        if (!response.ok)
+          throw new Error(`无法加载音频文件: ${response.statusText}`);
+        const blob = await response.blob();
+        const metadata = await mm.parseBlob(blob);
+
+        let extractedLyrics = "（无歌词）";
+        if (metadata.common.lyrics && metadata.common.lyrics.length > 0) {
+          const firstLyric = metadata.common.lyrics[0];
+          extractedLyrics = firstLyric?.text || extractedLyrics;
+          setRawLyrics(extractedLyrics);
+        } else {
+          setError("未在此文件中找到内嵌歌词。");
+          setRawLyrics(extractedLyrics);
+        }
+      } catch (e) {
+        console.error("Error in loading or parsing metadata:", e);
+        const errorMessage = e instanceof Error ? e.message : "发生未知错误。";
+        setError(`加载或解析标签失败: ${errorMessage}`);
+        setRawLyrics("（无歌词）");
+      }
+    };
+    loadMetadata();
+  }, [src]);
+
+  // --- 音频事件处理 ---
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch((e) => {
+          console.error("Audio playback failed:", e);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleProgressKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ): void => {
+    if (event.key === "Enter" || event.key === " ") {
+      // 防止页面滚动
+      event.preventDefault();
+      // 模拟点击行为
+      const syntheticEvent = {
+        ...event,
+        currentTarget: event.currentTarget,
+      } as unknown as React.MouseEvent<HTMLDivElement>;
+      handleProgressClick(syntheticEvent);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      setCurrentTime(time);
+
+      const newIndex = findCurrentLyric(time, parsedLyrics);
+      if (newIndex !== currentLineIndex) {
+        setCurrentLineIndex(newIndex);
+      }
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setCurrentLineIndex(-1);
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (audioRef.current && duration > 0) {
+      const progressElement = e.currentTarget;
+      const rect = progressElement.getBoundingClientRect();
+      const clickPosition = e.clientX - rect.left;
+      const width = rect.width;
+      const newTime = (clickPosition / width) * duration;
+
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+
+      setCurrentLineIndex(findCurrentLyric(newTime, parsedLyrics));
+    }
+  };
+
+  return (
+    <div className="w-full max-w-lg mx-auto my-4">
+      <audio
+        ref={audioRef}
+        src={src}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleEnded}
+        preload="metadata"
+      >
+        {captionsSrc && (
+          <track
+            kind="captions"
+            src={captionsSrc}
+            label="歌词字幕"
+            srcLang="zh-CN"
+          />
+        )}
+      </audio>
+      <div className="relative mt-4">
+        {error && (
+          <p className="text-error text-sm text-center mb-2">{error}</p>
+        )}
+        <div
+          ref={lyricScrollRef}
+          className="max-h-64 h-64 overflow-y-scroll scrollbar-none transition-all duration-300 px-4"
+        >
+          <div className="h-1/2 min-h-1/2 pt-4" />
+
+          {parsedLyrics.length > 0
+            ? parsedLyrics.map((line, index) => (
+                <p
+                  key={`${line.time}-${index}`}
+                  className={`py-1 text-base transition-all duration-300 text-center 
+                    ${
+                      index === currentLineIndex
+                        ? "text-primary font-bold scale-110"
+                        : "text-base-content/80 hover:text-base-content/100"
+                    }`}
+                >
+                  {line.text}
+                </p>
+              ))
+            : !error && (
+                <div className="flex justify-center p-4 text-sm text-base-content/80">
+                  正在加载歌词...
+                </div>
+              )}
+
+          <div className="h-1/2 min-h-1/2 pb-4" />
+        </div>
+
+        <div className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-base-100 to-transparent pointer-events-none" />
+
+        <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-base-100 to-transparent pointer-events-none" />
+      </div>
+      <div className="flex items-center gap-3 px-4 py-2 bg-base-200 rounded-full shadow-xl">
+        <button
+          type="button"
+          className="btn btn-primary btn-circle flex-shrink-0 w-10 h-10 min-h-10"
+          onClick={togglePlayPause}
+          aria-label={isPlaying ? "Pause" : "Play"}
+          disabled={!duration}
+        >
+          <i
+            className={`text-xl ${isPlaying ? "ri-pause-fill" : "ri-play-fill"}`}
+          />
+        </button>
+
+        <div className="flex-1 min-w-0">
+          <div className="h-4 leading-4 overflow-hidden mb-0.5">
+            <span className="text-xs font-medium text-base-content/90 block truncate">
+              {currentLyricLine}
+            </span>
+          </div>
+
+          <div
+            className="w-full h-2 bg-base-200 rounded-full overflow-hidden cursor-pointer"
+            onClick={handleProgressClick}
+            tabIndex={0}
+            onKeyDown={handleProgressKeyDown}
+            role="slider"
+            aria-valuemin={0}
+            aria-valuemax={duration || 1}
+            aria-valuenow={currentTime}
+            aria-valuetext={`${Math.round((currentTime / (duration || 1)) * 100)}%`}
+          >
+            <div
+              className="h-full bg-primary transition-all duration-200"
+              style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
+            />
+          </div>
+          <div className="flex justify-between text-[10px] text-base-content/70 px-1 mt-0.5">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AudioPlayer;
+```
+</Collapse>
+
+修改一下，支持导入 IRC 歌词文件。
+
+```tsx
+// src/components/AudioPlayer.tsx
+import type React from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+// 定义 props 类型
+interface AudioPlayerProps {
+  src: string; // 音频文件的路径 (例如: /music/song.mp3)
+  lrcText?: string; //.lrc 文件的路径，例如 "/music/水手.lrc"
+  captionsSrc?: string; // 可选的字幕轨道（WebVTT）
+}
+
+// 歌词行数据结构
+interface LyricLine {
+  time: number; // 歌词开始时间 (秒)
+  text: string; // 歌词文本
+}
+
+// 格式化时间的辅助函数
+const formatTime = (timeInSeconds: number) => {
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
+
+/**
+ * 歌词解析函数：将原始歌词字符串解析为 LyricLine 数组
+ */
+const parseLyrics = (rawLyrics: string): LyricLine[] => {
+  const lines: LyricLine[] = [];
+  const lrcPattern = /^\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)/;
+
+  const rawLines = rawLyrics.split("\n");
+
+  rawLines.forEach((line) => {
+    if (!line || line.startsWith("{")) return;
+    const match = line.match(lrcPattern);
+
+    if (match) {
+      const minutes = Number.parseInt(match[1], 10);
+      const seconds = Number.parseInt(match[2], 10);
+      const milliseconds = Number.parseInt(match[3].padEnd(3, "0"), 10);
+
+      const timeInSeconds = minutes * 60 + seconds + milliseconds / 1000;
+      const text = match[4].trim();
+
+      if (text) {
+        lines.push({ time: timeInSeconds, text });
+      }
+    }
+  });
+
+  return lines.sort((a, b) => a.time - b.time);
+};
+
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, lrcText, captionsSrc }) => {
+  // --- 状态和引用 ---
+  const [rawLyrics, setRawLyrics] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const [currentLineIndex, setCurrentLineIndex] = useState(-1);
+
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const lyricScrollRef = useRef<HTMLDivElement>(null);
+
+  // --- 歌词计算 ---
+  const parsedLyrics = useMemo(() => {
+    return rawLyrics ? parseLyrics(rawLyrics) : [];
+  }, [rawLyrics]);
+
+  const currentLyricLine =
+    currentLineIndex >= 0 && parsedLyrics[currentLineIndex]
+      ? parsedLyrics[currentLineIndex].text
+      : "（歌词加载中...）";
+
+  // --- 歌词同步逻辑 ---
+  const findCurrentLyric = useCallback((time: number, lyrics: LyricLine[]) => {
+    for (let i = lyrics.length - 1; i >= 0; i--) {
+      if (time >= lyrics[i].time) {
+        return i;
+      }
+    }
+    return -1;
+  }, []);
+
+  // --- 歌词滚动逻辑 ---
+  useEffect(() => {
+    if (lyricScrollRef.current && currentLineIndex >= 0) {
+      const targetElement = lyricScrollRef.current.children[
+        currentLineIndex + 1
+      ] as HTMLElement; // +1 因为第一个子元素是填充 div
+      if (targetElement) {
+        // 滚动到目标元素，使其在容器中居中
+        const offset =
+          targetElement.offsetTop -
+          lyricScrollRef.current.offsetHeight / 2 +
+          targetElement.offsetHeight / 2;
+
+        lyricScrollRef.current.scrollTo({
+          top: offset,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [currentLineIndex]);
+
+  // --- 效果钩子：用于加载和解析元数据 ---
+  // --- 效果钩子：用于加载歌词（优先远程LRC，回退内嵌歌词）---
+useEffect(() => {
+  if (!src) return;
+  setError(null);
+  setIsPlaying(false);
+  setCurrentTime(0);
+  setRawLyrics(null);
+  if (audioRef.current) {
+    audioRef.current.src = src;
+  }
+
+  const loadLyrics = async () => {
+    // 第一优先级：如果提供了 lrcText（作为文件路径），获取并解析
+    if (lrcText) {
+      try {
+        console.log(`正在加载歌词文件: ${lrcText}`);
+        const response = await fetch(lrcText);
+        if (!response.ok) {
+          throw new Error(`无法加载歌词文件 (${response.status}): ${response.statusText}`);
+        }
+        const remoteLrcText = await response.text();
+        console.log(`歌词文件加载成功，长度: ${remoteLrcText.length}`);
+
+        if (remoteLrcText.trim().length > 0) {
+          // 使用你已有的 parseLyrics 函数进行解析
+          setRawLyrics(remoteLrcText);
+          setError(null); // 清除错误
+        } else {
+          throw new Error('歌词文件内容为空');
+        }
+        return; // 远程LRC加载成功，直接返回
+      } catch (e) {
+        console.error('加载远程LRC歌词失败:', e);
+        const errorMessage = e instanceof Error ? e.message : '发生未知错误';
+        // 如果远程LRC加载失败，可以在这里选择是否继续尝试内嵌歌词
+        // 这里我们记录错误，并继续执行下面的内嵌歌词解析逻辑
+        setError(`加载外部歌词失败: ${errorMessage}，将尝试解析内嵌歌词...`);
+        // 注意：不在此处 return，继续向下执行尝试内嵌歌词
+      }
+    }
+
+    // 第二优先级：如果没有提供 lrcText，或远程加载失败，则尝试解析内嵌歌词
+    // 注意：以下内嵌歌词解析代码仅在非静态构建环境下有效
+    try {
+      const mm = await import("music-metadata");
+      const response = await fetch(src);
+      if (!response.ok) throw new Error(`无法加载音频文件: ${response.statusText}`);
+      const blob = await response.blob();
+      const metadata = await mm.parseBlob(blob);
+
+      let extractedLyrics = "（无歌词）";
+      if (metadata.common.lyrics && metadata.common.lyrics.length > 0) {
+        const firstLyric = metadata.common.lyrics[0];
+        extractedLyrics = firstLyric?.text || extractedLyrics;
+        setRawLyrics(extractedLyrics);
+        setError(null); // 清除可能由远程LRC加载失败产生的错误
+      } else {
+        // 如果之前远程LRC也失败了，这里会覆盖错误信息，你可能需要调整
+        setError("未在此文件中找到内嵌歌词。");
+        setRawLyrics(extractedLyrics);
+      }
+    } catch (e) {
+      console.error("解析音频元数据失败:", e);
+      // 如果 music-metadata 解析也失败，且之前远程LRC已失败，则保留最终错误状态
+      if (!lrcText) { // 仅在根本没有提供lrcText时，才设置此错误
+        const errorMessage = e instanceof Error ? e.message : "发生未知错误。";
+        setError(`加载或解析歌词失败: ${errorMessage}`);
+        setRawLyrics("（歌词加载失败）");
+      }
+    }
+  };
+
+  loadLyrics();
+}, [src, lrcText]); // 依赖项必须包含 lrcText
+
+  // --- 音频事件处理 ---
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch((e) => {
+          console.error("Audio playback failed:", e);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleProgressKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ): void => {
+    if (event.key === "Enter" || event.key === " ") {
+      // 防止页面滚动
+      event.preventDefault();
+      // 模拟点击行为
+      const syntheticEvent = {
+        ...event,
+        currentTarget: event.currentTarget,
+      } as unknown as React.MouseEvent<HTMLDivElement>;
+      handleProgressClick(syntheticEvent);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const time = audioRef.current.currentTime;
+      setCurrentTime(time);
+
+      const newIndex = findCurrentLyric(time, parsedLyrics);
+      if (newIndex !== currentLineIndex) {
+        setCurrentLineIndex(newIndex);
+      }
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setCurrentLineIndex(-1);
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (audioRef.current && duration > 0) {
+      const progressElement = e.currentTarget;
+      const rect = progressElement.getBoundingClientRect();
+      const clickPosition = e.clientX - rect.left;
+      const width = rect.width;
+      const newTime = (clickPosition / width) * duration;
+
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+
+      setCurrentLineIndex(findCurrentLyric(newTime, parsedLyrics));
+    }
+  };
+
+  return (
+    <div className="w-full max-w-lg mx-auto my-4">
+      <audio
+        ref={audioRef}
+        src={src}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleEnded}
+        preload="metadata"
+      >
+        {captionsSrc && (
+          <track
+            kind="captions"
+            src={captionsSrc}
+            label="歌词字幕"
+            srcLang="zh-CN"
+          />
+        )}
+      </audio>
+      <div className="relative mt-4">
+        {error && (
+          <p className="text-error text-sm text-center mb-2">{error}</p>
+        )}
+        <div
+          ref={lyricScrollRef}
+          className="max-h-64 h-64 overflow-y-scroll scrollbar-none transition-all duration-300 px-4"
+        >
+          <div className="h-1/2 min-h-1/2 pt-4" />
+
+          {parsedLyrics.length > 0
+            ? parsedLyrics.map((line, index) => (
+                <p
+                  key={`${line.time}-${index}`}
+                  className={`py-1 text-base transition-all duration-300 text-center 
+                    ${
+                      index === currentLineIndex
+                        ? "text-primary font-bold scale-110"
+                        : "text-base-content/80 hover:text-base-content/100"
+                    }`}
+                >
+                  {line.text}
+                </p>
+              ))
+            : !error && (
+                <div className="flex justify-center p-4 text-sm text-base-content/80">
+                  正在加载歌词...
+                </div>
+              )}
+
+          <div className="h-1/2 min-h-1/2 pb-4" />
+        </div>
+
+        <div className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-base-100 to-transparent pointer-events-none" />
+
+        <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-base-100 to-transparent pointer-events-none" />
+      </div>
+      <div className="flex items-center gap-3 px-4 py-2 bg-base-200 rounded-full shadow-xl">
+        <button
+          type="button"
+          className="btn btn-primary btn-circle flex-shrink-0 w-10 h-10 min-h-10"
+          onClick={togglePlayPause}
+          aria-label={isPlaying ? "Pause" : "Play"}
+          disabled={!duration}
+        >
+          {isPlaying ? (<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M6 5h2v14H6zm10 0h2v14h-2z"/></svg>) : (<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M19.376 12.416L8.777 19.482A.5.5 0 0 1 8 19.066V4.934a.5.5 0 0 1 .777-.416l10.599 7.066a.5.5 0 0 1 0 .832"/></svg>)}
+        </button>
+
+        <div className="flex-1 min-w-0">
+          <div className="h-4 leading-4 overflow-hidden mb-0.5">
+            <span className="text-xs font-medium text-base-content/90 block truncate">
+              {currentLyricLine}
+            </span>
+          </div>
+
+          <div
+            className="w-full h-2 bg-base-200 rounded-full overflow-hidden cursor-pointer"
+            onClick={handleProgressClick}
+            tabIndex={0}
+            onKeyDown={handleProgressKeyDown}
+            role="slider"
+            aria-valuemin={0}
+            aria-valuemax={duration || 1}
+            aria-valuenow={currentTime}
+            aria-valuetext={`${Math.round((currentTime / (duration || 1)) * 100)}%`}
+          >
+            <div
+              className="h-full bg-primary transition-all duration-200"
+              style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
+            />
+          </div>
+          <div className="flex justify-between text-[10px] text-base-content/70 px-1 mt-0.5">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AudioPlayer;
+```
+
+## 添加 React 支持
+
+```bash
+pnpm add react react-dom @astrojs/react
+
+# 或者
+
+npx astro add react
+```
+
+# 使用
+
+```mdx
+---
+import AudioPlayer from "../../components/mdx/AudioPlayer.tsx";
+---
+
+<AudioPlayer 
+  src="https://link.jiyiho.cn/orfile/view.php/4cd38ddc0719573d04599e609dfbf96a.mp3" //歌曲 MP3 链接，可填外链和相对地址
+  lrcText="/music/海阔天空-Beyond-歌词.lrc" //歌词 IRC 链接，可填外链和相对地址
+  client:load 
+/> 
+```
+
+[预览](http://fanzhuo.xyz/blog/audioplayer#heading-0)
+
+# 歌曲外链生成
+
+把歌曲放在网站上，会占用空间或消耗网站流量，所以建议使用歌曲外链。
+
+这边推荐两个外链生成工具
+
+1.
+<LinkCard
+  title="JiYiHoLink"
+  desc="让分享变得更加简单高效。免费提供所有格式转链接服务。"
+  url="https://link.jiyiho.cn/"
+  img="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAPXaj54rxPR9q0qZrltngpSGsYMtw0AAr4Paxs_T_lVWmSTkpC37GYBAAMCAANtAAM8BA.png"
+/>
+
+
+2.
+<LinkCard
+  title="videotourl"
+  desc="免费MP3转链接工具，秒级获取音频直链。"
+  url="https://www.videotourl.com/zh/tools/mp3-to-url"
+  img="https://image.fanzhuo.xyz/file/AgACAgUAAyEGAASKws10AAPYaj55DFo6DH2nvQABzDhLdm-AuRH2AAK_D2sbP0_5VfP3nn0girnNAQADAgADbQADPAQ.png"
+/>
+
+感谢观看！
