@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getEntry } from 'astro:content';
 import MainCard from "@/components/MainCard.astro";
+import TwikooComments from "@/components/TwikooComments.astro";
 
 const entry = await getEntry('blog', '说说');
 if (!entry) {
@@ -20,6 +21,9 @@ const entryData = entry.data;
     <div class="shuoshuo-list">
       <Content />
     </div>
+    <TwikooComments 
+      envId="https://twikoo.fanzhuo.xyz/" 
+    />
   </MainCard>
 </BaseLayout>
 
