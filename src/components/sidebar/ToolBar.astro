@@ -15,7 +15,7 @@ const { headings = [], showTOC = true } = Astro.props as TOCBarProps;
     <div class="flex flex-col items-end gap-2">
       <a
         href="/blog/tags"
-        class="btn btn-circle btn-md border-base-content/20 bg-base-100 shadow-sm hover:scale-110"
+        class="btn btn-circle btn-md bg-base-100 shadow-sm hover:scale-110"
         aria-label={t("label.tagPage")}
         title={t("label.tagPage")}
       >
@@ -24,7 +24,7 @@ const { headings = [], showTOC = true } = Astro.props as TOCBarProps;
 
       <a
         href="/blog/categories"
-        class="btn btn-circle btn-md border-base-content/20 bg-base-100 shadow-sm hover:scale-110"
+        class="btn btn-circle btn-md bg-base-100 shadow-sm hover:scale-110"
         aria-label={t("label.categoryPage")}
         title={t("label.categoryPage")}
       >
@@ -33,7 +33,7 @@ const { headings = [], showTOC = true } = Astro.props as TOCBarProps;
 
       <a
         href="/blog/archives"
-        class="btn btn-circle btn-md border-base-content/20 bg-base-100 shadow-sm hover:scale-110"
+        class="btn btn-circle btn-md bg-base-100 shadow-sm hover:scale-110"
         aria-label={t("label.archivePage")}
         title={t("label.archivePage")}
       >
@@ -45,7 +45,7 @@ const { headings = [], showTOC = true } = Astro.props as TOCBarProps;
       {showTOC && headings.length > 0 && (
         <button
           id="mobile-toc-button"
-          class="btn btn-circle btn-md border-base-content/20 bg-base-100 shadow-sm hover:scale-110 md:hidden"
+          class="btn btn-circle btn-md bg-base-100 shadow-sm hover:scale-110 md:hidden"
           aria-label={t("label.tableOfContents")}
           title={t("label.tableOfContents")}
           onclick="mobile_toc_modal.showModal()"
@@ -78,13 +78,15 @@ const { headings = [], showTOC = true } = Astro.props as TOCBarProps;
     if (scrollButton && scrollWrapper) {
       const updateState = () => {
         if (window.scrollY > 300) {
+          scrollWrapper.style.overflow = "visible";
+          scrollWrapper.style.height = (scrollButton.offsetHeight + 8) + "px";
           scrollButton.classList.remove("opacity-0", "invisible");
           scrollButton.classList.add("opacity-100", "visible");
-          scrollWrapper.style.height = (scrollButton.offsetHeight + 8) + "px";
         } else {
+          scrollWrapper.style.overflow = "hidden";
+          scrollWrapper.style.height = "0";
           scrollButton.classList.remove("opacity-100", "visible");
           scrollButton.classList.add("opacity-0", "invisible");
-          scrollWrapper.style.height = "0";
         }
       };
 
