@@ -12,10 +12,12 @@ import TwikooComments from "@/components/TwikooComments.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-  return posts.map((blog: { slug: any }) => ({
-    params: { slug: blog.slug },
-    props: { blog },
-  }));
+  return posts
+    .filter((blog) => !blog.data.draft)
+    .map((blog) => ({
+      params: { slug: blog.slug },
+      props: { blog },
+    }));
 }
 interface Props {
   blog: CollectionEntry<"blog">;

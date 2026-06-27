@@ -4,7 +4,8 @@ import { getCollection } from "astro:content";
 
 export async function GET(context: any) {
   const posts = await getCollection("blog");
-  const sortedPosts = posts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+  const filteredPosts = import.meta.env.PROD ? posts.filter((post) => !post.data.draft) : posts;
+  const sortedPosts = filteredPosts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
   return rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
