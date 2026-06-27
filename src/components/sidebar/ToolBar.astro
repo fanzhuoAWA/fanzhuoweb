@@ -2,6 +2,9 @@
 import { Icon } from "astro-icon/components";
 import ThemeToggle from "../widgets/ThemeToggle.astro";
 import { t } from "@config";
+import type { TOCBarProps } from "@interfaces/data";
+
+const { headings = [], showTOC = true } = Astro.props as TOCBarProps;
 ---
 
 <div
@@ -38,6 +41,18 @@ import { t } from "@config";
       </a>
 
       <ThemeToggle className="sidebar-theme" />
+
+      {showTOC && headings.length > 0 && (
+        <button
+          id="mobile-toc-button"
+          class="btn btn-circle btn-md border-base-content/20 bg-base-100 shadow-sm hover:scale-110 md:hidden"
+          aria-label={t("label.tableOfContents")}
+          title={t("label.tableOfContents")}
+          onclick="mobile_toc_modal.showModal()"
+        >
+          <Icon name="lucide:list" class="w-5 h-5" />
+        </button>
+      )}
     </div>
 
     <div
