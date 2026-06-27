@@ -1,15 +1,15 @@
 ---
-import Card from "../temple/Card.astro";
-import ScrollToTop from "../widgets/ScrollToTop.astro";
-import ThemeToggle from "../widgets/ThemeToggle.astro";
 import { Icon } from "astro-icon/components";
+import ThemeToggle from "../widgets/ThemeToggle.astro";
 import { t } from "@config";
 ---
 
-<Card>
-  <div class="toolbar-container p-4">
-    <div class="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4 justify-center items-center gap-4 flex-wrap">
-      <!-- Navigation Buttons -->
+<div
+  id="toolbar-frame"
+  class="fixed bottom-4 right-6 z-50 border border-white/20 rounded-2xl bg-base-100/80 backdrop-blur-sm shadow-lg transition-all duration-300"
+>
+  <div class="flex flex-col items-end p-3">
+    <div class="flex flex-col items-end gap-2">
       <a
         href="/blog/tags"
         class="btn btn-circle btn-md border-base-content/20 bg-base-100 shadow-sm hover:scale-110"
@@ -38,11 +38,51 @@ import { t } from "@config";
       </a>
 
       <ThemeToggle className="sidebar-theme" />
+    </div>
 
-      <slot />
+    <div
+      id="scroll-to-top-wrapper"
+      style="overflow: hidden; height: 0; transition: height 0.3s ease;"
+    >
+      <button
+        id="scroll-to-top"
+        aria-label="Scroll to top"
+        class="btn btn-circle btn-md bg-base-100 shadow-sm hover:scale-110 mt-2 opacity-0 invisible transition-all duration-300"
+      >
+        <Icon name="material-symbols:arrow-upward-rounded" class="h-5 w-5" />
+      </button>
     </div>
   </div>
-</Card>
+</div>
 
-<!-- ScrollToTop is placed outside the Card to be fixed at the bottom of the screen -->
-<ScrollToTop />
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const scrollButton = document.getElementById("scroll-to-top");
+    const scrollWrapper = document.getElementById("scroll-to-top-wrapper");
+
+    if (scrollButton && scrollWrapper) {
+      const updateState = () => {
+        if (window.scrollY > 300) {
+          scrollButton.classList.remove("opacity-0", "invisible");
+          scrollButton.classList.add("opacity-100", "visible");
+          scrollWrapper.style.height = (scrollButton.offsetHeight + 8) + "px";
+        } else {
+          scrollButton.classList.remove("opacity-100", "visible");
+          scrollButton.classList.add("opacity-0", "invisible");
+          scrollWrapper.style.height = "0";
+        }
+      };
+
+      updateState();
+
+      window.addEventListener("scroll", updateState, { passive: true });
+
+      scrollButton.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+    }
+  });
+</script>

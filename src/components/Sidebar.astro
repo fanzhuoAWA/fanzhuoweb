@@ -24,9 +24,7 @@ const { headings = [], showTOC = true } = Astro.props as Props;
 <div class="relative mb-4">
   <SearchBar />
 </div>
-<div class="relative mb-4">
-  <ToolBar />
-</div>
+<ToolBar />
 <div class="md:sticky md:top-4">
   <Tags />
   <TOCBar headings={headings} showTOC={showTOC} />
