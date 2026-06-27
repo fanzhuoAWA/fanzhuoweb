@@ -22,18 +22,11 @@ import TwikooComments from "@/components/TwikooComments.astro";
     </MainCard>
 </BaseLayout>
 
-<!-- 引用 Stars-harbor 版的 CSS（从你的 page 分支加载） -->
-<link
-  rel="stylesheet"
-  href="https://friend-circle-lite-2mm.pages.dev/main/fclite.css"
-/>
-
 <script>
   function initFcircle() {
     const root = document.getElementById('friend-circle-lite-root');
     if (!root) return;
 
-    // 清空容器
     root.innerHTML = '';
 
     (window as any).UserConfig = {
@@ -42,13 +35,21 @@ import TwikooComments from "@/components/TwikooComments.astro";
       error_img: 'https://friend-circle-lite-2mm.pages.dev/favicon.ico',
     };
 
-    // 移除旧的 script
+    // 加载 CSS（防止 body 中插 link）
+    if (!document.querySelector('link[data-fcircle-css="true"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://friend-circle-lite-2mm.pages.dev/main/fclite.css';
+      link.dataset.fcircleCss = 'true';
+      document.head.appendChild(link);
+    }
+
+    // 移除旧的 JS script
     const existingScript = document.querySelector('script[data-fcircle="true"]');
     if (existingScript) {
       existingScript.remove();
     }
 
-    // 加载 Stars-harbor 版的 JS
     const script = document.createElement('script');
     script.src = 'https://friend-circle-lite-2mm.pages.dev/main/fclite.js';
     script.defer = true;
@@ -56,21 +57,7 @@ import TwikooComments from "@/components/TwikooComments.astro";
     document.head.appendChild(script);
   }
 
-  // 首次加载执行
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFcircle);
-  } else {
-    initFcircle();
-  }
-
-  // 监听 Astro 页面切换
-  document.addEventListener('astro:after-swap', () => {
-    setTimeout(initFcircle, 100);
-  });
-
-  document.addEventListener('swup:content:replace', () => {
-    setTimeout(initFcircle, 100);
-  });
+  document.addEventListener("astro:page-load", initFcircle);
 </script>
 
 <style is:global>
@@ -80,7 +67,6 @@ import TwikooComments from "@/components/TwikooComments.astro";
 #friend-circle-lite-root .card,
 #friend-circle-lite-root #random-article {
   transition: border 0.25s ease, transform 0.25s ease !important;
-  will-change: transform;
 }
 
 #friend-circle-lite-root .card:hover,
@@ -161,12 +147,12 @@ import TwikooComments from "@/components/TwikooComments.astro";
 /* ===== 新增：文章卡片背景改为类似友链卡的渐变样式 ===== */
 #friend-circle-lite-root .card {
   background: linear-gradient(to bottom right, oklch(var(--p) / 0.2), oklch(var(--b1))) !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 4px 6px -1px oklch(var(--bc) / 0.1), 0 2px 4px -1px oklch(var(--bc) / 0.06) !important;
   border-color: oklch(var(--p) / 0.3) !important;
 }
 
 #friend-circle-lite-root .card:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 10px 15px -3px oklch(var(--bc) / 0.1), 0 4px 6px -2px oklch(var(--bc) / 0.05) !important;
   transform: translateY(-2px) !important;
   border-color: oklch(var(--p)) !important;
 }
@@ -183,11 +169,22 @@ import TwikooComments from "@/components/TwikooComments.astro";
 
 /* ===== 模态框样式适配 Frosti ===== */
 
+#friend-circle-lite-root .modal {
+  position: fixed !important;
+  inset: 0 !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  z-index: 9999 !important;
+}
+
 #friend-circle-lite-root .modal-content {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
   background: oklch(var(--b1)) !important;
   border: 1px solid oklch(var(--bc) / 0.1) !important;
   border-radius: 0.75rem !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 8px 30px oklch(var(--bc) / 0.12) !important;
   padding: 1.5rem !important;
 }
 
@@ -235,11 +232,10 @@ import TwikooComments from "@/components/TwikooComments.astro";
   text-decoration: none !important;
   transition: color 0.25s ease, transform 0.25s ease !important;
   max-width: 70% !important;
-  display: inline-block !important;
+  display: -webkit-box !important;
   -webkit-line-clamp: 1 !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden !important;
-  text-overflow: ellipsis !important;
 }
 
 #friend-circle-lite-root .modal-article .modal-article-title:hover {
@@ -248,19 +244,10 @@ import TwikooComments from "@/components/TwikooComments.astro";
   text-decoration: underline !important;
 }
 
-#friend-circle-lite-root .modal-article .modal-article-title:hover {
-  color: oklch(var(--p)) !important;
-  text-decoration: underline !important;
-}
-
 #friend-circle-lite-root .modal-article .modal-article-date {
   color: oklch(var(--bc) / 0.4) !important;
   font-size: 0.75rem !important;
   flex-shrink: 0 !important;
-}
-
-#friend-circle-lite-root .modal {
-  background-color: rgba(0, 0, 0, 0.4) !important;  /* 纯黑半透明，无毛玻璃 */
 }
 
 /* 暗色模式下微调 */

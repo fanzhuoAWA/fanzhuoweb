@@ -181,11 +181,7 @@ const entryData = entry.data;
     }
   }
 
-  if (document.readyState === 'complete') {
-    initMasonry();
-  } else {
-    window.addEventListener('load', initMasonry);
-  }
+  document.addEventListener("astro:page-load", initMasonry);
 
   let timer: ReturnType<typeof setTimeout>;
   window.addEventListener('resize', () => {
