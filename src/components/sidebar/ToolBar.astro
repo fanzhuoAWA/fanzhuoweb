@@ -40,7 +40,7 @@ const { headings = [], showTOC = true } = Astro.props as TOCBarProps;
         <Icon name="lucide:archive" class="w-5 h-5" />
       </a>
 
-      <ThemeToggle className="sidebar-theme" />
+      <ThemeToggle className="sidebar-theme max-md:hidden" />
 
       {showTOC && headings.length > 0 && (
         <button
