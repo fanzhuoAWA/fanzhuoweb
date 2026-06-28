@@ -1,6 +1,6 @@
 ---
 title: "C++模意义下的乘法逆元模板"
-description: "zzz"
+description: "C++ 模意义下乘法逆元（费马小定理）模板与推导"
 pubDate: "MAY 24 2025"
 categories:
   - Algorithm

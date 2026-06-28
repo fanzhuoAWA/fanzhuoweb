@@ -1,6 +1,6 @@
 ---
 title: "在博客里添加标签栏"
-description: "博客美化"
+description: "为 Frosti 博客添加交互式标签栏组件教程"
 pubDate: "Dec 12 2025"
 image: /image/tag_sidebar.PNG
 categories:

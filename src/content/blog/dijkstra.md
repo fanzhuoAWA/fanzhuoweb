@@ -1,6 +1,6 @@
 ---
 title: "Dijkstra最短路算法讲解"
-description: "zzz"
+description: "Dijkstra 最短路算法图文详解与示例"
 pubDate: "MAY 31 2025"
 categories:
   - Algorithm

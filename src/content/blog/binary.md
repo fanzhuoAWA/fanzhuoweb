@@ -1,6 +1,6 @@
 ---
 title: "C++二分模板"
-description: "zzz"
+description: "C++ 整数二分与浮点数二分模板笔记"
 pubDate: "MAY 24 2025"
 categories:
   - Algorithm
