@@ -38,7 +38,7 @@ import WordCount from './new-test/WordCount.astro';
       {
         USER_FOOTER_SOCIAL_ICONS.map((icon) => (
           <div class="tooltip" data-tip={icon.title}>
-            <a tabindex="0" href={icon.href} aria-label={icon.ariaLabel}>
+            <a tabindex="0" href={icon.href} aria-label={icon.ariaLabel} target="_blank" rel="noopener noreferrer">
               <Icon name={icon.svg} class="text-2xl md:text-xl" />
             </a>
           </div>

@@ -75,6 +75,25 @@ const { envId, path } = Astro.props;
     });
   }
 
+  function setupOwOFix() {
+    const card = document.querySelector('.bg-base-100.rounded-xl.shadow-lg.w-full.overflow-hidden');
+    if (!card) return;
+
+    const ro = new MutationObserver(() => {
+      const owoOpen = document.querySelector('#twikoo .OwO.OwO-open');
+      if (owoOpen) {
+        card.style.overflow = 'visible';
+      } else {
+        card.style.overflow = '';
+      }
+    });
+
+    const container = document.getElementById('twikoo');
+    if (container) {
+      ro.observe(container, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
   function initializeTwikoo() {
     const container = document.getElementById('twikoo');
     
@@ -104,6 +123,7 @@ const { envId, path } = Astro.props;
         lang: 'zh-CN'
       });
       
+      setupOwOFix();
       console.log('Twikoo initialized successfully');
     } catch (error) {
       console.error('Failed to initialize Twikoo:', error);
@@ -292,6 +312,19 @@ const { envId, path } = Astro.props;
   #twikoo .OwO .OwO-body .OwO-bar .OwO-packages li:hover,
   #twikoo .OwO .OwO-body .OwO-bar .OwO-packages .OwO-package-active {
     background-color: oklch(var(--p) / 0.1) !important;
+  }
+
+  /* ── 表情面板底部显示不全修复 ── */
+  #twikoo .OwO {
+    overflow: visible !important;
+  }
+  #twikoo .OwO .OwO-body {
+    max-height: 50vh !important;
+    overflow-y: auto !important;
+  }
+  #twikoo .OwO .OwO-body .OwO-items {
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   /* ── 评论数 / 图标 ── */
