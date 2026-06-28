@@ -1,5 +1,6 @@
 import type { Root } from "mdast";
 import type { Plugin } from "unified";
+import type { VFile } from "vfile";
 
 interface MdxJsxAttribute {
   type: "mdxJsxAttribute";
@@ -24,7 +25,9 @@ function createCardDiv(children: any[]): MdxJsxFlowElement {
 }
 
 export const remarkShuoshuoSplit: Plugin<[], Root> = () => {
-  return (tree: Root) => {
+  return (tree: Root, file: VFile) => {
+    if (!file?.path?.endsWith("说说.mdx")) return;
+
     const children = tree.children;
     const head: any[] = [];
     const sections: any[] = [];

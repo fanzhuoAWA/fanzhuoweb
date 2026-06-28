@@ -181,7 +181,15 @@ const entryData = entry.data;
     }
   }
 
+  function tryInitMasonry() {
+    const container = document.querySelector('.shuoshuo-list');
+    if (container) {
+      requestAnimationFrame(() => initMasonry());
+    }
+  }
+
   document.addEventListener("astro:page-load", initMasonry);
+  tryInitMasonry();
 
   let timer: ReturnType<typeof setTimeout>;
   window.addEventListener('resize', () => {
