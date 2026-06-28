@@ -108,10 +108,35 @@ const entryData = entry.data;
 </style>
 
 <script>
+  function splitCards(container: HTMLElement) {
+    const children = [...container.children];
+    if (children.length === 0) return false;
+    if (children[0].classList.contains('shuoshuo-card')) return false;
+
+    const fragment = document.createDocumentFragment();
+    let currentCard: HTMLDivElement | null = null;
+
+    for (const child of children) {
+      if (child.tagName === 'H1') {
+        currentCard = document.createElement('div');
+        currentCard.className = 'shuoshuo-card';
+        currentCard.appendChild(child);
+        fragment.appendChild(currentCard);
+      } else if (currentCard) {
+        currentCard.appendChild(child);
+      } else {
+        fragment.appendChild(child);
+      }
+    }
+
+    container.appendChild(fragment);
+    return true;
+  }
+
   function masonry() {
     const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
     if (!container) return;
-    const cards = [...container.children] as HTMLElement[];
+    const cards = container.querySelectorAll(':scope > .shuoshuo-card') as NodeListOf<HTMLElement>;
     if (!cards.length) return;
 
     const gap = 8;
@@ -138,6 +163,11 @@ const entryData = entry.data;
   function initMasonry() {
     const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
     if (!container) return;
+
+    splitCards(container);
+
+    const cards = container.querySelectorAll(':scope > .shuoshuo-card');
+    if (!cards.length) return;
 
     const imgs = container.querySelectorAll('img');
     const videos = container.querySelectorAll('video');
