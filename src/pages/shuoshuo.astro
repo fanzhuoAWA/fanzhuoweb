@@ -242,7 +242,7 @@ const entryData = entry.data;
     const cards = container.querySelectorAll(':scope > .shuoshuo-card');
     if (!cards.length) return;
 
-    addQuoteButtons(cards);
+    addQuoteButtons(cards as NodeListOf<HTMLElement>);
 
     const imgs = container.querySelectorAll('img');
     const videos = container.querySelectorAll('video');
