@@ -1,18 +1,39 @@
-import rss from "@astrojs/rss";
-import { SITE_DESCRIPTION, SITE_TITLE } from "@config";
 import { getCollection } from "astro:content";
+import { USER_SITE } from "@config";
 
-export async function GET(context: any) {
+const STATIC_ROUTES = [
+  "",
+  "about",
+  "blog",
+  "blog/archives",
+  "blog/categories",
+  "blog/tags",
+  "blog/search",
+  "friend",
+  "fcircle",
+  "shuoshuo",
+  "project",
+];
+
+export async function GET(context: { site: URL }) {
+  const base = context.site?.origin || USER_SITE;
+
   const posts = await getCollection("blog");
-  const filteredPosts = import.meta.env.PROD ? posts.filter((post) => !post.data.draft) : posts;
-  const sortedPosts = filteredPosts.sort((a: any, b: any) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
-  return rss({
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-    site: context.site,
-    items: sortedPosts.map((blog: any) => ({
-      ...blog.data,
-      link: `/blog/${blog.slug}/`,
-    })),
+  const filtered = import.meta.env.PROD
+    ? posts.filter((p) => !p.data.draft)
+    : posts;
+
+  const urls = [
+    ...STATIC_ROUTES.map((r) => `${base}/${r}`.replace(/\/+$/, "")),
+    ...filtered.map((p) => `${base}/blog/${p.slug}/`),
+  ];
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((loc) => `  <url><loc>${loc}</loc></url>`).join("\n")}
+</urlset>`;
+
+  return new Response(xml, {
+    headers: { "Content-Type": "application/xml" },
   });
 }
