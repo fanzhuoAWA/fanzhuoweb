@@ -33,12 +33,43 @@ const entryData = entry.data;
   }
 
   .shuoshuo-list :global(.shuoshuo-card) {
+    position: relative;
     background: oklch(var(--b1));
     border-radius: 0.75rem;
     box-shadow: 0 1px 3px 0 oklch(var(--b3));
     border: 1px solid oklch(var(--bc) / 0.08);
     overflow: hidden;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card .quote-btn) {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: none;
+    background: transparent;
+    color: oklch(var(--bc) / 0.35);
+    cursor: pointer;
+    border-radius: 0.35rem;
+    transition: color 0.2s, background 0.2s;
+    padding: 0;
+    line-height: 1;
+    z-index: 1;
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card .quote-btn:hover) {
+    color: oklch(var(--p));
+    background: oklch(var(--p) / 0.1);
+  }
+
+  .shuoshuo-list :global(.shuoshuo-card .quote-btn svg) {
+    width: 1rem;
+    height: 1rem;
   }
 
   .shuoshuo-list :global(.shuoshuo-card:hover) {
@@ -133,6 +164,48 @@ const entryData = entry.data;
     return true;
   }
 
+  function addQuoteButtons(cards: NodeListOf<HTMLElement>) {
+    for (const card of cards) {
+      if (card.querySelector('.quote-btn')) continue;
+
+      const btn = document.createElement('button');
+      btn.className = 'quote-btn';
+      btn.title = '\u5F15\u7528\u5230\u8BC4\u8BBA';
+      btn.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+
+      btn.addEventListener('click', (e: Event) => {
+        e.stopPropagation();
+
+        let textParts: string[] = [];
+        for (const child of card.children) {
+          if (child.tagName === 'H1') continue;
+          const text = (child as HTMLElement).textContent?.trim();
+          if (text) textParts.push(text);
+        }
+        const quoteText = textParts.join('\n');
+
+        const twikooEl = document.getElementById('twikoo');
+        if (!twikooEl) return;
+
+        twikooEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        setTimeout(() => {
+          const textarea = document.querySelector('#twikoo .el-textarea__inner') as HTMLTextAreaElement | null;
+          if (textarea) {
+            const quoted = '> ' + quoteText.replace(/\n/g, '\n> ') + '\n\n';
+            textarea.value = quoted;
+            textarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = textarea.value.length;
+          }
+        }, 600);
+      });
+
+      card.appendChild(btn);
+    }
+  }
+
   function masonry() {
     const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
     if (!container) return;
@@ -168,6 +241,8 @@ const entryData = entry.data;
 
     const cards = container.querySelectorAll(':scope > .shuoshuo-card');
     if (!cards.length) return;
+
+    addQuoteButtons(cards);
 
     const imgs = container.querySelectorAll('img');
     const videos = container.querySelectorAll('video');

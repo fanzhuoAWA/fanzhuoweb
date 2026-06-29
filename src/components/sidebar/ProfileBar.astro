@@ -21,13 +21,8 @@ const currentPath = Astro.url.pathname;
       alt="Profile"
       loading="eager"
     />
-    <!-- 上层：头像框图片 -->
-    <img
-      id="christmas-frame"
-      src="/Christmas.png"
-      alt="圣诞节头像框"
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.5] pointer-events-none z-10 hidden"
-    />
+    <!-- 上层：头像框图片（JS 动态创建，避免非圣诞季加载） -->
+    <div id="christmas-frame-container"></div>
   </div>
   </div>
     <ul class="menu bg-transparent w-full m-0 p-0 hidden md:flex flex-col items-center lg:items-start">
@@ -103,30 +98,23 @@ const currentPath = Astro.url.pathname;
 // 客户端JavaScript：在浏览器中判断是否为圣诞节期间
 function isChristmasSeason() {
   const now = new Date();
-  const month = now.getMonth() + 1; // 月份 (0-11) 转为 (1-12)
+  const month = now.getMonth() + 1;
   const day = now.getDate();
-  
-  // 判断是否为12月，并且日期在22-28日之间
   return month === 12 && day >= 22 && day <= 28;
 }
 
-// 页面加载后检查
-document.addEventListener('DOMContentLoaded', () => {
-  if (isChristmasSeason()) {
-    const frame = document.getElementById('christmas-frame');
-    if (frame) {
-      frame.classList.remove('hidden');
-    }
-  }
-});
+function addChristmasFrame() {
+  if (!isChristmasSeason()) return;
+  const container = document.getElementById('christmas-frame-container');
+  if (!container || container.hasChildNodes()) return;
+  const img = document.createElement('img');
+  img.id = 'christmas-frame';
+  img.src = '/Christmas.png';
+  img.alt = '圣诞节头像框';
+  img.className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.5] pointer-events-none z-10';
+  container.appendChild(img);
+}
 
-// 如果是单页应用，还需要监听页面切换
-document.addEventListener('astro:page-load', () => {
-  if (isChristmasSeason()) {
-    const frame = document.getElementById('christmas-frame');
-    if (frame) {
-      frame.classList.remove('hidden');
-    }
-  }
-});
+document.addEventListener('DOMContentLoaded', addChristmasFrame);
+document.addEventListener('astro:page-load', addChristmasFrame);
 </script>

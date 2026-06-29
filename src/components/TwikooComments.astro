@@ -42,6 +42,12 @@ const { envId, path } = Astro.props;
   defer
 ></script>
 
+<!-- marked 用于客户端渲染 markdown -->
+<script 
+  src="https://cdn.jsdelivr.net/npm/marked@14.1.4/marked.min.js"
+  defer
+></script>
+
 <!-- 内联脚本处理初始化 -->
 <script is:inline>
   // 全局变量存储重试次数
@@ -94,6 +100,21 @@ const { envId, path } = Astro.props;
     }
   }
 
+  function renderCommentMarkdown() {
+    if (typeof window.marked === 'undefined') {
+      setTimeout(renderCommentMarkdown, 300);
+      return;
+    }
+    const spans = document.querySelectorAll('#twikoo .tk-content > span:not([data-md])');
+    for (const span of spans) {
+      span.setAttribute('data-md', '1');
+      const html = span.innerHTML.trim();
+      if (/^[>*#\-\d.]|!\[|\[.*\]\(/.test(html)) {
+        span.innerHTML = window.marked.parse(html);
+      }
+    }
+  }
+
   function initializeTwikoo() {
     const container = document.getElementById('twikoo');
     
@@ -120,11 +141,16 @@ const { envId, path } = Astro.props;
         envId: envId,
         el: '#twikoo',
         path: path === 'auto' ? location.pathname : path,
-        lang: 'zh-CN'
+        lang: 'zh-CN',
+        onCommentLoaded: renderCommentMarkdown
       });
       
       setupOwOFix();
       console.log('Twikoo initialized successfully');
+
+      // 监听动态添加的评论，重新渲染 markdown
+      const mo = new MutationObserver(() => renderCommentMarkdown());
+      mo.observe(document.getElementById('twikoo'), { childList: true, subtree: true });
     } catch (error) {
       console.error('Failed to initialize Twikoo:', error);
       container.innerHTML = `
@@ -222,6 +248,94 @@ const { envId, path } = Astro.props;
     border: none !important;
     border-right: 1px solid oklch(var(--bc) / 0.2) !important;
     color: oklch(var(--bc) / 0.8) !important;
+  }
+
+  /* ── 评论内容中的 blockquote ── */
+  #twikoo .tk-content blockquote {
+    border-left: 3px solid oklch(var(--p) / 0.6) !important;
+    padding: 0.4rem 0.8rem !important;
+    margin: 0.4rem 0 !important;
+    background: oklch(var(--b2) / 0.5) !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    color: oklch(var(--bc) / 0.85) !important;
+    font-style: italic !important;
+    font-size: 0.9em !important;
+  }
+
+  #twikoo .tk-content blockquote p {
+    margin: 0.2rem 0 !important;
+  }
+
+  /* ── 评论内容中的代码、表格、列表等 markdown 元素 ── */
+  #twikoo .tk-content h1,
+  #twikoo .tk-content h2,
+  #twikoo .tk-content h3,
+  #twikoo .tk-content h4,
+  #twikoo .tk-content h5,
+  #twikoo .tk-content h6 {
+    margin: 0.5rem 0 0.25rem !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    color: oklch(var(--bc)) !important;
+  }
+  #twikoo .tk-content h1 { font-size: 1.15rem !important; }
+  #twikoo .tk-content h2 { font-size: 1.05rem !important; }
+  #twikoo .tk-content h3 { font-size: 1rem !important; }
+  #twikoo .tk-content h4,
+  #twikoo .tk-content h5,
+  #twikoo .tk-content h6 { font-size: 0.9rem !important; }
+
+  #twikoo .tk-content code {
+    background: oklch(var(--b3)) !important;
+    padding: 0.15rem 0.4rem !important;
+    border-radius: 0.3rem !important;
+    font-size: 0.85em !important;
+    color: oklch(var(--bc)) !important;
+  }
+
+  #twikoo .tk-content pre {
+    background: oklch(var(--b2)) !important;
+    border: 1px solid oklch(var(--bc) / 0.1) !important;
+    border-radius: 0.5rem !important;
+    padding: 0.75rem !important;
+    overflow-x: auto !important;
+  }
+
+  #twikoo .tk-content pre code {
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  #twikoo .tk-content table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    margin: 0.5rem 0 !important;
+    font-size: 0.85em !important;
+  }
+
+  #twikoo .tk-content th,
+  #twikoo .tk-content td {
+    border: 1px solid oklch(var(--bc) / 0.2) !important;
+    padding: 0.4rem 0.6rem !important;
+    text-align: left !important;
+  }
+
+  #twikoo .tk-content th {
+    background: oklch(var(--b3)) !important;
+    font-weight: 600 !important;
+  }
+
+  #twikoo .tk-content ul,
+  #twikoo .tk-content ol {
+    padding-left: 1.5rem !important;
+    margin: 0.3rem 0 !important;
+  }
+
+  #twikoo .tk-content hr {
+    border: none !important;
+    border-top: 1px solid oklch(var(--bc) / 0.15) !important;
+    margin: 0.5rem 0 !important;
   }
 
   /* ── 提交按钮 ── */
