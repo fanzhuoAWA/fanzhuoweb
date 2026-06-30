@@ -84,6 +84,13 @@ const { title, image, headings = [], showTOC = false, isIndexed = true } = Astro
 
     <script is:inline>
       document.addEventListener("astro:page-load", () => {
+        const span = document.getElementById("busuanzi_value_site_pv");
+        if (span && !span.textContent) {
+          const script = document.createElement("script");
+          script.src = "https://vercount.one/js";
+          script.defer = true;
+          document.head.appendChild(script);
+        }
         document.querySelectorAll(".btn-copy").forEach((button) => {
           button.addEventListener("click", async () => {
             const codeBlock = button.closest(".frosti-code");
@@ -93,7 +100,7 @@ const { title, image, headings = [], showTOC = false, isIndexed = true } = Astro
             try {
               await navigator.clipboard.writeText(code);
               copyIcon.classList.add("hidden");
-              successIcon.classList.remove("hidden");
+              successIcon.classList.add("hidden");
               button.classList.add("copy-success");
               setTimeout(() => {
                 copyIcon.classList.remove("hidden");
