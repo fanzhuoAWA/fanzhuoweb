@@ -29,11 +29,20 @@ const entryData = entry.data;
 
 <style>
   .shuoshuo-list {
-    position: relative;
+    column-count: 2;
+    column-gap: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .shuoshuo-list {
+      column-count: 1;
+    }
   }
 
   .shuoshuo-list :global(.shuoshuo-card) {
     position: relative;
+    break-inside: avoid;
+    margin-bottom: 12px;
     background: oklch(var(--b1));
     border-radius: 0.75rem;
     box-shadow: 0 1px 3px 0 oklch(var(--b3));
@@ -206,33 +215,6 @@ const entryData = entry.data;
     }
   }
 
-  function masonry() {
-    const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
-    if (!container) return;
-    const cards = container.querySelectorAll(':scope > .shuoshuo-card') as NodeListOf<HTMLElement>;
-    if (!cards.length) return;
-
-    const gap = 8;
-    const cols = 2;
-    const colW = (container.clientWidth - gap) / cols;
-
-    const h = [0, 0];
-
-    for (const card of cards) {
-      card.style.position = 'absolute';
-      card.style.width = colW + 'px';
-
-      const idx = h[0] <= h[1] ? 0 : 1;
-      card.style.left = idx ? (colW + gap) + 'px' : '0';
-      card.style.top = h[idx] + 'px';
-
-      h[idx] += card.offsetHeight + gap;
-    }
-
-    container.style.height = Math.max(h[0], h[1]) - gap + 'px';
-    container.style.position = 'relative';
-  }
-
   function initMasonry() {
     const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
     if (!container) return;
@@ -243,62 +225,7 @@ const entryData = entry.data;
     if (!cards.length) return;
 
     addQuoteButtons(cards as NodeListOf<HTMLElement>);
-
-    const imgs = container.querySelectorAll('img');
-    const videos = container.querySelectorAll('video');
-    let pending = imgs.length + videos.length;
-
-    if (pending === 0) {
-      masonry();
-      return;
-    }
-
-    for (const el of imgs) {
-      if (el.complete) {
-        pending--;
-        if (pending === 0) masonry();
-      } else {
-        el.addEventListener('load', () => {
-          pending--;
-          if (pending === 0) masonry();
-        });
-        el.addEventListener('error', () => {
-          pending--;
-          if (pending === 0) masonry();
-        });
-      }
-    }
-
-    for (const el of videos) {
-      if (el.readyState >= 3) {
-        pending--;
-        if (pending === 0) masonry();
-      } else {
-        el.addEventListener('loadeddata', () => {
-          pending--;
-          if (pending === 0) masonry();
-        });
-        el.addEventListener('error', () => {
-          pending--;
-          if (pending === 0) masonry();
-        });
-      }
-    }
-  }
-
-  function tryInitMasonry() {
-    const container = document.querySelector('.shuoshuo-list');
-    if (container) {
-      requestAnimationFrame(() => initMasonry());
-    }
   }
 
   document.addEventListener("astro:page-load", initMasonry);
-  tryInitMasonry();
-
-  let timer: ReturnType<typeof setTimeout>;
-  window.addEventListener('resize', () => {
-    clearTimeout(timer);
-    timer = setTimeout(initMasonry, 150);
-  });
 </script>
