@@ -37,13 +37,13 @@ const { envId, path } = Astro.props;
 </div>
 
 <!-- 使用 defer 属性延迟执行，确保 DOM 就绪 -->
-<script 
+<script is:inline
   src="https://cdn.jsdelivr.net/npm/twikoo@1.7.11/dist/twikoo.min.js"
   defer
 ></script>
 
 <!-- marked 用于客户端渲染 markdown -->
-<script 
+<script is:inline
   src="https://cdn.jsdelivr.net/npm/marked@14.1.4/marked.min.js"
   defer
 ></script>

@@ -41,20 +41,3 @@ export async function getTagList() {
     }))
     .sort((a, b) => b.count - a.count);
 }
-
-export function getTagUrl(tagName: string): string {
-  // 直接使用 encodeURIComponent，它会正确处理特殊字符如 C++
-  return `/blog/tag/${encodeURIComponent(tagName.toLowerCase())}/`;
-}
-
-// 从URL slug获取原始标签名
-export function getTagFromSlug(slug: string, allTags: Array<{name: string, lowerName: string}>) {
-  // 解码URL参数
-  const decodedSlug = decodeURIComponent(slug);
-  
-  // 查找匹配的标签（不区分大小写）
-  return allTags.find(tag => 
-    tag.name.toLowerCase() === decodedSlug.toLowerCase() ||
-    getTagUrl(tag.name).includes(decodedSlug.toLowerCase())
-  );
-}

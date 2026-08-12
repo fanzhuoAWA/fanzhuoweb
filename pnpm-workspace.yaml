@@ -3,3 +3,6 @@ allowBuilds:
   sharp: true
   swup: true
   unrs-resolver: true
+
+overrides:
+  astro: 5.9.0

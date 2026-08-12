@@ -30,3 +30,5 @@ chore：构建过程或辅助工具的变更
 海阔天空下载链接：https://link.jiyiho.cn/orfile/down.php/4cd38ddc0719573d04599e609dfbf96a.mp3
 
 新电脑测试内容。
+
+https://cloudflare.pay/claimed?tag=78787
