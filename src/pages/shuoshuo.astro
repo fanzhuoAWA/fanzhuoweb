@@ -1,30 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getEntry } from 'astro:content';
+import { getEntry } from "astro:content";
 import MainCard from "@/components/MainCard.astro";
 import TwikooComments from "@/components/TwikooComments.astro";
+import Lightbox from "@/components/Lightbox.astro";
 
-const entry = await getEntry('blog', '说说');
+const entry = await getEntry("blog", "说说");
 if (!entry) {
-  throw new Error('说说 entry not found');
+  throw new Error("说说 entry not found");
 }
 const { Content, headings } = await entry.render();
 const entryData = entry.data;
 ---
 
 <BaseLayout title="说说" headings={headings}>
-  <MainCard
-    title="说说"
-    description={entryData.description}
-    infoIcon="lucide:message-square"
-  >
+  <MainCard title="说说" description={entryData.description} infoIcon="lucide:message-square">
     <div class="shuoshuo-list">
       <Content />
     </div>
-    <TwikooComments 
-      envId="https://twikoo.fanzhuo.xyz/" 
-    />
+    <TwikooComments envId="https://twikoo.fanzhuo.xyz/" />
   </MainCard>
+  <Lightbox selector=".shuoshuo-list img:not(.club-icon)" />
 </BaseLayout>
 
 <style>
@@ -48,7 +44,9 @@ const entryData = entry.data;
     box-shadow: 0 1px 3px 0 oklch(var(--b3));
     border: 1px solid oklch(var(--bc) / 0.08);
     overflow: hidden;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transition:
+      transform 0.3s ease-in-out,
+      box-shadow 0.3s ease-in-out;
   }
 
   .shuoshuo-list :global(.shuoshuo-card .quote-btn) {
@@ -65,7 +63,9 @@ const entryData = entry.data;
     color: oklch(var(--bc) / 0.35);
     cursor: pointer;
     border-radius: 0.35rem;
-    transition: color 0.2s, background 0.2s;
+    transition:
+      color 0.2s,
+      background 0.2s;
     padding: 0;
     line-height: 1;
     z-index: 1;
@@ -160,15 +160,15 @@ const entryData = entry.data;
   function splitCards(container: HTMLElement) {
     const children = [...container.children];
     if (children.length === 0) return false;
-    if (children[0].classList.contains('shuoshuo-card')) return false;
+    if (children[0].classList.contains("shuoshuo-card")) return false;
 
     const fragment = document.createDocumentFragment();
     let currentCard: HTMLDivElement | null = null;
 
     for (const child of children) {
-      if (child.tagName === 'H1') {
-        currentCard = document.createElement('div');
-        currentCard.className = 'shuoshuo-card';
+      if (child.tagName === "H1") {
+        currentCard = document.createElement("div");
+        currentCard.className = "shuoshuo-card";
         currentCard.appendChild(child);
         fragment.appendChild(currentCard);
       } else if (currentCard) {
@@ -184,36 +184,36 @@ const entryData = entry.data;
 
   function addQuoteButtons(cards: NodeListOf<HTMLElement>) {
     for (const card of cards) {
-      if (card.querySelector('.quote-btn')) continue;
+      if (card.querySelector(".quote-btn")) continue;
 
-      const btn = document.createElement('button');
-      btn.className = 'quote-btn';
-      btn.title = '\u5F15\u7528\u5230\u8BC4\u8BBA';
+      const btn = document.createElement("button");
+      btn.className = "quote-btn";
+      btn.title = "\u5F15\u7528\u5230\u8BC4\u8BBA";
       btn.innerHTML =
         '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
 
-      btn.addEventListener('click', (e: Event) => {
+      btn.addEventListener("click", (e: Event) => {
         e.stopPropagation();
 
         let textParts: string[] = [];
         for (const child of card.children) {
-          if (child.tagName === 'H1') continue;
+          if (child.tagName === "H1") continue;
           const text = (child as HTMLElement).textContent?.trim();
           if (text) textParts.push(text);
         }
-        const quoteText = textParts.join('\n');
+        const quoteText = textParts.join("\n");
 
-        const twikooEl = document.getElementById('twikoo');
+        const twikooEl = document.getElementById("twikoo");
         if (!twikooEl) return;
 
-        twikooEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        twikooEl.scrollIntoView({ behavior: "smooth", block: "start" });
 
         setTimeout(() => {
-          const textarea = document.querySelector('#twikoo .el-textarea__inner') as HTMLTextAreaElement | null;
+          const textarea = document.querySelector("#twikoo .el-textarea__inner") as HTMLTextAreaElement | null;
           if (textarea) {
-            const quoted = '> ' + quoteText.replace(/\n/g, '\n> ') + '\n\n';
+            const quoted = "> " + quoteText.replace(/\n/g, "\n> ") + "\n\n";
             textarea.value = quoted;
-            textarea.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+            textarea.dispatchEvent(new Event("input", { bubbles: true, cancelable: true }));
             textarea.focus();
             textarea.selectionStart = textarea.selectionEnd = textarea.value.length;
           }
@@ -225,12 +225,12 @@ const entryData = entry.data;
   }
 
   function initMasonry() {
-    const container = document.querySelector('.shuoshuo-list') as HTMLElement | null;
+    const container = document.querySelector(".shuoshuo-list") as HTMLElement | null;
     if (!container) return;
 
     splitCards(container);
 
-    const cards = container.querySelectorAll(':scope > .shuoshuo-card');
+    const cards = container.querySelectorAll(":scope > .shuoshuo-card");
     if (!cards.length) return;
 
     addQuoteButtons(cards as NodeListOf<HTMLElement>);

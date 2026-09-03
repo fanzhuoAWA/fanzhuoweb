@@ -32,3 +32,16 @@ chore：构建过程或辅助工具的变更
 新电脑测试内容。
 
 https://cloudflare.pay/claimed?tag=78787
+
+本次修改总结
+修复内容
+问题	原因
+放大时边框遮盖内容	.lightbox-stage 的 overflow: hidden 裁切放大后的图片
+左右箭头始终显示	display: flex 覆盖了 [hidden] 的 display: none
+鼠标悬停出现提示	title 属性触发浏览器原生 tooltip
+新增功能
+- 首尾箭头智能隐藏：第一张不显示 ←，最后一张不显示 →
+移除内容
+- 移除底部提示文字 <div class="lightbox-hint">滚轮缩放 · 双击复位</div> 及对应 CSS
+验证
+astro check 通过，0 错误。
