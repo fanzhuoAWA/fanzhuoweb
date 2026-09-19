@@ -4,14 +4,22 @@ import type { CardGroupProps } from "@interfaces/data";
 const {
   class: className = "",
   cols = "2", // Default 2 columns
+  gap, // Tailwind 风格间距数值（如 "6" = 1.5rem）或任意 CSS 值
 } = Astro.props as CardGroupProps;
+
+// gap 缺省时保持为 1rem；纯数字按 Tailwind spacing 换算（n * 0.25rem）
+const cardGap = gap === undefined
+  ? "1rem"
+  : /^\d+$/.test(gap)
+    ? `${parseInt(gap, 10) * 0.25}rem`
+    : gap;
 ---
 
 <div class={`card-group ${className}`}>
   <slot />
 </div>
 
-<style define:vars={{ cols }}>
+<style define:vars={{ cols, cardGap }}>
   .card-group {
     width: 100%;
     position: relative;
@@ -21,7 +29,7 @@ const {
   @media (min-width: 768px) {
     .card-group {
       display: grid;
-      gap: 1rem; /* Adjust gap as needed */
+      gap: var(--card-gap);
       grid-template-columns: repeat(var(--cols), 1fr);
     }
   }

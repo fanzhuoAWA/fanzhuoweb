@@ -19,11 +19,10 @@ const className = Astro.props.class;
     <div id={id} class:list={["collapse-wrapper px-4 overflow-hidden", {"collapsed": isCollapsed}]}>
         <slot></slot>
     </div>
-    {isCollapsed && <div class="expand-btn px-4 -mb-2">
-        <button class="btn-plain rounded-lg w-full h-9">
-            <div class="text-[var(--primary)] flex items-center justify-center gap-2 -translate-x-2">
-                查看更多
-            </div>
+    {isCollapsed && <div class="expand-btn px-4" style="margin-bottom: 0; padding-top: 0.25rem">
+        <button type="button" class="btn btn-ghost btn-no-animation rounded-lg w-full h-9 min-h-9 text-primary" data-expanded={false}>
+            <span class="expand-label">查看更多</span>
+            <Icon name="lucide:chevron-down" class="expand-icon w-4 h-4" />
         </button>
     </div>}
 </widget-layout>
@@ -36,6 +35,14 @@ const className = Astro.props.class;
 
   .collapse-wrapper {
     transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
+  }
+
+  .expand-icon {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .expand-btn button[data-expanded="true"] .expand-icon {
+    transform: rotate(180deg);
   }
 
   /* 用于隐藏/显示按钮的类 */
@@ -54,7 +61,8 @@ class WidgetLayout extends HTMLElement {
     const isCollapsed = this.dataset.isCollapsed === 'true';
     const wrapper = this.querySelector(`#${id}`);
     const expandBtn = this.querySelector('.expand-btn');
-    const buttonText = expandBtn?.querySelector('button div');
+    const button = expandBtn?.querySelector('button');
+    const buttonLabel = button?.querySelector('.expand-label');
 
     // 如果初始不是收起状态，则直接返回
     if (!isCollapsed || !expandBtn || !wrapper) {
@@ -73,14 +81,16 @@ class WidgetLayout extends HTMLElement {
       if (currentlyCollapsed) {
         // 执行展开：移除.collapsed类，更新按钮文本为"收起"
         wrapper.classList.remove('collapsed');
-        if (buttonText) {
-          buttonText.innerHTML = `收起`;
+        if (button) button.dataset.expanded = 'true';
+        if (buttonLabel) {
+          buttonLabel.textContent = `收起`;
         }
       } else {
         // 执行收起：添加.collapsed类，更新按钮文本为"更多"
         wrapper.classList.add('collapsed');
-        if (buttonText) {
-          buttonText.innerHTML = `查看更多`;
+        if (button) button.dataset.expanded = 'false';
+        if (buttonLabel) {
+          buttonLabel.textContent = `查看更多`;
         }
       }
     });
