@@ -24,20 +24,27 @@ const entryData = entry.data;
 </BaseLayout>
 
 <style>
-  .shuoshuo-list {
-    column-count: 2;
-    column-gap: 12px;
+  .shuoshuo-list.layout-columns {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .shuoshuo-list.layout-columns :global(.shuoshuo-col) {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
   }
 
   @media (max-width: 768px) {
-    .shuoshuo-list {
-      column-count: 1;
+    .shuoshuo-list.layout-columns {
+      display: block;
     }
   }
 
   .shuoshuo-list :global(.shuoshuo-card) {
     position: relative;
-    break-inside: avoid;
     margin-bottom: 12px;
     background: oklch(var(--b1));
     border-radius: 0.75rem;
@@ -160,7 +167,7 @@ const entryData = entry.data;
   function splitCards(container: HTMLElement) {
     const children = [...container.children];
     if (children.length === 0) return false;
-    if (children[0].classList.contains("shuoshuo-card")) return false;
+    if (container.querySelector(".shuoshuo-card, .shuoshuo-col")) return false;
 
     const fragment = document.createDocumentFragment();
     let currentCard: HTMLDivElement | null = null;
@@ -182,7 +189,7 @@ const entryData = entry.data;
     return true;
   }
 
-  function addQuoteButtons(cards: NodeListOf<HTMLElement>) {
+  function addQuoteButtons(cards: HTMLElement[]) {
     for (const card of cards) {
       if (card.querySelector(".quote-btn")) continue;
 
@@ -224,17 +231,74 @@ const entryData = entry.data;
     }
   }
 
+  let orderedCards: HTMLElement[] = [];
+
+  function layoutColumns(container: HTMLElement) {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    for (const card of orderedCards) card.remove();
+    container.querySelectorAll(":scope > .shuoshuo-col").forEach((col) => col.remove());
+
+    if (isMobile || orderedCards.length < 2) {
+      container.classList.remove("layout-columns");
+      for (const card of orderedCards) container.appendChild(card);
+      return;
+    }
+
+    container.classList.add("layout-columns");
+
+    const colA = document.createElement("div");
+    colA.className = "shuoshuo-col";
+    const colB = document.createElement("div");
+    colB.className = "shuoshuo-col";
+    container.append(colA, colB);
+
+    const heights = [0, 0];
+    for (const card of orderedCards) {
+      const idx = heights[0] <= heights[1] ? 0 : 1;
+      (idx === 0 ? colA : colB).appendChild(card);
+      heights[idx] += card.offsetHeight + 12;
+    }
+  }
+
+  let layoutTimer: number | undefined;
+  function scheduleLayout() {
+    window.clearTimeout(layoutTimer);
+    layoutTimer = window.setTimeout(() => {
+      const container = document.querySelector(".shuoshuo-list") as HTMLElement | null;
+      if (container && orderedCards.length) layoutColumns(container);
+    }, 120);
+  }
+
+  function watchMedia() {
+    const media = orderedCards.flatMap(
+      (card) => [...card.querySelectorAll("img, video")] as (HTMLImageElement | HTMLVideoElement)[],
+    );
+    for (const el of media) {
+      const isLoaded = el.tagName === "IMG" ? (el as HTMLImageElement).complete : (el as HTMLVideoElement).readyState >= 3;
+      if (isLoaded) continue;
+      el.addEventListener("load", scheduleLayout, { once: true });
+      el.addEventListener("error", scheduleLayout, { once: true });
+    }
+  }
+
   function initMasonry() {
     const container = document.querySelector(".shuoshuo-list") as HTMLElement | null;
-    if (!container) return;
+    if (!container || container.dataset.ready === "1") return;
 
     splitCards(container);
 
-    const cards = container.querySelectorAll(":scope > .shuoshuo-card");
-    if (!cards.length) return;
+    orderedCards = [...container.querySelectorAll(".shuoshuo-card")] as HTMLElement[];
+    if (!orderedCards.length) return;
 
-    addQuoteButtons(cards as NodeListOf<HTMLElement>);
+    container.dataset.ready = "1";
+    addQuoteButtons(orderedCards);
+    layoutColumns(container);
+    watchMedia();
   }
+
+  window.addEventListener("resize", scheduleLayout);
+  window.addEventListener("load", scheduleLayout);
 
   document.addEventListener("astro:page-load", initMasonry);
 </script>
