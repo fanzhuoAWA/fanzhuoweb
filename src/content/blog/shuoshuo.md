@@ -57,7 +57,7 @@ for (const child of children) {
 
 处理完之后，DOM 就变成 `.shuoshuo-list` 里装着若干个 `.shuoshuo-card`。
 
-> 脚本挂在 `astro:page-load` 上。博客开启了视图过渡，切换页面不会整页刷新，换成其他时机容易初始化不到。
+脚本挂在 `astro:page-load` 上。博客开启了视图过渡，切换页面不会整页刷新，换成其他时机容易初始化不到。
 
 ## 两列瀑布流
 
